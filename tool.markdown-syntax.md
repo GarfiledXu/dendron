@@ -2,7 +2,7 @@
 id: ks0wm5bj5vc6qovmvjyldxt
 title: Markdown Syntax
 desc: ''
-updated: 1691068070422
+updated: 1691162256348
 created: 1691053905697
 ---
 
