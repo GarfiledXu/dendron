@@ -1,8 +1,8 @@
 ---
 id: ks0wm5bj5vc6qovmvjyldxt
-title: Markdown Syntax
+title: Syntax
 desc: ''
-updated: 1691162256348
+updated: 1691214875572
 created: 1691053905697
 ---
 
@@ -13,10 +13,15 @@ created: 1691053905697
 - blockquote (>  \<content\>)
 >  here is one clockquote
 >> dfjk
+<br>
+
 >>> dfkjdkf
 > dfjkdf
 > dfdf
 > dfkdjf
+
+`delete line`
+~~this is a delete line~~
 
 - inline code (\`\<code>\`)
 `here is one inline code`
