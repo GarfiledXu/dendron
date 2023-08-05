@@ -2,7 +2,7 @@
 id: s2kokns9bufxnom9x103ll2
 title: Syntax New
 desc: ''
-updated: 1691249175251
+updated: 1691249747047
 created: 1691231836624
 ---
 
@@ -34,4 +34,6 @@ admonition
 italic
 bold
 strikethrough
+subscript
+superscript
 
