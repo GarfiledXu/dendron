@@ -2,13 +2,14 @@
 id: s2kokns9bufxnom9x103ll2
 title: Syntax New
 desc: ''
-updated: 1691248346578
+updated: 1691249175251
 created: 1691231836624
 ---
 
 ### administrative
+----
 head
-horizontal line
+horizontal rule
 line breaks
 bullet point(order list and number list)
 
@@ -20,11 +21,14 @@ image
 
 ### content wrap
 ---- 
+block quotes (citation)
+escaping backticks (inline code)
+code block
+
 table
 checkbox
-code block
-inline code
-block quotes (citation)
+
+admonition
 ### front emphasis
 ----
 italic
