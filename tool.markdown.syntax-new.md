@@ -2,7 +2,7 @@
 id: s2kokns9bufxnom9x103ll2
 title: Syntax New
 desc: ''
-updated: 1691300098245
+updated: 1691300979146
 created: 1691231836624
 ---
 ## concept
@@ -45,30 +45,23 @@ superscript
 ## example table
 -------
 ### emphasis
-> \* \<content> * | ~~ctrl I~~
-> --------| ------
->> *italic*
+1.  \* \<content> * 
+    > *italic*
 
-> \** \<content> ** | ctrl B
-> --------| ------
->> **bold**
+2. \** \<content> **
+    > **bold**
 
-> ~~ \<content> ~~ | 
-> ------- 
->> ~~strikethrough~~
+3. ~~ \<content> ~~  
+    > ~~strikethrough~~
 
-> ~ \<content> ~ |
-> ------- 
->> normalscript~subscript~
+4. ~ \<content> ~ 
+    > base~subscript~
 
-> ^ \<content> ^ |
-> ------- 
->> normalscript^superscript^
+5. ^ \<content> ^ 
+    > base^superscript^
 
-> \{~~~> \<content> ~~} | 
-> ------- 
->> {~~~>underline~~} 
+6. \{~~~> \<content> ~~} 
+    > {~~~>underline~~} 
 
-> == \<content> ==|  
-> ------- 
->> ==mark==
+7. == \<content> ==  
+    > ==mark==
