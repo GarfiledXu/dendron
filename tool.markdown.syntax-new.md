@@ -2,10 +2,10 @@
 id: s2kokns9bufxnom9x103ll2
 title: Syntax New
 desc: ''
-updated: 1691249747047
+updated: 1691300098245
 created: 1691231836624
 ---
-
+## concept
 ### administrative
 ----
 head
@@ -18,6 +18,8 @@ bullet point(order list and number list)
 ---
 hyperlink (link)
 image
+footnotes
+abbreviation
 
 ### content wrap
 ---- 
@@ -33,7 +35,40 @@ admonition
 ----
 italic
 bold
+mark(height background)
 strikethrough
+underline
 subscript
 superscript
 
+
+## example table
+-------
+### emphasis
+> \* \<content> * | ~~ctrl I~~
+> --------| ------
+>> *italic*
+
+> \** \<content> ** | ctrl B
+> --------| ------
+>> **bold**
+
+> ~~ \<content> ~~ | 
+> ------- 
+>> ~~strikethrough~~
+
+> ~ \<content> ~ |
+> ------- 
+>> normalscript~subscript~
+
+> ^ \<content> ^ |
+> ------- 
+>> normalscript^superscript^
+
+> \{~~~> \<content> ~~} | 
+> ------- 
+>> {~~~>underline~~} 
+
+> == \<content> ==|  
+> ------- 
+>> ==mark==
