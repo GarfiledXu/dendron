@@ -1,13 +1,13 @@
 <mxfile host="65bd71144e">
     <diagram id="lBzm8v3_f4MOUidS_n-H" name="Page-1">
-        <mxGraphModel dx="2200" dy="1213" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="605" dy="849" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="2" value="&lt;font color=&quot;#ffffff&quot;&gt;&lt;span style=&quot;font-size: 24px;&quot;&gt;draw_triangle_by_glfw&lt;br&gt;&lt;/span&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1BA1E2;" vertex="1" parent="1">
-                    <mxGeometry x="150" y="585" width="260" height="55" as="geometry"/>
+                <mxCell id="2" value="&lt;font color=&quot;#ffffff&quot;&gt;&lt;span style=&quot;font-size: 24px;&quot;&gt;draw_triangle_by_glfw&lt;br&gt;&lt;/span&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1BA1E2;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="570" width="260" height="55" as="geometry"/>
                 </mxCell>
-                <mxCell id="4" value="&lt;font color=&quot;#ffffff&quot;&gt;&lt;span style=&quot;font-size: 24px;&quot;&gt;draw triangle&lt;/span&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1BA1E2;gradientColor=none;fontFamily=Comic Sans MS;" vertex="1" parent="1">
+                <mxCell id="4" value="&lt;font color=&quot;#ffffff&quot;&gt;&lt;span style=&quot;font-size: 24px;&quot;&gt;draw triangle&lt;/span&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1BA1E2;gradientColor=none;fontFamily=Comic Sans MS;" parent="1" vertex="1">
                     <mxGeometry x="470" y="520" width="160" height="55" as="geometry"/>
                 </mxCell>
             </root>
