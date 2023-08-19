@@ -2,7 +2,7 @@
 id: noy931vdhmg56m651362fm1
 title: Opengl Se20
 desc: ''
-updated: 1691744643761
+updated: 1691838483591
 created: 1691630285207
 ---
 
@@ -50,3 +50,10 @@ created: 1691630285207
 - buff object 做了什么？
 - buff object 与 buff object type 以及与 gl context 以及 gl thead 的关系?
 - 相关操作的内存分配详情？
+
+#### vertext attribute
+- vertext attribute name
+- vertext shader
+- pre-define vextext attribute name correspond to generic vertext attribute
+- programable pipline -- generic vertext attribute
+- 
