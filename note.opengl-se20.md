@@ -2,7 +2,7 @@
 id: noy931vdhmg56m651362fm1
 title: Opengl Se20
 desc: ''
-updated: 1691838483591
+updated: 1692449407157
 created: 1691630285207
 ---
 
@@ -32,6 +32,8 @@ created: 1691630285207
 -------
 #### reference
 - [offical-overivew](https://www.khronos.org/egl)
+- [blog-sample](https://github.com/SaschaWillems/openglcpp/tree/master)
+- [program guide sample code](https://github.com/danginsburg/opengles-book-samples/tree/master)
 
 
 
