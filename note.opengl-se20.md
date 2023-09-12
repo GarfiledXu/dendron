@@ -2,7 +2,7 @@
 id: noy931vdhmg56m651362fm1
 title: Opengl Se20
 desc: ''
-updated: 1692449407157
+updated: 1693142575220
 created: 1691630285207
 ---
 
@@ -35,7 +35,45 @@ created: 1691630285207
 - [blog-sample](https://github.com/SaschaWillems/openglcpp/tree/master)
 - [program guide sample code](https://github.com/danginsburg/opengles-book-samples/tree/master)
 
+#### baisc work flow
+- egl init
+- shader load
+  1. create shader object, return **object id**
+  2. load shader by source code or other way with use **object id**
+  3. compile shader with input **object id**
+  4. check compile status, get the error information to feedback
+- program load
+  1. create program object, return **object id**
+  2. attach two kind of shader with **object id**
+  3. **bind location to attribute declared in vertex shader**
+    > there has variation ways to bind attribute location 
+    > 1. bind location by `glBindAttributeLocatioin` prior to link program, to tell program linker location of attribute variable
+    > 2. using `glGetAttribLocation()` by the qeury way to get one address(location) of a attribute
+    > 3. to specify the location to attribute decalred in vertex shader
+  4. link program object with **object id**
+  5. check link status, get the error information to feedback(delete program object)
+- set viewport
+- clean buff(typically, the on-screen)(multipule type of buff, such as color, depth, stencil)
+- load position data and connect to attribute variable declared in vertex shader **by attribute location**
 
+#### the variation of GPU graphic memory for each step
+- guess: glCompileShader operation, the first step that compliles the shader bin file by gpu driver program in cpu end, and then send binary file of shader to stored by GPU end.
+- glUseProgram: set enable state of gl program used in after step, no data transfer involved
+
+
+#### the data interact of CPU to GPU in opengles
+
+#### attribute with vertex data and location
+- **is it neccessary to bind attribute variable that from shader with the vertext data that from cpu program by this way through binding location id? instead of using attribute name directly**
+  > strip the effect of attribute name
+  > consider the modifies of shader program source code
+  > the bind id is generated before use program
+- attribute operations like transfer vertex data **throgh the location of attribute**, as such, that informs to get location of attribute is the important thing.
+- as a specific variable type of shader, attribute connect to operations by location
+
+#### global shader variable name
+- gl_Position
+- 
 
 
 #### gen API
