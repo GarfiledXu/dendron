@@ -2,7 +2,7 @@
 id: noy931vdhmg56m651362fm1
 title: Opengl Se20
 desc: ''
-updated: 1693142575220
+updated: 1693326101320
 created: 1691630285207
 ---
 
@@ -70,6 +70,9 @@ created: 1691630285207
   > the bind id is generated before use program
 - attribute operations like transfer vertex data **throgh the location of attribute**, as such, that informs to get location of attribute is the important thing.
 - as a specific variable type of shader, attribute connect to operations by location
+- size and stride, component and attribute and group attribute
+  > size explains the length to tell method of gl api to extract one unit target attribute data begin with the data pointer which point the start location of one unit data
+  > stride explains the length to tell method of gl api to extract next target attribute data need to offset  begin with the current data pointer
 
 #### global shader variable name
 - gl_Position
