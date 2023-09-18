@@ -2,11 +2,28 @@
 id: onryb5jcm6eyq72le5iechp
 title: Activity
 desc: ''
-updated: 1693531554836
+updated: 1694769079999
 created: 1693444300153
 ---
 
+
+
+##### refe
+-----
+- (blog-Android 之Activity的生命周期和进程保和)[https://blog.csdn.net/LoverLeslie/article/details/84671122?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-4-84671122-blog-52045128.235^v38^pc_relevant_anti_vip_base&spm=1001.2101.3001.4242.3&utm_relevant_index=7]
+- (blog-Android源码分析 —— Activity栈管理)[https://blog.csdn.net/weixin_43093006/article/details/129210275?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-1-129210275-blog-116757617.235^v38^pc_relevant_anti_vip_base&spm=1001.2101.3001.4242.2&utm_relevant_index=4]
+- (blog-Android四大组件与进程启动的关系)[https://gityuan.com/2016/10/09/app-process-create-2/]
+- (blog-Activity、Task、应用和进程)[https://www.cnblogs.com/franksunny/archive/2012/04/17/2453403.html]
+- (offical-应用基础知识)[https://developer.android.com/guide/components/fundamentals?hl=zh-cn]
+- (blog-安卓的进程模型)[https://juejin.cn/post/6905989151699992583]
+
+
+#### the called process and mechanism of activity
+
+#### relationship of linux process with activity and jvm
+
 #### lifecycle
+> 准确说这应该是 抽象生命周期，抽象的意义就是集中对外暴露回调
 - [offical activity 生命周期](https://developer.android.com/guide/components/activities/intro-activities?hl=zh-cn)
 - [offical layout](https://developer.android.com/guide/topics/ui/declaring-layout?hl=zh-cn)
 - [blog-layoutInflater](https://www.cnblogs.com/androidez/p/3164729.html)
