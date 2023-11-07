@@ -2,14 +2,14 @@
 id: c5zmw7b74prbux3m8s438qa
 title: '18'
 desc: ''
-updated: 1694968217432
+updated: 1695091343838
 created: 1694968092493
 ---
 
 ### to do
-- e03 init error
-- byd testapp update
-- fujiya dms
-    1. run all flow
-    2. code test case
-    3. run result
+- [x] e03 init error
+- [x] byd testapp update
+- [ ] fujiya dms
+    - [x] run all flow
+    - [ ] code test case
+    - [ ] run result

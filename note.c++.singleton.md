@@ -2,12 +2,13 @@
 id: pqwmetfqqcn71zjr2jr429g
 title: Singleton
 desc: ''
-updated: 1692237876912
+updated: 1695567981871
 created: 1692199421329
 ---
 
 ### singleton
 ----------------
+保持唯一性的全局变量
 #### reason
 - 从经验中获取的现成抽象
 - 将常见解决方案细节规则化
