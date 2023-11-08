@@ -2,7 +2,7 @@
 id: sc4btxb7eow7ipskhlau6we
 title: Inherit_permission_modifer
 desc: ''
-updated: 1699251634867
+updated: 1699407712634
 created: 1696902078607
 ---
 #### refe
@@ -95,5 +95,9 @@ class derived : base{
 
 #### =default and delete keyword and access permission modifier of constructor and desturctor
 1. 能否直接delete 构造函数 和 析构函数？
-> 只要是函数符号都可以加入delete关键字进行删除，在关键使用的地方不会有检查函数类型的逻辑
-> 但在实例化时，会
+> 只要是函数符号都可以加入delete关键字进行删除，在定义时关键字使用的地方不会有检查函数类型的逻辑
+> 但在实例化时，编译器会判断 构造函数 和 析构函数在调用处作用域 权限是否合法，实现是否存在，否则编译报错
+2. specification
+> 所以 delete 对于析构函数是无意义的，因为其形式固定，必须存在，但对于构造函数存在多种重载形式，根据具体需要是否删除默认构造
+3. default 的构造函数和析构函数对于成员的初始化和析构规则
+> 
