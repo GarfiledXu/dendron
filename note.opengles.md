@@ -2,12 +2,13 @@
 id: uqup6fo0jzvxk2qpttgog5e
 title: Opengles
 desc: ''
-updated: 1699453200753
+updated: 1699453949699
 created: 1699450116764
 ---
 ### basic concept
 #### coordinates system of opengl
 **pixel coordinate**
+坐标来源?
 定义:
 像素定义:
 应用场景:
@@ -18,7 +19,8 @@ created: 1699450116764
 **window coordinates**
 
 **normalize device coordinates**
-转化为标准化设备坐标的意义?
+坐标来源?基于其它坐标系的坐标转化(gl中通过窗口系统坐标系的坐标转化(viewport))?
+转化为标准化设备坐标的意义?相比其它坐标系参与什么运算时能够带来优势?
 
 **clip and eye coordinates**
 
