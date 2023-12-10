@@ -2,7 +2,7 @@
 id: 7va3muon7q66smpplisot4t
 title: Compile_analysis
 desc: ''
-updated: 1699414070987
+updated: 1699600171213
 created: 1695610893045
 ---
 #### refe
@@ -42,3 +42,29 @@ ADD_DEFINITIONS(-std=gnu++11)
 add_definitions(-w)
 # add_definitions(-DSPDLOG_COMPILED_LIB)
 ```
+
+
+#### sence 3
+compiler tips redefined function, but there is used inline for function
+```cmake
+In file included from /home/xjf2613/code-space/qnx/pe-tool_hezhong_ep37/src/target/o_toml_test/cfg/testbed_to_server/toml_testbed_to_server.h:2:0,
+                 from /home/xjf2613/code-space/qnx/pe-tool_hezhong_ep37/src/target/o_toml_test/test_toml_macro.cpp:5:
+/home/xjf2613/code-space/qnx/pe-tool_hezhong_ep37/src/target/o_toml_test/my_toml_macro.h: In function 'int patch_toml_value(const value&, toml::value&)':
+/home/xjf2613/code-space/qnx/pe-tool_hezhong_ep37/src/target/o_toml_test/my_toml_macro.h:36:17: error: redefinition of 'int patch_toml_value(const value&, toml::value&)'
+      inline int patch_toml_value(const toml::value& cmp_v, toml::value& out_v) {
+                 ^
+In file included from /home/xjf2613/code-space/qnx/pe-tool_hezhong_ep37/src/target/o_toml_test/test_toml_macro.cpp:4:0:
+/home/xjf2613/code-space/qnx/pe-tool_hezhong_ep37/src/target/o_toml_test/my_toml_macro.h:36:17: note: 'int patch_toml_value(const value&, toml::value&)' previously defined here
+      inline int patch_toml_value(const toml::value& cmp_v, toml::value& out_v) {
+                 ^
+```
+##### find reason
+there is no compile once include macro for the header file which defined the function
+Resulting in multiple code definitions being generated in the current file
+
+    if you define one function and copy it in the same file, even if they are same, in the view of compiler, it doesn't to contrast the function content if repeat, just check if existence same function signature. if not, will report redefinition error
+the effect of inline keyword is allow existence of one function definition in each compilation unit 
+##### summary
+1. redefinition error common reason
+    1.no using inline, the function defined in multiple compilation unit
+    2.using inline, the header file not include prevent duplicate include macro
