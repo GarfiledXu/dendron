@@ -2,7 +2,7 @@
 id: f6b1q6pi0l66cjuuw92ji09
 title: Board Service
 desc: ''
-updated: 1696902058003
+updated: 1702970255435
 created: 1695101047589
 ---
 
@@ -52,5 +52,7 @@ created: 1695101047589
 
 
 #### configure format
-- launch cfg
   
+#### 2023/12/19 framework idea
+- back end alive thread: state machine
+- front end alive thread: listener to change state and msg

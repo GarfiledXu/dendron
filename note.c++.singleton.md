@@ -2,7 +2,7 @@
 id: pqwmetfqqcn71zjr2jr429g
 title: Singleton
 desc: ''
-updated: 1695567981871
+updated: 1704528200898
 created: 1692199421329
 ---
 
@@ -23,5 +23,9 @@ created: 1692199421329
 - 创建全局唯一的实例
 
 #### so/dll singleton static how to cross compile unit
+
+#### constract to global variable
+**对比全局变量，单例的好处是，将类的静态成员函数作为全局变量的代理(而静态成员函数不需要在类外定义) 相比类的静态变量必须在类外定义在代码编写上存在一定的遍历，尤其是在定义全局变量时不需要专门导出声明，进行管理**
+**举一反三： 能否通过定义静态函数并返回静态变量的方式来定义类内静态变量，这样就不需要进行在类外进行定义**
 
 [[Singleton Cross So|question.c++.singleton-cross-so]]

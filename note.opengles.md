@@ -2,7 +2,7 @@
 id: uqup6fo0jzvxk2qpttgog5e
 title: Opengles
 desc: ''
-updated: 1699521747419
+updated: 1705156979737
 created: 1699450116764
 ---
 ### basic concept
@@ -32,7 +32,17 @@ created: 1699450116764
 **object coordinates**
 
 
-
+#### question
+1. opengl 的实现原理
+2. 理解opengl的状态机和上下文概念
+    1. 为什么是状态机? 
+    2. 为什么强调上下文?
+    > 采用C-S架构，将控制图形渲染的行为抽象/建模为状态机，核心就是封装资源，在满足目标性能的情况下让用户端进行最精简化的操作/交互
+    而 每一个渲染执行流，或者是渲染目标 则将对应/对标/映射 着一份 gl 内部管理的资源单位，这个资源单位即 context
+3. opengl 的上下文 与线程 进场关系
+4. opengl 不同上下文间的资源共享
+5. opengl 的架构
+6. opengl 上下文中的资源管理(shader, pragram等)
 
 #### refe
 [youtube: stanford 19. OpenGL ES](https://www.youtube.com/watch?v=_WcMe4Yj0NM&t=232s)
