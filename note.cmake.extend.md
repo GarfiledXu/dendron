@@ -2,7 +2,7 @@
 id: 3jzs9mvrlligrbphpzc4plf
 title: Extend
 desc: ''
-updated: 1699863369538
+updated: 1702632023271
 created: 1699862132285
 ---
 
@@ -68,7 +68,7 @@ generate_module("m_spdlog"
         "NON"
     SP_SRC 
         # ${CURRENT_PROJECT_PATH}/src/fmt.cc
-        # "NON"
+        # "NON
         ${src_list}
     MACRO
         "NON"
@@ -78,3 +78,18 @@ generate_module("m_spdlog"
 #using
 add_single_module("m_spdlog" "src_version")
 ```
+
+#### plan feature
+1. module name optimize of reference and defined and using
+引用key(target cmake list) + 定义时修饰(module cmakelist) + 引入时修饰(prj root cmake list)
+针对同一个module(名), 要求能引用不同的来源，项目自带/本地公共/远程url,以及本地的其他路径，以命名空间 或者 作用域的方式进行名称修饰, 不同作用域使用不同的根目录解析方式
+当前: 引入时，本质上不通过key，而是直接引入文件夹，避免了key关联的问题，
+
+实现思路：无? 
+2. 接口名称优化
+refe module
+using module
+define module
+3. module check
+每次新增一个module都需要检查现有module，如果已存在，则冲突，则报错
+4. 在每一个module定义时 允许添加对应的macro
