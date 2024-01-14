@@ -2,14 +2,14 @@
 id: uqup6fo0jzvxk2qpttgog5e
 title: Opengles
 desc: ''
-updated: 1699521747419
+updated: 1702190969153
 created: 1699450116764
 ---
 ### basic concept
 #### coordinates system of opengl
 **pixel coordinate**
 坐标来源?
-定义:
+定义zu:
 像素定义:
 应用场景:
 相关坐标转化:
