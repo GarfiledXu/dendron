@@ -2,7 +2,7 @@
 id: uqup6fo0jzvxk2qpttgog5e
 title: Opengles
 desc: ''
-updated: 1705156979737
+updated: 1705285049916
 created: 1699450116764
 ---
 ### basic concept
@@ -41,8 +41,13 @@ created: 1699450116764
     而 每一个渲染执行流，或者是渲染目标 则将对应/对标/映射 着一份 gl 内部管理的资源单位，这个资源单位即 context
 3. opengl 的上下文 与线程 进场关系
 4. opengl 不同上下文间的资源共享
-5. opengl 的架构
+5. opengl 的软硬件架构
 6. opengl 上下文中的资源管理(shader, pragram等)
+7. 如何将上一次的渲染结果作为下一次的渲染输入
+8. 渲染结果是如何上屏的？
+    > 通常来说屏幕的显示会有 gl 直接关联显示的缓冲区，那么 gl 渲染计算出来对应 buff 之后，要做的就是进行交换，即上屏，若不进行上屏，而是其他处理则是 离屏渲染
 
 #### refe
 [youtube: stanford 19. OpenGL ES](https://www.youtube.com/watch?v=_WcMe4Yj0NM&t=232s)
+[超强总结！GPU 渲染管线和硬件架构](https://segmentfault.com/a/1190000042930791)
+[]()
