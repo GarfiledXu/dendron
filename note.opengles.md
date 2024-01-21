@@ -3,7 +3,7 @@ id: uqup6fo0jzvxk2qpttgog5e
 title: Opengles
 desc: ''
 <<<<<<< HEAD
-updated: 1705285049916
+updated: 1705840829626
 =======
 updated: 1705221965756
 >>>>>>> 9d0816301303463f641f04f3f03e448080c31e71
@@ -11,6 +11,9 @@ created: 1699450116764
 ---
 ### basic concept
 #### coordinates system of opengl
+#### about texture
+这个名称听起来没有主观人格，是一个傀儡附属品一样
+因为这一对象是在渲染时，用于作用于物体表面的，类似皮肤，是被选取后映射到对应坐标中
 **pixel coordinate**
 坐标来源?
 定义zu:

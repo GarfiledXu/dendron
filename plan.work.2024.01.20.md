@@ -2,13 +2,13 @@
 id: sak9b7oekm7wajjf2hps90x
 title: '20'
 desc: ''
-updated: 1705746152060
+updated: 1705823913031
 created: 1705717935755
 ---
 
 #### must
 - [x] i30 and objective state flow draw first version : 30min
-- [ ] smc offical manual read complete: 1hour
+- [x] smc offical manual read complete: 1hour , not contain the pop transition and push transition section
 #### to do
 - [x] bilibili video: 手把手实现多线程下载以及断点续传，overview： 1hour
     1. 在curl框架基础上
