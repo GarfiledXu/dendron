@@ -2,7 +2,7 @@
 id: lk7kqxqmdtxu90zu1d6j38y
 title: Imgui
 desc: ''
-updated: 1703060327421
+updated: 1705986193996
 created: 1702989263030
 ---
 
@@ -12,6 +12,9 @@ created: 1702989263030
 3. backend接口是如何划分的
 4. frontend接口是如何调用backend，除了基础的widget实现和layout，重点关注:如何嵌入自定义渲染窗口的
 5. 抽象概念
+
+#### 关于即时模式 immediately mode
+与其说是实时模式，不如称之为帧模式，以帧为单位 进行一次绘制，同样也以帧为单位进行事件响应，也就是说在当前帧内发送了事件，那么事件响应最快也是下一帧画面
 
 #### refe
 [offical: focus](https://www.dearimgui.com/)

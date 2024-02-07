@@ -2,7 +2,7 @@
 id: 3jzs9mvrlligrbphpzc4plf
 title: Extend
 desc: ''
-updated: 1702632023271
+updated: 1706607711965
 created: 1699862132285
 ---
 
@@ -93,3 +93,8 @@ define module
 3. module check
 每次新增一个module都需要检查现有module，如果已存在，则冲突，则报错
 4. 在每一个module定义时 允许添加对应的macro
+
+
+##### plan 
+###### 2024
+1. 每一个子target cmakelist中很可能定义多个exe，那么需要设置公共的module add，而不是针对一个target

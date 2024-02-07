@@ -2,7 +2,7 @@
 id: f6b1q6pi0l66cjuuw92ji09
 title: Board Service
 desc: ''
-updated: 1702970255435
+updated: 1706517568908
 created: 1695101047589
 ---
 
@@ -56,3 +56,11 @@ created: 1695101047589
 #### 2023/12/19 framework idea
 - back end alive thread: state machine
 - front end alive thread: listener to change state and msg
+
+
+
+#### 2024/1/29 framework idea
+- [ ] state machine
+- [ ] using smc compiler
+- [ ] http router static register 
+- [ ] using single thread async task framework / message loop
