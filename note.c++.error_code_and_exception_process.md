@@ -2,7 +2,7 @@
 id: t7rtuwvp2mwtvcwbyi6311x
 title: Error_code_and_exception_process
 desc: ''
-updated: 1707297822590
+updated: 1707298303879
 created: 1700200739897
 ---
 
@@ -206,9 +206,35 @@ created: 1700200739897
 
 ##### 当前项目需求
 1. 兼容 返回值和异常的错误捕获手段, 或者封装捕获宏，erc就按原思路照常捕获，而std则重复一次捕获操作
-2. 理想状态：按错误码的思路进行错误返回，按异常的方式进行错误判断
-3. 在错误发生时，异常对象抛出并传递累计回溯栈消息
-4. 按原方案思路，erc是独立类型，通过异常捕获也只能捕获该独立类型，我需要的是兼容std的异常处理，在捕获到时，判断若是erc则特殊处理
+2. 混合处理，用错误码方式进行错误判断，最后一次性抛出
+    ```c++
+    // 函数声明，返回值使用erc
+    erc open_socket ();
+    erc resolve_host ();
+    erc connect ();
+    erc send_data ();
+    erc receive_data ();
+    erc close_socket ();
+
+    erc get_data_from_server(HostName host)
+    {
+    erc result;
+
+    (result = open_socket ())
+    || (result = resolve_host ())
+    || (result = connect ())
+    || (result = send_data ())
+    || (result = receive_data ());
+
+    close_socket ();      // 清理
+    result.reactivate ();
+    return result;
+    }
+    //那么这里的result 返回有什么意义? 不是相当于拷贝了一份到外面吗？
+    ```
+3. 理想状态：按错误码的思路进行错误返回，按异常的方式进行错误判断
+4. 在错误发生时，异常对象抛出并传递累计回溯栈消息
+5. 按原方案思路，erc是独立类型，通过异常捕获也只能捕获该独立类型，我需要的是兼容std的异常处理，在捕获到时，判断若是erc则特殊处理
 **在这里可以看出，继承这一机制，实现了类型兼容，也就意味这操作复用（异常的处理操作）**
 
 #### refe
