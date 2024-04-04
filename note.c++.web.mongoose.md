@@ -2,7 +2,7 @@
 id: 11ik08wpa1qg5ikrd0t1vm3
 title: Mongoose
 desc: ''
-updated: 1700184926389
+updated: 1709952104550
 created: 1699858217004
 ---
 #### api overview
@@ -180,3 +180,13 @@ parser(friend) -> encode() decode() dto() get() set()
 [blog: mongoose 初始化](https://juejin.cn/post/6905616621562724359)
 [blog: Mongoose源码剖析：mongoose的工作模型](https://www.cnblogs.com/skynet/archive/2010/07/24/1784476.html)
 > 已过时，该工作模型描述mongoose v6之前的版本
+
+
+
+
+#### mongoose websocket 问题
+**创建客户端链接后，一个线程用于poll等待服务端消息，另一个线程用于异步发送ws消息**
+1. 问题1: mg_ws_send 并不会触发poll，对链接进行处理，导致每次发送的消息都是等待到poll超时后才发送到服务端
+2. 按官方例程，发送线程使用 wakeup，在fn中添加wakeup事件的处理，在事件处理时调用mg_ws_send,但存在问题: 现象: 客户端消息没有发送出去就close了，服务端报错请求解析错误
+3. 方案3: 发送线程正常发送，发送后调用 wakeup 只是触发poll
+  

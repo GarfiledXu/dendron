@@ -2,7 +2,7 @@
 id: tjyoavoy0b8eos6caaepv21
 title: Shader_glsl
 desc: ''
-updated: 1706768522330
+updated: 1710902384504
 created: 1691650830878
 ---
 
@@ -42,3 +42,7 @@ texture unit target and vertex buff object target
 
  2. **vectors 向量**
     > Each of the scalar types, 意味着向量的元素单位是标量类型
+
+
+![https://img2020.cnblogs.com/blog/1627257/202104/1627257-20210413194021997-232449982.jpg](https://img2020.cnblogs.com/blog/1627257/202104/1627257-20210413194021997-232449982.jpg)
+    

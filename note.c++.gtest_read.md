@@ -2,9 +2,16 @@
 id: mkxykzsap9yb8e4qpc6rx6l
 title: Gtest_read
 desc: ''
-updated: 1703208015242
+updated: 1710812773916
 created: 1703157222094
 ---
+
+### flow
+1. 罗列所有可分享特性
+2. 观众朋友现场 选题(时间有限)
+3. 对应讲解
+4. 开场: 与gtest的渊源，在实习期知道陈老师做了一次gtest
+
 
 ### code expand
 **test macro expand to complete implementation**
