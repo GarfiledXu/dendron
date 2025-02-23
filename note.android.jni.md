@@ -2,7 +2,7 @@
 id: p7st5gk8a0we81a5dog608l
 title: Jni
 desc: ''
-updated: 1712020415316
+updated: 1716362209779
 created: 1711773670355
 ---
 #### ref
@@ -50,3 +50,31 @@ created: 1711773670355
    1. 当程序通过jni 加载多个动态库时，并且使用动态注册来进行函数映射，对于多动态库拥有同名函数，是否会有问题？
    - [同名函数在程序，静态库，动态库中的覆盖和调用顺序](https://developer.aliyun.com/article/243750)
    - 可以总结道: 多so 拥有同名函数并不会报错，只会对函数符号进行覆盖，那么意味着只要 loadlib 在整个javaVm进程运行过程中是顺序执行的，那么就可以保证loadlib中的JNI_OnLoad()可以被依次执行，也就意味着所有的符号地址映射关系会被存储到javaVM的上下文中，不会有冲突，如果原有主程序或者链接的静态中存在同名函数，那么动态库中的同名函数会被覆盖，忽略, 默认使用静态库中同名符号版本
+
+7. 结构体互转
+
+
+
+
+8. android studio 中 引入jni so操作
+```gradle
+android {
+   defaultConfig {
+      externalNativeBuild {
+            cmake {
+                cppFlags '-std=c++11'
+            }
+        }
+        ndk {
+            //noinspection ChromeOsAbiSupport
+            abiFilters "arm64-v8a"
+            //abiFilters "armeabi-v7a"
+        }
+        sourceSets {
+            main {
+                jniLibs.srcDirs = ['libs']
+            }
+        }
+   }
+}
+```

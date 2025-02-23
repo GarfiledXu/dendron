@@ -2,7 +2,7 @@
 id: uaetimg7gwwi9f5x3312ioc
 title: Gradle_and_prj
 desc: ''
-updated: 1694497920841
+updated: 1722242190325
 created: 1694496520962
 ---
 
@@ -10,6 +10,7 @@ created: 1694496520962
 --------------
 - [blog-zhihu-gradle在android项目中的结构](https://zhuanlan.zhihu.com/p/605490012)
 - [blog-zhihu-理解Android中的gradle](https://zhuanlan.zhihu.com/p/139685763)
+- [简述 系列: Android Gradle最佳实践](https://juejin.cn/column/6985104149218082829)
 
 ### prj info in gradle
 ------------
@@ -23,8 +24,6 @@ created: 1694496520962
 
 
 
-
-
 ### project compile flow wtih gradle process
 ----------------
 
@@ -34,3 +33,8 @@ created: 1694496520962
 ------------------
 
 
+
+#### 拷贝项目，如何修改包名和项目名
+- 拷贝项目工程
+- 修改 `settings.gradle` 中的rootProject.name
+- double-shift 全局替换关键词

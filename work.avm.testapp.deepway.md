@@ -1,0 +1,29 @@
+---
+id: ovomwqvlitgoudz045hf435
+title: Deepway
+desc: ''
+updated: 1723793197520
+created: 1723791236521
+---
+
+#### 如何支持app安装
+将文件 FilterAppConfig.txt  push到车机的/system/etc/adayo/pm
+后重启
+以下为上述文件内容
+```json
+{
+	"NeedFilter":false
+}
+```
+
+老设备: license.dat 内容
+```
+es712sGFZ24tPq3X/IJTLuLk+4hN5ZDj9OPVl3AGbXSTqYsfFu/4M9JDMz6Eh6r9RvzXj2GNGoeLP3LYNeNpd5tXZzVz5mMJqbXTpN16nUFRviWXyxAUKIZ1e9oy5/h8k8S/Wc3b0VbANbtpx9cTM/F8RgQT8DxvVdoQd0pnqmlIB1wbeMo9YARghtXTNHvv00ZoZwT63KeyY/wYbc/0JW366U+yOdwn4UGsZu5kxSDZAU6k0XxSPYwuD35BciPv2uGaIuZggWis9RmszkA6/fTBtYpEIfx+zvLEufPYKStqqcddOjXeTgv+Xh4vtgHhMMdOffl/HtGImcxnmFZ3HJcO5aqRds1hjkOstv9+SOsNAJ5bGjx/N4i43Rog4Rq91vGJp4jGZFOucpRm+ER1vOiorZdsBwdK7KdvfO9Ipb8FaJ5X2nm4wdE+7gKC8zpdDdrNJg+czAqS/H9ypLogU8yEEyFidZUo/WEzwOvHdIyPzNr30ZKoqhwt4onhDEehpyRrAF5bKsWhlUUesY4Aoi1PYoRgaHjXBnXtdeGIYJmGe8b2yF6IwgNhOSKot7g7ojBg2skh4r8q4VfQIRIB5SdSRxiy47q4dgHDxV0Y7erbnA0sbuKOcJJ04vSqqOi7oz3KSPiQ+wa2NAVe1CuVTgj1/+Rl6MTYuMcRh+6WJwI=
+```
+
+新设备: license.dat 内容
+x9hp_ref:/ # getprop ro.serialno
+C02581000122
+```
+qxcNlaw50mtZT7EtY8rk/UOOPBvYzrUQWZZzNZzQ+3ds2HZwxAUQ+jbWbxbkGELA2AFh0ug2QzGIoOjNHtSdWCWeTbaMCya/1xazIMAb2JhiPpusFryB9lQU9AYg4RVW+02khRa4Zz8IwRABbTWzV+YAdIi43ixBGP1YxGp0sFvIyFuqYRvVUUXVBxa+9ioRKrnElA8B6XlaUtwWRng9Rug/0SlcfdE1vlaVmCGrT7f3DZV8lxFX3P7424cmfNkCMpJ9OLgXyIO8wdeH6h929coHfNaM741QCHT5RYUYJBxG1kuxXDlhR06KsI61zN3FUJqqiPYGPzROkL5UrvWBwp2clMEp7TYKVg2tvRLb1LSQJ37tHNIRNEjMsEmdY38pwmIfiRjWhB7QMwKtO3qdnIpUCj31lXnEOaAJD/MEtBkszW1USkCHxR/MegUjt5ALFwcubLKr7JO8VXOmggTrBTQEtpIJSawvSv1v3vvyg0bBJiVKVPWh+uHRQ9IV/r28
+```

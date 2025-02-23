@@ -2,7 +2,7 @@
 id: exbnszq8t0vsahpmg9o7wob
 title: Coredump_and_gdb
 desc: ''
-updated: 1692606652741
+updated: 1719366882237
 created: 1692604577704
 ---
 
@@ -19,3 +19,14 @@ created: 1692604577704
 - linux gdb for android to connect android gdb server
 - windows gdb for android to connect android gdb server
 - android gdb run directly on android
+
+#### gdb launch exe
+```c++
+gdb <exe_name>
+```
+
+##### start run
+```c++
+r
+```
+
