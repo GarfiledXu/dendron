@@ -2,7 +2,7 @@
 id: 9ossexjc90o5iblqoc7b5le
 title: Camera_takephoto_jpeg_block
 desc: ''
-updated: 1742560601935
+updated: 1742870273238
 created: 1742527134741
 ---
 
@@ -299,4 +299,145 @@ ID: 0, sensor_name is m01_f_sc8238 1-0030, iqfiles is /etc/iqfiles
 Segmentation fault
 
 
+```
+
+```bash
+#反复初始化-取土-反初始化之后，2000张左右，在后台跑时会自动关闭
+[RKMEDIA][SYS][Info]:#V4L2Stream: v4l2 ctx reset to nullptr!
+[RKMEDIA][VI][Info]:#SourceStreamFlow[SourceFlow:v4l2_capture_stream]: stream reset sucessfully!
+[RKMEDIA][SYS][Info]:SourceFlow:v4l2_capture_stream quit
+[RKMEDIA][SYS][Info]:RK_MPI_VI_DisableChn: Disable VI[0:1]:rkispp_scale0, 3840x2160 End...
+rk_aiq_uapi_sysctl_stop enter
+rk_aiq_uapi_sysctl_deinit enter
+rk_aiq_uapi_sysctl_deinit exit
+--------> after SAMPLE_COMM_ISP_Stop
+===> process cost time: 903 ms
+end signal capture one:  "/userdata/save_pic/takephoto_pic_20250324_183339991_2322.jpg"
+mpp[3412]: mpp_buffer: ~MppBufferService cleaning misc group
+
+
+takephoto_pic_20250325_100559631_2323.jpg
+takephoto_pic_20250325_100600540_2324.jpg
+takephoto_pic_20250325_100601449_2325.jpg
+takephoto_pic_20250325_100602352_2326.jpg
+takephoto_pic_20250325_100603318_2327.jpg
+takephoto_pic_20250325_100604318_2328.jpg
+takephoto_pic_20250325_100605317_2329.jpg
+takephoto_pic_20250325_100606629_2330.jpg
+takephoto_pic_20250325_100607534_2331.jpg
+takephoto_pic_20250325_100608435_2332.jpg
+takephoto_pic_20250325_100609338_2333.jpg
+takephoto_pic_20250325_100610317_2334.jpg
+takephoto_pic_20250325_100611318_2335.jpg
+takephoto_pic_20250325_100612666_2336.jpg
+takephoto_pic_20250325_100614374_2337.jpg
+takephoto_pic_20250325_100615735_2338.jpg
+takephoto_pic_20250325_100616641_2339.jpg
+takephoto_pic_20250325_100618004_2340.jpg
+
+end signal capture one:  "/userdata/save_pic/takephoto_pic_20250325_100616641_2339.jpg"
+will signal capture one:  "/userdata/save_pic/takephoto_pic_20250325_100618004_2340.jpg"
+--------> will SAMPLE_COMM_ISP_Init
+ID: 0, sensor_name is m01_f_sc8238 1-0030, iqfiles is /etc/iqfiles
+[10:06:18.048072][XCORE]:XCAM ERROR v4l2_device.cpp:196: open device() failed
+[10:06:18.050612][CAMHW]:XCAM ERROR LensHw.cpp:199: get vcm cfg failed
+[10:06:18.069399][XCORE]:XCAM ERROR CamHwIsp20.cpp:3751: |||set DC-Iris PwmDuty: 100
+[10:06:18.069513][CAMHW]:XCAM ERROR LensHw.cpp:411: iris is not supported
+[10:06:18.080694][CAMHW]:XCAM ERROR LensHw.cpp:296: focus is not supported
+rk_aiq_uapi_sysctl_init/prepare succeed
+rk_aiq_uapi_sysctl_start succeed
+SAMPLE_COMM_ISP_SetFrameRate start 30
+SAMPLE_COMM_ISP_SetFrameRate 30
+[RKMEDIA][SYS][Info]:RK_MPI_VI_EnableChn: Enable VI[0:1]:rkispp_scale0, 3840x2160 Start...
+[RKMEDIA][SYS][Info]:RKAIQ: parsing /dev/media0
+media get entity by name: rkisp-mpfbc-subdev is null
+media get entity by name: rkisp_dmapath is null
+[RKMEDIA][SYS][Info]:RKAIQ: model(rkisp0): isp_info(0): isp-subdev entity name: /dev/v4l-subdev1
+[RKMEDIA][SYS][Info]:RKAIQ: parsing /dev/media1
+[RKMEDIA][SYS][Info]:RKAIQ: model(rkispp0): ispp_info(0): ispp-subdev entity name: /dev/v4l-subdev0
+[RKMEDIA][SYS][Info]:#V4l2Stream: camraID:0, Device:rkispp_scale0
+[RKMEDIA][SYS][Warn]:camera_id: 0, chn: rkispp_scale0
+[RKMEDIA][SYS][Warn]:camera_id: 0, chn: rkispp_scale0, idx: 0
+[RKMEDIA][SYS][Info]:#V4l2Stream: camera id:0, VideoNode:/dev/video14
+Using mplane plugin for capture 
+[RKMEDIA][SYS][Info]:#V4L2Ctx: open /dev/video14, fd 92
+[RKMEDIA][SYS][Info]:RK_MPI_VI_EnableChn: Enable VI[0:1]:rkispp_scale0, 3840x2160 End...
+[RKMEDIA][SYS][Info]:RK_MPI_VENC_CreateChn: Enable VENC[0], Type:7 Start...
+[RKMEDIA][SYS][Info]:ParseMediaConfigFromMap: rect_x = 0, rect_y = 0, rect.w = 3840, rect.h = 2160 
+mpp[3128]: mpp_info: mpp version: 57ff4c6b author: Herman Chen   2021-09-13 [cmake]: Enable HAVE_DRM by default
+[RKMEDIA][VENC][Info]:MPP Encoder: MPPConfig: cfg init sucess!
+[RKMEDIA][VENC][Info]:MPP Encoder[JPEG]: config for JPEG...
+[RKMEDIA][VENC][Info]:MPP Encoder: dcf use default value:0
+[RKMEDIA][VENC][Info]:MPP Encoder: mpf_cnt use default value:0
+[RKMEDIA][VENC][Info]:MPP Encoder: rect_x use default value:0
+[RKMEDIA][VENC][Info]:MPP Encoder: rect_y use default value:0
+[RKMEDIA][VENC][Info]:MPP Encoder[JPEG]: rotaion = 0
+[RKMEDIA][VENC][Info]:MPP Encoder[JPEG]: Set output block mode.
+[RKMEDIA][VENC][Info]:MPP Encoder[JPEG]: Set input block mode.
+mpp[3128]: mpp_enc: MPP_ENC_SET_RC_CFG bps 0 [0 : 0] fps [30:30] gop 0
+mpp[3128]: jpege_api_v2: jpege_proc_jpeg_cfg qf_min out of range, default set 1
+mpp[3128]: jpege_api_v2: jpege_proc_jpeg_cfg qf_max out of range, default set 99
+[RKMEDIA][VENC][Info]:MPP Encoder[JPEG]: w x h(3840[3840] x 2160[2160]), qfactor:50
+[RKMEDIA][SYS][Info]:RK_MPI_VENC_CreateChn: Enable VENC[0], Type:7 End...
+>>>>> elapsed_init cost time: 160 ms
+[RKMEDIA][SYS][Info]:RK_MPI_SYS_Bind: Bind Mode[VI]:Chn[1] to Mode[VENC]:Chn[0]...
+>>>>> elapsed_register_cb_bind cost time: 0 ms
+[RKMEDIA][SYS][Info]:Camera 0 stream 92 is started
+===> OutCb, /userdata/save_pic/takephoto_pic_20250325_100618004_2340.jpg, cost time: 428
+>>>>>> COST TIME MS: 443, wait ret: 1, taked_result: 0
+[RKMEDIA][SYS][Info]:RK_MPI_SYS_UnBind: UnBind Mode[VI]:Chn[1] to Mode[VENC]:Chn[0]...
+[RKMEDIA][SYS][Info]:RK_MPI_VENC_DestroyChn: Disable VENC[0] Start...
+[RKMEDIA][SYS][Info]:VideoEncoderFlow quit
+[RKMEDIA][VENC][Info]:MPP Encoder: MPPConfig: cfg deinit done!
+[RKMEDIA][SYS][Info]:mpp destroy ctx done
+[RKMEDIA][SYS][Info]:RK_MPI_VENC_DestroyChn: Disable VENC[0] End...
+[RKMEDIA][SYS][Info]:RK_MPI_VI_DisableChn: Disable VI[0:1]:rkispp_scale0, 3840x2160 Start...
+[RKMEDIA][VI][Info]:#SourceStreamFlow[SourceFlow:v4l2_capture_stream]: stream off....
+libv4l2: error dequeuing buf: Invalid argument
+[RKMEDIA][SYS][Info]:rkispp_scale0, ioctl(VIDIOC_DQBUF): Invalid argument
+[RKMEDIA][VI][Info]:#SourceStreamFlow[SourceFlow:v4l2_capture_stream]: read thread exit sucessfully!
+[RKMEDIA][SYS][Info]:#V4L2Ctx: close , fd 92
+[RKMEDIA][SYS][Info]:#V4L2Stream: v4l2 ctx reset to nullptr!
+[RKMEDIA][VI][Info]:#SourceStreamFlow[SourceFlow:v4l2_capture_stream]: stream reset sucessfully!
+[RKMEDIA][SYS][Info]:SourceFlow:v4l2_capture_stream quit
+[RKMEDIA][SYS][Info]:RK_MPI_VI_DisableChn: Disable VI[0:1]:rkispp_scale0, 3840x2160 End...
+rk_aiq_uapi_sysctl_stop enter
+rk_aiq_uapi_sysctl_deinit enter
+rk_aiq_uapi_sysctl_deinit exit
+--------> after SAMPLE_COMM_ISP_Stop
+===> process cost time: 1375 ms
+end signal capture one:  "/userdata/save_pic/takephoto_pic_20250325_100618004_2340.jpg"
+mpp[3128]: mpp_buffer: ~MppBufferService cleaning misc group
+
+# 需要验证是因为adb断开还是其他原因
+从日志分析，并不是shell 断开导致的，是程序自动退出的，仅仅多出最后一句的析构日志，很有可能main退出时，触发的正常析构日志；-> 有可能是默认定时不够，刚好足够这些图片（确认验证成功）
+#在终端 shell上启动的程序，如果shell进程被杀死，是否会导致该程序也被终止，是一个怎么样的过程
+```
+
+**耗时统计**
+初始化部分: 160ms
+
+```bash
+SAMPLE_COMM_ISP_Init(0, hdr_mode, bMultictx, "/etc/iqfiles");
+SAMPLE_COMM_ISP_Run(0);
+SAMPLE_COMM_ISP_SetFrameRate(0, 30);
+RK_MPI_VI_SetChnAttr(0, 1, &vi_chn_attr);
+RK_MPI_VI_EnableChn(0, 1);
+RK_MPI_VENC_CreateChn(0, &venc_chn_attr);
+```
+
+绑定通道后到成功进入回调: 430ms
+
+```bash
+ret = RK_MPI_SYS_Bind(&stSrcChn, &stDestChn);
+-> 进入OutCb 回调
+```
+
+解除通道，反初始化资源: (900~1300)-600 = (300~)
+
+```bash
+RK_MPI_SYS_UnBind(&stSrcChn, &stDestChn);
+RK_MPI_VENC_DestroyChn(0);
+RK_MPI_VI_DisableChn(0, 1);
+SAMPLE_COMM_ISP_Stop(0);
 ```
