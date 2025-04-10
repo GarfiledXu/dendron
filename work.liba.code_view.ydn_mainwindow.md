@@ -2,7 +2,7 @@
 id: 1q52gov50bw6wwv3bazg7ai
 title: Ydn_mainwindow
 desc: ''
-updated: 1744279767795
+updated: 1744296179242
 created: 1743578722565
 ---
 ### 关注点
@@ -641,12 +641,16 @@ p_poll->environment GlobalModel::instance()->getDeviceConfigAttribute()->envir p
                 1. 匹配到指纹: FignerSeachFp(&getId) >= 1 -> EmitDisplaySignal(getId) -> emit displaySig(type) 指纹匹配成功最终会将匹配到的id发送到 MainWindow::DisplayFigerOperation 槽函数
                 2. 发布mqtt指纹信息，更新pollevent状态: checkWebServerStatus(int) -> emit MainWindow::alreadyCheckWebServerStatus(int) --> MainWindow::onAlreadyCheckWebServerStatus(int) -> 条件:!p_poll->isLoging && p_poll->isOperation == IDLE -> ReportUserputFinger(int)->publishTopicIdMessage(FIG_LOG, ..)，p_poll->fignerWait = true等待服务器响应返回用户信息
                 3. 接收到mqtt 主题TOPIC_FINGER_RESPONE，用户指纹登陆，返回消息(条件: 未登录 指纹已经验证并等待服务器下发指纹等级)->提取userInfo，
+                   1. false: 若解析失败则或者解析成功但是没有用印权限-->触发ui提示(UI_FIGREFUSE) 用户未授权,请前往APP发起
+                   2. true: 触发语音播报:SealUnlocked(印章已解锁，请点击按钮开始用印)
                 4. 最终执行线程: mainwindow事件循环
 
         2. 什么情况下 p_poll->isLoging 为true?
         3. userinfo更新后是否会和本地同步?
         4. p_poll->userInfo.identity=1 特权用户什么时候被赋值?
         5. sysInfo.islocked 什么时候被改变?
+        6. fingerWait 什么意思? 指纹验证成功后,等待服务器信息同步
+        7. UI_FIGREFUSE 是什么操作?
 
         
 
