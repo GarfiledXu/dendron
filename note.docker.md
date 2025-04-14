@@ -2,7 +2,7 @@
 id: fm6y7tsrgc7t6pie372kpaf
 title: Docker
 desc: ''
-updated: 1744212863982
+updated: 1744445489537
 created: 1743561434086
 ---
 
@@ -499,3 +499,13 @@ docker rmi mybuilder:base
 - [vscode: container templates](https://containers.dev/templates)
 - [vscode: Developing inside a Container: 新鲜!](https://code.visualstudio.com/docs/devcontainers/containers)
 - [vscode: container configure](https://code.visualstudio.com/remote/advancedcontainers/overview)
+- [bilibili: 一口气搞懂docker的100+概念](https://www.bilibili.com/video/BV12jQDYREBR/?spm_id_from=333.788.videopod.sections&vd_source=4bc1ade93cb885bbaa0fcb3326790a95)
+
+### docker volume
+
+1. when to use volume?
+2. diff between mount and volume?
+
+### 容器优化: 体积缩减
+
+- [bilibili: Docker镜像最佳实践：从1.2GB到10MB！](https://www.bilibili.com/video/BV1QmkVYiEjg/?spm_id_from=333.337.search-card.all.click&vd_source=4bc1ade93cb885bbaa0fcb3326790a95)
