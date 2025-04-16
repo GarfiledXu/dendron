@@ -2,7 +2,7 @@
 id: 1q52gov50bw6wwv3bazg7ai
 title: Ydn_mainwindow
 desc: ''
-updated: 1744296179242
+updated: 1744348651717
 created: 1743578722565
 ---
 ### 关注点
@@ -538,7 +538,9 @@ p_poll->environment GlobalModel::instance()->getDeviceConfigAttribute()->envir p
 
 1. 相关源码文件
    1. media/uploadwork.cpp
-   2. network/httpoperworker.cpp
+      1. UploadWorker::uploadLogFile(QByteArray devSn) 上传日志，使用QHttpMultiPart
+      2. UploadWorker::uploadPhotoFiles UploadWorker::uploadVideoFiles， 如果是https，使用curl，如果是http，使用http
+      3. UploadWorker::uploadFingerDatas 同样
    3. global/QRcode/http_opt.cpp 被mainwindow引用
       1. http_opt::PostLocalLog deprecated
       2. mainwindow.cpp -> o_http->isCheckHttpsCurlExecOK() 检查curl功能
@@ -643,7 +645,22 @@ p_poll->environment GlobalModel::instance()->getDeviceConfigAttribute()->envir p
                 3. 接收到mqtt 主题TOPIC_FINGER_RESPONE，用户指纹登陆，返回消息(条件: 未登录 指纹已经验证并等待服务器下发指纹等级)->提取userInfo，
                    1. false: 若解析失败则或者解析成功但是没有用印权限-->触发ui提示(UI_FIGREFUSE) 用户未授权,请前往APP发起
                    2. true: 触发语音播报:SealUnlocked(印章已解锁，请点击按钮开始用印)
-                4. 最终执行线程: mainwindow事件循环
+                4. 判断是否为特权用户以及盖印模式
+                   1. 若是连续盖印则 打开舱门，并设置 盖印状态机 状态为 `isOperation = STAMP_CONSECUTIVERDY`，等待盖印状态机进行消费
+                   2. 若是常规盖印则 直接设置盖印状态为`STAMPING`，等待盖印状态机消费
+                   3. 使能拍照
+                   4. emit mainwindow::updateLabel(UI_FIGPASS) -> MainWindow::DisposeFingerRespone(true): 触发ui提示，界面更新(解锁成功，请用印 + 印章名称)
+                5. 最终执行线程: mainwindow事件循环
+            2. 在断网状态下:
+               1. 指纹状态机线程 匹配到指纹: FignerSeachFp(&getId) >= 1 -> EmitDisplaySignal(getId) -> emit displaySig(type) 指纹匹配成功最终会将匹配到的id发送到 MainWindow::DisplayFigerOperation 槽函数
+               2. 调用方向: MainWindow::DisposeFingerResult(pos) -> MainWindow::checkWebServerStatus(int) -> emit MainWindow::alreadyCheckWebServerStatus(int) --> MainWindow::onAlreadyCheckWebServerStatus(int) ->MainWindow::ReportUserputFinger(pos) -> 判断条件(isWebOff || !mqttLink) && (p_poll->sysInfo.SuperUserSpec[pos] == 1)
+                  1. 触发语音播报:SealUnlocked(印章已解锁，请点击按钮开始用印) 
+                  2. RecycleFingerThread() 回收指纹线程
+                  3. 判断盖印模式
+                        1. 若是连续盖印则 打开舱门，并设置 盖印状态机 状态为 `isOperation = STAMP_CONSECUTIVERDY`，等待盖印状态机进行消费
+                        2. 若是常规盖印则 直接设置盖印状态为`STAMPING`，等待盖印状态机消费
+                  4. 使能拍照功能
+                  5. emit mainwindow::updateLabel(UI_FIGPASS) -> MainWindow::DisposeFingerRespone(true): 触发ui提示，界面更新(解锁成功，请用印 + 印章名称)
 
         2. 什么情况下 p_poll->isLoging 为true?
         3. userinfo更新后是否会和本地同步?
@@ -695,6 +712,17 @@ p_poll->environment GlobalModel::instance()->getDeviceConfigAttribute()->envir p
     }gt_enterInfo;
    ```
 
+### motor
+
+1. motorswitch 封装了电机状态响应操作
+   1. 一个状态机后台线程，不断获取限位开关状态，判断当前开关状态组合变化，以及电机运动状态(外部输入)，来触发对应的电机动作，转化电机运动状态
+   2. 上层调用: motorswitch模块创建并运行-->其他模块: 执行电机动作宏，向 motorswitch 传入电机运动状态 --> motorswitch 状态机线程根据 开关组合状态 + 电机运动状态 + 业务标志位，触发对应操作
+   3. 信号方向
+      1. rk_pollevent触发电机复位(远程锁定，用户登出，TOPIC_STAMPCONTI_PAUSE，用印退出，TOPIC_CANCEL_OPT，TOPIC_ADD_INKRES加墨，设备重置，焕章): emit: rk_pollevent::MotorReset() -> motorswitch::MotorPositReset() -> 设置标志位，等待motorswitch状态机线程处理
+      2. rk_pollevent执行电机操作宏后，设置电机运动状态: emit: rk_pollevent::stampSport(unsigned char) -> motorswitch::GetStampSportDirect(unsigned char)
+      3. rk_pollevent调整印章伸出长度: emit: rk_pollevent::stampDistanceSet(int) -> motorswitch::SetSealDisdtance(int)
+      4. rk_pollevent触发电机状态机线程重新检测标志(开关状态组合发生变化 || 重检标志==true): emit: rk_pollevent::Refresh_Motor_Status(void) -> motorswitch::Refresh_Motor_Status(void)
+
 ### https 数据流
 
 ### 通讯硬件模块
@@ -721,7 +749,6 @@ p_poll->environment GlobalModel::instance()->getDeviceConfigAttribute()->envir p
    2. 盖印过程中，设置needphoto标志位 在rk_pollevent中
       1. TOPIC_EXAMINE_RESULT 审批结果处理
       2. userInfo.remote == 4 处于远程盖印
-      3. 
    3. 更新limitswitch限位开关 在mianwindows中
 2. 开始录像 five
    1. `Q_EMIT pMediaModule->setRecordVidesEnabled(true, ...)`
@@ -776,4 +803,17 @@ typedef struct gt_userInfo//指纹登陆或者APP登陆共用结构体
     int infrared;
 }gt_userInfo;
 
+//env
+enum {
+    ENV_TEST,
+    ENV_SAAS,
+    ENV_DEMO,
+    ENV_PRI
+};
+
+sysInfo.sealPattern
+特权盖印模式 1、常规模式 2、连续模式 默认常规模式
 ```
+
+
+电机部分还需要独立demo测试一下
