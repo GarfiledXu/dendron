@@ -2,7 +2,7 @@
 id: jz9bv12h5q1329kb2gpz9vj
 title: Gdb_server_view
 desc: ''
-updated: 1742544447647
+updated: 1745387699912
 created: 1742283297536
 ---
 
@@ -11,6 +11,7 @@ created: 1742283297536
 ### 前言
 
 本文档用于记录 基于 adb端口转发功能 + gdbserver + vscode gdb可视化插件 在`windows WSL2 ubuntu`或者`vmware ubuntu`开发环境下 来实现嵌入式设备端远程调试
+分两种环境: `windows wsl ubuntu` 和 `vmware ubuntu`
 共分四个步骤:
 
 1. 设备连接, 设置adb端口转发
@@ -20,53 +21,54 @@ created: 1742283297536
 
 #### 设备连接, 设置adb端口转发
 
-1. `windows WSL2 ubuntu` 虚拟机环境下
+##### `windows WSL2 ubuntu` 虚拟机环境下
 
-    0. 确认 `windows` 和 `WSL2` 都安装了ADB，并且版本一致
+1. 确认 `windows` 和 `WSL2` 都安装了ADB，并且版本一致
 
-    1. 由于`WSL2`无法访问usb设备以致于无法连接设备ADB，所以相比`vmware ubuntu`需要在 `windows` 和 `WSL2`之间进行网络端口转发，使`WSL2` `adb client` 访问 `windows` `adb server`来间接访问ADB设备 ``
+2. 由于`WSL2`无法访问usb设备以致于无法连接设备ADB，所以相比`vmware ubuntu`需要在 `windows` 和 `WSL2`之间进行网络端口转发，使`WSL2` `adb client` 访问 `windows` `adb server`来间接访问ADB设备 ``
 
-    ```bash
-    # windows 端，杀死默认的后台adb server，并拉起前台server，接受所有端口
-    adb kill-server
-    adb -a -P 5037 nodaemon server
+```bash
+# windows 端，杀死默认的后台adb server，并拉起前台server，接受所有端口
+adb kill-server
+adb -a -P 5037 nodaemon server
 
-    # WSL2 端，查询wsl到windows端的映射ip，将其设置为adb连接远程server的ip:port
-    # wsl2端查询 返回windows端ip
-    ip route show | grep -i default | awk '{ print $3}'
-    # wsl2端设置adb连接地址
-    export ADB_SERVER_SOCKET=tcp:172.19.192.1:5037
-    ```
+# WSL2 端，查询wsl到windows端的映射ip，将其设置为adb连接远程server的ip:port
+# wsl2端查询 返回windows端ip
+ip route show | grep -i default | awk '{ print $3}'
+# wsl2端设置adb连接地址
+export ADB_SERVER_SOCKET=tcp:172.19.192.1:5037
+```
 
-    2. 由于`WSL2`与`windows`之间存在防火墙，需要在windows端powershell进行设置,添加白名单, 将adb默认端口添加到白名单中5037
+3. 由于`WSL2`与`windows`之间存在防火墙，需要在windows端powershell进行设置,添加白名单, 将adb默认端口添加到白名单中5037
 
-    ```batch
-    # windows端 白名单规则添加
-    New-NetFirewallRule -DisplayName "Allow WSL access2" -InterfaceAlias "vEthernet (WSL)" -Direction Inbound -Protocol TCP -LocalPort 5037 -Action Allow
-    # windows端 查询确认是否添加成功
-    Get-NetFirewallRule | Where-Object { $_.DisplayName -eq "Allow WSL access2" }
-    ```
+```batch
+# windows端 白名单规则添加
+New-NetFirewallRule -DisplayName "Allow WSL access2" -InterfaceAlias "vEthernet (WSL)" -Direction Inbound -Protocol TCP -LocalPort 5037 -Action Allow
+# windows端 查询确认是否添加成功
+Get-NetFirewallRule | Where-Object { $_.DisplayName -eq "Allow WSL access2" }
+```
 
-    3. 设置转发服务，在windows端和wsl2均可操作，本质上都是windows端adb server执行
+4. 设置转发服务，在windows端和wsl2均可操作，本质上都是windows端adb server执行
 
-    ```bash
-    #说明: `adb forward` 用于在 PC（本地主机） 和 Android 设备 之间转发端口
-    #转发方向: tcp:<pc本地端口> -> tcp:<设备端口>
-    adb forward tcp:6001 tcp:6001
-    #查询是否转发成功, 后续如果需要取消则使用 `adb forward --remove-all`
-    adb forward --list
-    ```
+```bash
+#说明: `adb forward` 用于在 PC（本地主机） 和 Android 设备 之间转发端口
+#转发方向: tcp:<pc本地端口> -> tcp:<设备端口>
+adb forward tcp:6001 tcp:6001
+#查询是否转发成功, 后续如果需要取消则使用 `adb forward --remove-all`
+adb forward --list
+```
 
-2. `vmware ubuntu` 虚拟机环境下
-    1. 连接设备，直接执行转发
+##### `vmware ubuntu` 虚拟机环境下
 
-    ```bash
-    #说明: `adb forward` 用于在 PC（本地主机） 和 Android 设备 之间转发端口
-    #转发方向: tcp:<pc本地端口> -> tcp:<设备端口>
-    adb forward tcp:6001 tcp:6001
-    #查询是否转发成功, 后续如果需要取消则使用 `adb forward --remove-all`
-    adb forward --list
-    ```
+1. 连接设备，直接执行转发
+
+```bash
+#说明: `adb forward` 用于在 PC（本地主机） 和 Android 设备 之间转发端口
+#转发方向: tcp:<pc本地端口> -> tcp:<设备端口>
+adb forward tcp:6001 tcp:6001
+#查询是否转发成功, 后续如果需要取消则使用 `adb forward --remove-all`
+adb forward --list
+```
 
 #### 启动设备端gdbserver和目标程序
 
@@ -133,7 +135,6 @@ created: 1742283297536
 进入侧边栏debug面板，点击`run and debug`:
 ![alt text](image-11.png)
 
-
 #### 补充: 纯命令行gdb
 
 **前置条件:在启动远程gdbserver后，以及adb端口转发成功后；不通过vscode启动本地gdb调试，纯命令行调试:**
@@ -159,11 +160,9 @@ set solib-search-path /home/xjf1127/codespace/toolchain/rk1126_sdk_vunknow/qt5/q
 
 ```
 
-
-
 #### reference
+
 - [microsoft: wsl networking](https://learn.microsoft.com/zh-cn/windows/wsl/networking)
 - [csdn: gdb调试解决找不到源代码的问题](https://blog.csdn.net/albertsh/article/details/107437084)
-
 
 #### 待补充: 在qtcreator中进行远程gdb可视化调试

@@ -2,7 +2,7 @@
 id: t4wbmtadkchwaupzukpe629
 title: Old_ydn_code_translate
 desc: ''
-updated: 1744796426539
+updated: 1745459188129
 created: 1744611961662
 ---
 ### note
@@ -20,6 +20,7 @@ created: 1744611961662
 6. fingerprint 指纹
 7. upgrade 固件升级
 8. 全量释放
+9. 章桶
 
 ### macro
 
@@ -542,6 +543,197 @@ bool remotewake;//是否远程唤醒
 unsigned int SuperUserSpec[200];//数组下标对应指纹位置，具体下表对应元素的值标识该指纹是否是特权
 }gt_sysInfo;
 
+typedef struct mt_gpsInfo
+{
+char latitude[14] ;// N 纬度字符串（北纬/南纬）
+char longitude[14] ; //S 经度字符串（东经/西经）
+int altitude ;//hign 海拔高度（整型）
+int speed; //当前移动速度
+}mt_gpsInfo;
+
+typedef struct mt_StationInfo
+{
+char sim[21];     // SIM 卡 CCID（卡号） 例：8986xxxxxxxxxxxxxxx
+char imei[18];    // 设备 IMEI，国际移动设备识别码
+char imsi[18];    // 用户 IMSI，国际移动用户识别码
+char cellid[12];  // 基站 Cell ID（小区 ID，十六进制转十进制）
+char lac[6];      // LAC，位置区码（十六进制转十进制）
+char signal[8];   // 信号强度（RSSI）
+}mt_StationInfo;
+
+typedef struct mt_deviceInfo
+{
+int sealId;//印章id
+int energy;//电池电量
+int energyType;//1: 正常放电 2: 充电中
+int locateMode;//1: gps定位 2: 基站定位模式 3: 离线模式
+int network;//1: 4g 2: wifi 0: unknow
+char hardware_ver[256];//读取 /usr/hardware_version 下信息
+char sealName[620];//印章名称
+char version[12];//固件版本号
+char iccid[21];//将station.sim赋值
+char macs[256];//多组 MAC 地址 + 信号强度 + 标记字符串
+mt_StationInfo station;
+mt_gpsInfo gps;
+}mt_deviceInfo;
+
+typedef struct mt_abnormWarn
+{
+int sealId;
+char date[24];
+char errMsg[24];
+}mt_abnormWarn;
+
+typedef struct mt_AbnormWarn
+{
+int warningType;
+int sealId;
+char date[24];
+char errMsg[24];
+}mt_AbnormWarn;
+typedef struct mt_stampleEvent
+{
+int type; //0-普通盖印的照片 1-特权盖印的照片
+int documentId;
+int positon;
+int sealId;
+int leftTimes;
+int locateMode;
+char date[48];
+char timet[24];
+int remote;
+char macs[256];
+time_t stamptime;
+int  stampmsgid;
+mt_StationInfo station;
+mt_gpsInfo gps;
+int staffId;
+}mt_stampleEvent;
+
+typedef struct mt_stamplePic
+{
+int documentFileId;
+int fileId;
+}mt_stamplePic;
+
+typedef struct mt_fignerEntReslut
+{
+int type;
+int position;
+int status;//1.成功 2失败
+int feature;
+char msg[24];
+}mt_fignerEntReslut;
+
+typedef struct mt_fignerVerReslut
+{
+int documentId;
+int status;
+int sealid;
+}mt_fignerVerReslut;
+
+typedef struct mt_fileupload
+{
+int documentFileId;
+int fileId;
+}mt_fileupload;
+
+typedef struct mt_ChangePriSta
+{
+int motion;
+int sealId;
+int type;
+char sealName[620];
+}mt_ChangePriSta;
+
+typedef struct mt_EquipmentMove
+{
+int documentId;//1.成功 2失败
+int sealId;
+}mt_EquipmentMove;
+
+typedef struct mt_InkEvent
+{
+int documentId;//1.成功 2失败
+int sealId;
+}mt_InkEvent;
+
+//升级固件的方式
+typedef enum {
+  UPGRADE_HTTP = 0,//http
+  UPGRADE_HTTPS,//https
+  UPGRADE_BT,//蓝牙
+}_UPGRADE_TYPE;
+
+//定义设备系统配置的属性(对应sys.cfg)
+typedef struct {
+    bool isLock;                    //设备锁定
+    bool isRemoteLock;              //盖印远程锁定
+    bool isUpgradeRun;              //升级固件完成开机操作标志
+    int installNums;                //印章安装个数
+    int axisoffset;                 //三轴灵敏度
+    int envir;                      //环境配置
+    int publish;                    //政务或企业
+    int sealId;                     //印章ID
+    int sealType;                   //印章类型
+    int sealDistance;               //印章下落调节
+    int sealPattern;                //印章...
+    int voice;                      //语音播放
+    int upgradeType;                //升级方式0-http 1-https 2-bt
+    unsigned int superFingers[200]; //指纹位置信息
+    QString api;                    //环境配置接口
+    QString ipPort;                 //环境配置ip和port
+    QString deviceSN;               //设备SN号
+    QString clinetId;               //设备端ID
+    QString key;                    //设备密钥
+    QString mqttUserName;           //MQTT用户名称
+    QString mqttPasswd;             //MQTT用户密码
+    QString sealName;               //印章名称
+    QString version;                //固件版本信息
+}_DeviceConfigAttr;
+
+//定义固件升级属性
+typedef struct {
+    bool isDownload;                //是否处于下载中
+    int appBytes;                   //应用大小
+    int packBytes;                  //分包大小
+    int packNums;                   //分包个数
+    int currPackIndex;              //当前已下载的分包索引号
+    QString currVersion;            //升级前的版本
+    QString NewVersion;             //升级后的版本
+}_UpgradeAppAttr;
+
+//定义程序运行中全局使用的状态和数据属性
+typedef struct {
+    bool hasInfra = false;                  //是否支持红外
+    bool hasWifi = false;                   //是否支持wifi(4G板大于2.6版)
+    bool hasHttps = false;                  //是否配置的https环境
+    bool hasVideoRecord = false;            //是否支持录制视频
+    bool hasPhotoEncode = false;            //是否支持拍照取图优化
+    bool isWifiPriority = false;            //是否wifi优先
+    bool isDeviceOff = false;               //是否设备需要关机
+    bool isUpgrade = false;                 //是否升级固件操作
+    bool isHttpsUpgrading = false;          //https升级
+    bool isHttpsFingerUpload = false;       //https指纹上传
+    bool isHttpsFingerImport = false;       //https指纹导入
+    bool isMqttLink = false;                //是否已连接到mqtt服务
+    bool isAutoStamp = false;               //是否老化自动盖印
+    bool isInitWaitWifiConnect = false;     //是否等待wifi自动连接
+    bool has99usb = false;                  //初始是否存在/lib/udev/rules.d/99-usb.rules
+    int recordStatus = 0;                   //录制程序状态 0-已关闭 1-已启动 2-录制中
+    int takeStatus = 0;                     //拍照程序状态 0-已关闭 1-已启动 2-拍照中
+    int stampedStatus = 0;                  //盖印状态
+    int mqttStatus = 0;                     //mqtt状态
+    int btCmdVersion = 1;                   //蓝牙指令版本 1=V1 2=V2
+    int diskSize = 100000000;               //userdata分区剩余大小KB
+    int isSyncMFile = 2;                    //是否高拍仪同步影像状态 0:同步完成 1:同步中/开始同步 2:默认
+}_SystemStatusAttr;
+
+typedef struct {
+    QString log_date;
+    QVector<QString> httpsUploadReports;    //保存https图片上传返回的数据文件集合
+}_SystemDatas;
+
 ```
 
 ```c++
@@ -600,3 +792,44 @@ device_maintain
 ```
 
 ### usage case
+
+**不同remote参数以及mode参数对应的用印流程**
+0. 指纹特权盖印
+   1. 有网
+   2. 无网
+1. 常规用印(无OCR)
+2. 远程用印
+3. 连续用印
+4. OCR认证模式
+   1. 常规盖印一审一印
+   2. 常规盖印一审多印
+   3. 连续盖印一审多印
+
+**单独功能**
+1. 固件版本和固件升级
+2. 远程唤醒和低功耗模式
+3. 假关机
+4. 设备断点
+
+### module
+
+1. camera: record and takephoto
+2. 4G
+3. wlan_bt
+4. serial_bt
+5. fingerprint
+6. motor
+
+### file
+
+1. 配置文件
+2. 日志文件
+3. 素材文件
+
+### 问题
+
+1. 为什么上传的日志文件名称中的时间戳是2017开头的?
+
+### 常规盖印的仓门电机动作流程
+
+1. 

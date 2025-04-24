@@ -2,7 +2,7 @@
 id: i08xay156djkegdk16c9a4o
 title: Cpp
 desc: ''
-updated: 1743576976304
+updated: 1745460998287
 created: 1742177741586
 ---
 
@@ -46,3 +46,5 @@ user setting
 在调试 output 栏找不到c++插件的输出，说明根本没有运行
 
 反复reload windows之后，出现output成功运行intellisence
+
+成功reload记录: 多次reload无效之后，先把当前窗口的所有标签关闭，然后再reload，c++插件intellisence功能激活成功
