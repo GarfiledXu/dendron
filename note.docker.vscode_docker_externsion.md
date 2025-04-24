@@ -2,7 +2,7 @@
 id: km23abkmtjg8kfxj55sso0f
 title: Vscode_docker_externsion
 desc: ''
-updated: 1745488647506
+updated: 1745511098314
 created: 1745414548916
 ---
 
@@ -60,12 +60,70 @@ created: 1745414548916
          5. 更加定制化的feature: 创建自己的feature，根据 `OCI artifact` 规范，创建之后进行发布
       6. 文档提及的 `pre-building dev container images`?
          1. 这里的 pre-building 和 build images 指的是每次创建容器时需要的image的来源是即时通过dockerfile构建，或者提前准备好的image，可以来源自手动构建，或者CICD流程
+      7. 预构建镜像元数据和dev container configurtion
+         1. 通常在创建开发容器时的配置，从devcontianer.json文件获取
+         2. 也可以通过预构建image时，将配置内容作为元数据在镜像构建阶段注入镜像
+            1. 纯手动，将配置内容添加在`dockerfile`中的label字段
 
-      7. simple dev container standard breif
-      8. manual create a dev container
-      9.  Dev Container CLI
-      10. dev container standard configure file `devcontainer.json` linker
-      11. some tips and tricks and FAQ
+            ```bash
+               LABEL devcontainer.metadata='[{ \
+               "capAdd": [ "SYS_PTRACE" ], \
+               "remoteUser": "devcontainer", \
+               "postCreateCommand": "yarn install" \
+               }]'
+            ```
+
+            2. 通过vscode的`Dev Container CLI`命令，先手动编写好devcontianer.json配置文件，然后使用`devcontainer build`命令来构建镜像
+            3. image中的devcontainer配置数据会和项目中的devcontainer.json配置数据进行merge，在容器创建的阶段
+            4. 优点，当镜像分支以及仓库比较复杂的情况下，可以通过将通用的devcontianer配置注入基础镜像，所有继承镜像以image引用的方式来引用devcontainer配置
+      8. volume inspect and manage
+      9. extension manage
+         1. 进入容器后在插件面板进行安装
+         2. 通过devconfigure.json进行配置
+            1. 使用减号来去除插件，可以去除在基础镜像的devcontainer配置项中预构建的插件
+
+            ```bash
+               {
+               "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm",
+               "customizations": {
+                  "vscode": {
+                     "extensions": ["-dbaeumer.vscode-eslint"]
+                  }
+               }
+            ```
+
+            2. always run
+
+            ```bash
+            "dev.containers.defaultExtensions": [
+               "eamodio.gitlens",
+               "mutantdino.resourcemonitor"
+            ]  
+            ```
+
+            3. specify the extension run location, just only locally or remote
+
+            ```bash
+            "remote.extensionKind": {
+               "ms-azuretools.vscode-docker": [ "ui" ],
+               "ms-vscode-remote.remote-ssh-edit": [ "workspace" ]
+            }
+            ```
+
+      10. dotfile manager
+          1. dotfile 通常存储各种应用和系统的个性化配置，而容器创建完毕时，配置通常会被重置初始化
+          2. vscode提供git repository来存储配置文件的机制，一旦容器创建就会将配置同步到容器中
+             1. 通过命令行ui设置
+             2. 通过setting配置文件设置
+      11. limitation
+          1. docker limitation
+          2. docker extension limiation
+          3. vscode extension limitation
+          4. dev container limitation
+      12. advanced configure
+      13. Dev Container CLI
+      14. dev container manual
+      15. some tips and tricks and FAQ
 4. vscode提供的基本操作方式:
    1. 命令面板
    2. 插件面板 按钮 + 上下文菜单
