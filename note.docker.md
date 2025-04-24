@@ -2,7 +2,7 @@
 id: fm6y7tsrgc7t6pie372kpaf
 title: Docker
 desc: ''
-updated: 1744445489537
+updated: 1745411524085
 created: 1743561434086
 ---
 
@@ -29,6 +29,8 @@ created: 1743561434086
     1. docker daemon: 对应程序实体 dockerd
     2. docker server: daemon提供的功能以及在程序架构上的角色
     3. docker client: 对应程序实体 docker
+    4. docker host: 运行docker服务及容器的宿主机系统
+    5. docker container: docker镜像的运行时对象
 
     ```bash
     xjf1127@MARK-I:/home$ docker version
@@ -500,12 +502,89 @@ docker rmi mybuilder:base
 - [vscode: Developing inside a Container: 新鲜!](https://code.visualstudio.com/docs/devcontainers/containers)
 - [vscode: container configure](https://code.visualstudio.com/remote/advancedcontainers/overview)
 - [bilibili: 一口气搞懂docker的100+概念](https://www.bilibili.com/video/BV12jQDYREBR/?spm_id_from=333.788.videopod.sections&vd_source=4bc1ade93cb885bbaa0fcb3326790a95)
+- [offical: volume](https://docs.docker.com/engine/storage/volumes/)
 
 ### docker volume
 
-1. when to use volume?
-2. diff between mount and volume?
+0. 核心主题?
+   1. docker 的数据存储管理
+      1. 容器层读写: 速度较慢: 容器是在镜像层的基础上追加可写层，如果需要修改镜像相关文件，会触发`写时复制`，即会先将目标文件复制到容器写层，然后对这个副本进行修改，来保证镜像的完整性，那么此时效率较低
+      2. 挂载方式1: 非持久性存储 tmpfs --> mount: memory
+      3. 挂载方式2: 持久存储 volume 首先默认存储在host中的特定位置，并且权限只能有docker进程访问
+      4. 挂载方式3: 持久存储 bind mount 任意存储位置，无访问权限设置，host以及contianer均能访问
+1. what is volume? docker中一种受管理的挂载方式
+2. mount a volume to a contain
+   1. direct mount
+   2. mount by read-only
+   3. mount the subdirectory of volume: 在多容器共享volume时，可以隔离各容器访问内容
+   4. anonymous volume？意义何在? 开辟一块空间持久化存储，不与容器生命周期同步，注意 --rm 命令会将 volume和contain周期绑定，即自动销毁
+   5. volume backup: 将一个volume数据保存为本地的.tar文件
+      1. 通过临时容器，使用--volumes-from命令将已有容器volume导入，然后再挂载host路径，将volume路径打包到host路径中
+      2. 直接一个临时容器，同事挂载volume和host路径，将volume内容打包到host路径中
+   6. volume restore: 将一个.tar文件数据恢复到volume中
+      1. 同样的套路，挂载好volume和host路径，将host路径中的打包文件解压到volume对应的路径中
+3. docker volume的访问权限? 非docker进程不能修改
+4. diff between mount and volume? 安全性不同
+5. 可以看作是一个隔离的文件中间层，隔离了host操作，对该层的操作都要经过docker进程处理，也就意味着避免很多非安全操作，而直接使用挂载最为直接，但无法控制host对挂载目录的直接操作
+6. 如果启动一个容器并mount一个volume，当volume不存在时，docker会自动创建
+7. 如果挂载volume的目标docker目录已经存在文件，那么此时是会将docker目录中的文件复制到volume中，还是隐藏docker目录中已有的文件?
+
+   ```bash
+   If you start a container which creates a new volume, and the container has files or directories in the directory to be mounted such as /app/, Docker copies the directory's contents into the volume. The container then mounts and uses the volume, and other containers which use the volume also have access to the pre-populated content.
+   ```
+
+   docker会将文件进行拷贝
+8. 紧接问题7，如果在使用了一段时间volume后卸载volume，那么此时容器目录中的文件是什么状态?
+
+
 
 ### 容器优化: 体积缩减
 
 - [bilibili: Docker镜像最佳实践：从1.2GB到10MB！](https://www.bilibili.com/video/BV1QmkVYiEjg/?spm_id_from=333.337.search-card.all.click&vd_source=4bc1ade93cb885bbaa0fcb3326790a95)
+
+### concept outline
+
+1. docker engine
+2. docker build
+   1. dockerfile
+   2. build context
+   3. cache
+   4. exporter
+   5. building
+      1. multi-stage: each `FROM` correspond to one stage
+      2. environment variables
+      3. secrets
+      4. multi-platform
+      5. best practices
+      6. container commit
+3. docker compose
+
+### 交叉编译环境搭建
+
+1. 容器存储方式选型，使用哪种方式来存储源码?
+   1. 直接`bind mount`，保证源码透明性
+
+
+### vscode opt record
+
+1. 现象: 下载失败
+2. 解决: 规避:如何使用本地镜像进行构建?
+    使用vscode右键上下文菜单中的`build image`会默认使用`--pull`参数，从云端拉去镜像`
+
+```bash
+------
+ > [internal] load metadata for docker.io/library/gcc:latest:
+------
+Dockerfile:6
+--------------------
+   4 |     # tags from Docker Hub.
+   5 |     # See https://docs.docker.com/samples/library/gcc/ for more on how to use this image
+   6 | >>> FROM gcc:latest
+   7 |     # FROM registry.cn-hangzhou.aliyuncs.com/google_containers/gcc:latest
+   8 |     
+--------------------
+ERROR: failed to solve: DeadlineExceeded: DeadlineExceeded: DeadlineExceeded: gcc:latest: failed to resolve source metadata for docker.io/library/gcc:latest: failed to authorize: DeadlineExceeded: failed to fetch anonymous token: Get "https://auth.docker.io/token?scope=repository%3Alibrary%2Fgcc%3Apull&service=registry.docker.io": dial tcp 174.37.54.20:443: i/o timeout
+
+ *  The terminal process "/bin/bash '-c', 'docker build --pull --rm -f 'Dockerfile' -t 'examplevscode1:v0.0.1' '.''" terminated with exit code: 1. 
+ *  Terminal will be reused by tasks, press any key to close it. 
+```
