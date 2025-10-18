@@ -2,9 +2,32 @@
 id: jl6ondpcmrynfz4i18vknec
 title: Ydn_adb
 desc: ''
-updated: 1742890647481
+updated: 1750732640849
 created: 1742808681219
 ---
+
+## win10 adb forward to wsl2
+
+### win10
+
+```bash
+adb kill-server
+adb -a -P 5037 nodaemon server
+```
+
+### wsl2
+
+```bash
+## 临时
+export ADB_SERVER_SOCKET=tcp:172.19.192.1:5037
+
+## 持久
+echo 'export ADB_SERVER_SOCKET=tcp:172.19.192.1:5037' >> ~/.bashrc && source ~/.bashrc
+
+## 验证
+echo $ADB_SERVER_SOCKET
+```
+
 
 ### windows adb prepare
 

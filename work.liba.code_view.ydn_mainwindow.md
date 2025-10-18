@@ -2,7 +2,7 @@
 id: 1q52gov50bw6wwv3bazg7ai
 title: Ydn_mainwindow
 desc: ''
-updated: 1744348651717
+updated: 1746668566638
 created: 1743578722565
 ---
 ### 关注点
@@ -316,6 +316,7 @@ int isSyncMFile = 2;                    //是否高拍仪同步影像状态 0:�
 7. 前面的mqtt设备绑定逻辑是什么?
 
 ### 环境切换逻辑(测试，演示，正式)
+
 
 p_poll->environment GlobalModel::instance()->getDeviceConfigAttribute()->envir p_poll->sysInfo.envir
 

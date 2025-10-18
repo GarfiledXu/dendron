@@ -2,7 +2,7 @@
 id: t4wbmtadkchwaupzukpe629
 title: Old_ydn_code_translate
 desc: ''
-updated: 1745459188129
+updated: 1750661807055
 created: 1744611961662
 ---
 ### note
@@ -464,7 +464,7 @@ typedef struct gt_userlogin
 {
 int model;//1：蓝牙 2：MQTT
 int staffId;//用户id
-char staffName[128];//用户名称
+char [128];//用户名称
 }gt_userlogin;
 
 //ydn_json.cpp: 335 not use
@@ -832,4 +832,111 @@ device_maintain
 
 ### 常规盖印的仓门电机动作流程
 
-1. 
+### 如何确认设备当前镜像的version
+
+### 词汇
+
+1. 尖峰电流
+2. 芯片进mastroom
+
+### 拿到其他印章机，怎么绑定来着
+
+
+### 企业关系 app关系 后台关系
+测试环境
+自定义的企业和奥克斯的关系
+专用apk和奥克斯的关系
+网站
+设备绑定和两个不同app的关系，切换绑定后，只有绑定的那个app能看到
+都是安卓apik，ios怎么办？
+
+私有化 apk
+
+saas固件下载
+私有化固件下载
+
+### 其他版本信息
+
+[root@RV1126_RV1109:/oem]# cat /usr/hardware_version
+YDN_V06/4G_V3.2
+[root@RV1126_RV1109:/oem]# cat /usr/image_version
+YDN_3.0
+
+
+### 手动修改配置文件环境，从原来的测试环境1变更为奥克斯正式环境3
+
+1. 使用的自己的程序，修改为3后，并没有发生变化，还是可以连接?
+2. 删除sys.cfg后启动，程序会同步出来一个sys.cfg,来源是new_sys.cfg还是flash?
+3. 删除new_sys.cfg后启动程序也同样
+4. 难道切换回正式环境，需要远端app的操作?
+5. 修改配置文件，重启后环境恢复成功，恢复到正式环境，这是为什么？重启做了什么操作,反向切换环境呢，是否也需要重启?还是只需要重启应用?
+6. 从正式环境切换到测试环境，3->1只需要修改配置文件以后，重启应用，待应用成功连接服务器后就会切换,后面测试也有几率成功
+7. 有可能是4g连接未成功
+
+8. 当前stampname在配置文件中的同步现象
+   1. 应用kill前 sys.cfg:全 new_sys.cfg:缺 显示: 缺
+      1. 开机联网前 sys.cfg:全 new_sys.cfg:缺 显示: 缺
+      2. 联网后 sys.cfg:全 new_sys.cfg:全 显示: 全
+   2. 应用kill前 sys.cfg:全 new_sys.cfg:全 显示: 全
+      1. 开机联网前 sys.cfg:全 new_sys.cfg:缺 显示: 缺
+      2. 联网后 sys.cfg:全 new_sys.cfg:全 显示: 全
+   3. 可以确定开机联网前 sys.cfg到new_sys.cfg的同步和屏幕显示存在我呢提
+   4. 即在_initCheckAndGetSystemConfigData() -> GetLocalInfo(info, true) -> initSyncOldConfigToNewConfig() 中
+      1. 从/oem/sys.cfg中读取line，解析
+
+### 配置文件处理逻辑
+
+new_sys.cfg sys.cfg flash
+
+### 固件下载
+
+1. 先进入 后台运营管理
+![alt text](image-28.png)
+![alt text](image-29.png)
+
+
+
+```c++
+enum OPERATION
+{
+    UILOGHIDE = -1,
+    IDLE = 0,
+    ADDINKING = 1,
+    FINGERENTER = 2,
+    FINGERREFUSE = 3,
+    FINGEREWAIT = 4,
+    STAMPSWTICH = 5,
+    STAMPSWTICH_FINISH = 6,
+    STAMPING_REMOTE = 7,
+    STAMP_RDY = 8,
+    STAMPING = 9,
+    STAMP_START = 10,
+    STAMP_DISPOSE = 11,
+    STAMP_COMPELETE = 12,
+    WAITEXAMINE = 13,
+    PASSEXAMINE = 14,
+    LOCKING = 15,
+    UNLOCKING = 16,
+    ADDINK_FINISH = 17,
+    MOVE_WARN = 18,
+    STAMP_REMOTE_ALLOW, 19
+    STAMP_REMOTE_RDY, 20
+    STAMP_WAITTING_COMMAND, 21
+    FINGERIMPORT,22
+    WITH_INK,23
+    LOCKED,24
+    UNLOCKED,25
+    SETLOCK,26
+    REALSELOCK,27
+    STAMP_PRERUN,28
+    STAMP_WILL,29
+    STAMP_CONSECUTIVE,30
+    STAMP_CONSECUTIVE_RESET,31
+    STAMP_CONSECUTIVE_WITH_INK,32
+    STAMP_CONSECUTIVERDY,33
+    STAMP_CONSECUTIVE_PAUSE,34
+    STAMPSWTICH_CHECK,35
+    VERIFY_FINGER,36
+    UPGRADING 37
+};
+```

@@ -2,7 +2,7 @@
 id: km23abkmtjg8kfxj55sso0f
 title: Vscode_docker_externsion
 desc: ''
-updated: 1745511098314
+updated: 1745549063100
 created: 1745414548916
 ---
 
@@ -33,6 +33,8 @@ created: 1745414548916
                2. 是否所有容器共享这个插件缓存呢
                3. 同一个目录不能open in multi container
                4. window 文件和 wsl2 文件均可以在容器中打开，以mount方式
+               5. 每次vscode打开容器对应的底层行为是什么? 可以发现，他是在原镜像基础上，以构建方式来生成新image，内部默认挂载了host目录，即每次打开新的本地目录都会生成一个新的image，每次重复打开，实际上就是直接根据该镜像创建容器
+               ![alt text](image-25.png)
             5. 能否每次open folder on contianer可以选择一份提前配置的好的专门用于通用复用的devcontainer.json?
                1. 对于本地存储的项目，将dev container配置复制到项目文件中即可
                2. 对于git远程仓库项目，vscode判断到副本项目没有配置文件后，会提供交换选项
@@ -77,7 +79,7 @@ created: 1745414548916
             3. image中的devcontainer配置数据会和项目中的devcontainer.json配置数据进行merge，在容器创建的阶段
             4. 优点，当镜像分支以及仓库比较复杂的情况下，可以通过将通用的devcontianer配置注入基础镜像，所有继承镜像以image引用的方式来引用devcontainer配置
       8. volume inspect and manage
-      9. extension manage
+      9.  extension manage
          1. 进入容器后在插件面板进行安装
          2. 通过devconfigure.json进行配置
             1. 使用减号来去除插件，可以去除在基础镜像的devcontainer配置项中预构建的插件
@@ -125,7 +127,7 @@ created: 1745414548916
       14. dev container manual
       15. some tips and tricks and FAQ
 4. vscode提供的基本操作方式:
-   1. 命令面板
+   1. 命令面板: 提供docker命令和dev container CLI
    2. 插件面板 按钮 + 上下文菜单
    3. 文件浏览面板 上下文菜单
    4. 左下角的 remote status bar + command select

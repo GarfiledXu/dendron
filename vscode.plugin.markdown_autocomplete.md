@@ -2,7 +2,7 @@
 id: uktrqywr059qhg7vcljqn5d
 title: Markdown_autocomplete
 desc: ''
-updated: 1744471329787
+updated: 1746673500568
 created: 1743912849910
 ---
 
@@ -41,10 +41,40 @@ created: 1743912849910
    2. 如何触发，为什么现在没有了?
    3. 实现方式，插件 or builtin-setting
 
+### need to resolve
+
+1. 自定义的markdown自动补全，经常没有
+
 #### 实验记录
 
-1. 设置了markdown代码片段以后似乎再编辑，并不能触发suggest，使用`tab`可以进行补全
+1. 设置了markdown代码片段以后似乎再编辑，并不能触发suggest，使用`tab`可以进行补全，有时候有建议列表，有时候有没有
 2. 问题之前使用时，是提供了自动补全的部分功能的，为什么现在没有了?
 
 ![alt text](image-22.png)
 
+3. 尝试进入设置以后，设置auto closeing Brackets 从language defined改为always，以及auto closeing quote同样处理
+   1. 括号能够生效，但引号 quote没有生效
+
+在markdown code auto complete插件的描述下看到
+![alt text](image-31.png)
+![alt text](image-32.png)
+
+从历史的17年issue中可以看到，vscode的markdown扩展的确不能自动触发代码建议来选定自定义的snippet，必须ctrl space
+但目前的两个问题
+
+- [x] ctrl space 并未触发 suggestion list : 已解决，由于window的输入法设置了ctrl space切换中英文快捷键，取消即可
+- [x] 是否有方法使得vscode markdown自动触发代码建议: 已解决，设置对应的setting
+
+在setting中插入 markdown设置片段，成功解决 suggestion 自动触发问题
+
+```json
+"[markdown]": {
+   "editor.quickSuggestions": {
+      "other": true,
+      "comments": true,
+      "strings": true
+   }
+}
+```
+
+- [ ] markdonw 语法的自动补全： 些markdonw语法可以自动补全，比如****,我按出两个后会自动补全，以及bash  我按到第三个`时会自动补全后面的```，以及，只需要按*,但现在这些功能全都消失
