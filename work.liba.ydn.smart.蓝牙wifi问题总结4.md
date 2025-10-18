@@ -115,15 +115,6 @@ strace: Process 612 attached
 15:47:35.177465 read(10, "\4\16\4\2\n \0", 260) = 7 <0.000050>
 15:47:35.183165 epoll_ctl(10, EPOLL_CTL_ADD, 13, {EPOLLIN, {u32=978472, u64=978472}}) = 0 <0.000356>
 15:47:35.196202 epoll_ctl(10, EPOLL_CTL_ADD, 14, {EPOLLIN, {u32=950472, u64=950472}}) = 0 <0.000110>
-15:47:35.204787 epoll_wait(10,
+15:47:35.204787 epoll_wait(assets/image-20251013_221139-ca2baf2a.png)
 
-```
-
-
-### wifi
-
-1. 遇到较低概率，在wpa_supplicant后台服务运行存活时，应用通过wpa_cli命令发送指令失效，如正常发送connect等操作指令，没有任何结果返回，最终在业务层表现为操作超时.
-
-![alt text](image-125.png)
-
-![alt text](image-127.png)
+![alt text](assets/image-20251014_082716-5994600f.png)

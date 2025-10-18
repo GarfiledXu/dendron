@@ -49,7 +49,7 @@ created: 1760060529198
    1. 0024设备，4000次左右，日志截断
 2. 老化测试1.0.1版本
    1. 提供纯debug版本以及
-   2. relase ![alt text](image-123.png)+ debug符号版本，用于在老化测试中崩溃生成的coredump
+   2. relase ![alt text](assets/image-20251013_090418-68d052e8.png)+ debug符号版本，用于在老化测试中崩溃生成的coredump
 3. 提供3.11回归测试版本 1.5.10
    1. 恢复低电量关机辑
    2. 提供规范命名package

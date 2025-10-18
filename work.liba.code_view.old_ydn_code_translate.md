@@ -891,8 +891,8 @@ new_sys.cfg sys.cfg flash
 ### 固件下载
 
 1. 先进入 后台运营管理
-![alt text](image-28.png)
-![alt text](image-29.png)
+![alt text](assets/image-20250507_110205-4331f1f2.png)
+![alt text](assets/image-20250507_142543-ced3b3be.png)
 
 
 

@@ -66,4 +66,4 @@ hci0_addr_get --> mainloop: create thread
 
 ## crash
 
-1. ![alt text](image-117.png)
+1. ![alt text](assets/image-20250711_140553-1c2b1cff.png)

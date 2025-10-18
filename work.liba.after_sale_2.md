@@ -108,7 +108,7 @@ drwxr-xr-x 4 www-data www-data    4096 Aug  6  2024 www
 看文件都在的，也能运行
 长按重启的原理？
 我已经改权限了，让用户关注一下问题会不会复现。备用机客户已经在用了吗，有没有出现类似问题
-![alt text](lQLPJwOH4t96s-vNAfHNAcOwTQV2dwDK31UIAou4MJzsAA_451_497.png)
+![alt text](assets/image-20250512_165748-eca4bd2a.png)
 广西桂科院铝业有限公司YDA231103001074@梁丙政
 那这台拿回来先给你们看下还是直接让维修人员更换CPU呢，客户这一台出现频率有点高
 有芯片专门负责关机
@@ -117,9 +117,9 @@ drwxr-xr-x 4 www-data www-data    4096 Aug  6  2024 www
 
 
 - [x] @谢秀丽@董梦彩上城区四季青街道杭州常青股份经济合作社（私有化）：用印时，按压盖印键后舱门卡舱，只开启了一半，导致次数已核减，未实际发生盖印，麻烦看看印章机是否正常；
-1. ![alt text](image-34.png)
-2. ![alt text](image-35.png)
-3. ![alt text](image-36.png)
+1. ![alt text](assets/image-20250512_160851-1cbe42e9.png)
+2. ![alt text](assets/image-20250512_160905-67642b09.png)
+3. ![alt text](assets/image-20250512_160914-5b76eab7.png)
 4. documentid: 20250512_03
 5. @王雪 仓门只开启一半后，后面是自动归位了吗，还是处于死机状态 客户重启了
 6. @徐佳飞客户重启了
@@ -136,7 +136,7 @@ drwxr-xr-x 4 www-data www-data    4096 Aug  6  2024 www
    8. 2025-05-09 08:44:57 [Debug] [4337] user push down [4]
    9. 2025-05-09 08:44:57 [Debug] [4338] START [3 ] 对应
    10. 盖印模式sealPattern和印章类型 sealType：2025-05-09 08:43:56 [Debug] [848] [MQTT] message: {"id":"084507486","time":1746751507486,"params":{"voice":true,"wifiPriority":1,"sealName":"党支部公章","sealId":176,"sealPattern":1,"reset":false,"reconnection":false,"sealType":2,"offTime":5,"remoteLock":false,"bell":false}} 
-   11. ![alt text](image-37.png) 在这里
+   11. ![alt text](assets/image-20250512_172622-f1e6966a.png) 在这里
    12. 2025-05-09 08:44:57 [Debug] [283] [MOTOR] motor status [4] 对应MOTORA_OPEN  按理说应该有开仓到位
 10. log2
     1. 2025-05-09 08:45:08 [Debug] [1078] MQTT sent (pubEnvir:1) : /sys/yda/YDA231103001374/event/property/post 设备上传属性
@@ -159,7 +159,7 @@ drwxr-xr-x 4 www-data www-data    4096 Aug  6  2024 www
 2025-05-09 08:44:58 [Debug] [5574] limit Switch [0b][10][1][0] 对应 qDebug("limit Switch [%02x][%d][%d][%d]", sta, isOperation, isLoging, motor_sta);
 2025-05-09 08:44:58 [Debug] [5575] limit Switch  UpdateLimitSwitch [5575]
 2025-05-09 08:44:58 [Debug] [5989] quit function[UpdateLimitSwitch]
-![alt text](image-38.png)
+![alt text](assets/image-20250513_193945-a6a924dd.png)
     18. 2025-05-09 08:44:58 [Debug] [847] [MQTT] analyst topic: /sys/yda/YDA231103001374/event/document_state_uploading_event/post_reply
     19. 2025-05-09 08:45:18 [Debug] [3954] [DEVICE MOTOR ERR]:run 3954
     20. 2025-05-09 08:45:18 [Debug] [1078] MQTT sent (pubEnvir:1) : /sys/yda/YDA231103001374/event/abnormal_warning_event/post
@@ -173,7 +173,7 @@ drwxr-xr-x 4 www-data www-data    4096 Aug  6  2024 www
 ### 20250513
 
 0. 5月13日 15:24
-1. ![alt text](image-47.png) 4g图标看不见
+1. ![alt text](assets/image-20250515_143913-c72eec55.png) 4g图标看不见
 2. 设备环境不对，奥德私有化的，需要远程处理一下
 [root@RV1126_RV1109:/oem]# cat sys.cfg
 cat sys.cfg
@@ -244,9 +244,9 @@ documentid: 20250513_02
 
 - [x] 烟台正海集团科技公司（私有化，内网）
 反馈是指纹登录的印控仪，确定点的待用印是 流程ID：1920713653830361088这个待用印
-![alt text](image-39.png)
+![alt text](assets/image-20250514_102051-7243153a.png)
 ，但是查用印记录的时候发现是用的这个待用印，流程ID：1920755280322043904，
-![alt text](image-40.png)
+![alt text](assets/image-20250514_102056-c20b10cc.png)
 ，客户说他确认他点的是id尾号1088这个待用印，不知道为什么把流程ID：3904的用掉了，麻烦查一下
 
 @梁丙政根据客户描述是 次数自己恢复的 导致后面素素接到的问题
@@ -261,25 +261,25 @@ documentid: 20250513_02
 
 - [x] 正海集团（集团公司），内网私有化客户。设备编号：YDA231201000732，账号：13505352987。
 时间5-12 13:40左右。申请了7次，只盖了三次，但是显示已盖印四次
-![alt text](image-42.png)
+![alt text](assets/image-20250514_102932-e1eefc79.png)
 ![alt text](image-43.png)
 1. documentid: 20250514_01
 2. @郭铸瑭 这个蓝牙连接，认证模式下沾墨章盖印，第一次盖印点击按钮后，盖印次数核减，由于事件标志异常没有被设置为期望值，导致印章伸出到达沾墨状态后，没有进入下一步的电机动作，而设备盖印次数的反馈是在后续舱门打开这个动作执行的时候发送的， 所以剩余次数从7->6，app端没有收到盖印回复。直到用户第二次点击后，事件标志被设置正常，完成完整的盖印动作，才第一次将5次剩余次数反馈到app端。这是当前软件bug，要等重构版本修复了
 3. 总结和remotelock无关
 
 @王刘素
-![alt text](image-41.png)
+![alt text](assets/image-20250514_102256-e21406c7.png)
 设备上传上来的次数有问题  直接是从剩余5次开始给的
 
 @王刘素让嵌入式查查为什么第一次给的是5而不是6 
 
 - [x] @谢秀丽@董梦彩丰茂集团（SaaS）：APP连接YDA231103001403印章机盖印，APP与印章机频繁出现自动断开连接的情况，盖一份合同自动断连了3次；客户使用了多个待用印了均会自动断连，麻烦排查原因；
 问题反馈时间：5.14 9:26 10:43 左右
-![alt text](image-44.png)
-![alt text](image-45.png)
-![alt text](image-46.png)
+![alt text](assets/image-20250514_104601-dca28e47.png)
+![alt text](assets/image-20250514_104607-54bb7b4a.png)
+![alt text](assets/image-20250514_104616-0fd13f24.png)
 @董梦彩APP连接的，印章机语音提示已退出登录，没有其他提示，APP提示设备中断
-![alt text](9000c4cb28d6fab160984ea012e6e20b.png)
+![alt text](assets/image-20250514_104714-20e0f382.png)
 @王雪设备信号没满格，推测是网络状态影响。如果用户急着用印的话可以先蓝牙，或者给设备先配上WiFi
 documentId: 20250514_02
 @王雪 从设备端5月14日10：05到10：11盖印过程对应的日志上看，设备没有主动登出断开的操作，但在每次盖印后会频繁收到云端发出的登出消息，需要 web端和app前端的同学看一下，触发登出消息以及app显示断开的原因
@@ -346,9 +346,9 @@ documentId: 20250514_02
 4. 问题描述:
    1. saas 长兴县雉城街道五峰村  YDA241101000291用印人：丁伟忠 13967258377 印章名称 雉城街道五峰村居委会章 客户使用特权 从2025-05-14 10:06:46 影像到2025-05-15  天玺的用印影像都是影像同步中
    2. 截止到5月16日 特权用印都没有影像  也是不同步影像
-   3. ![alt text](7f4dbe78e3b55f638052d2934b6a5da4.png)
-   4. ![alt text](b8b9dd5bcedc09b72ce9455e35c56884.png)
-   5. ![alt text](8a040090348987d7094daf9379873b98.png)
+   3. ![alt text](assets/image-20250516_092551-0adc5d86.png)
+   4. ![alt text](assets/image-20250516_092605-c0043d1d.png)
+   5. ![alt text](assets/image-20250516_092627-f5b0fdae.png)
    6. @谢秀丽 对 客户目只是使用特权 昨天刚更换上的设备  这个村社另一台设备 影像没问题
 
 5. 反馈人员:

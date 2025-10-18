@@ -398,7 +398,7 @@ adb push ./sys.cfg /oem
 1. documentid: 20250429_01
 2. 长兴县林城镇周吴岕村，SAAS，YDA231201000343。昨天充电，今天就没电了，需要排查一下
 3. 核实只有下午3点21分盖印了一次。盖印结束后没有关机，设备没有设置永不关机，也没有关机
-4. ![alt text](image-27.png) 卡死在红外打开之后
+4. ![alt text](assets/image-20250429_113749-03c23990.png) 卡死在红外打开之后
 5. 如何判断是否有定时关机 查关键字 offtime
 6. 如何判断是否有远程唤醒 关键字 remotewake
 7. 2025/04/28 15:27:44 [SYS] WARNNING DEVICE WILL TURN OFF![login:0][remotewake:0][fakeOff:0][isLowPower:0][countDown:1] 
@@ -406,13 +406,13 @@ adb push ./sys.cfg /oem
 
 
 ### 20250507
-![alt text](lQLPJx3A3b_FWU_NB4DNBDiw9Y6mggKlm1wH-8ADNsqAAA_1080_1920.png)
+![alt text](assets/image-20250507_110349-5f6b2159.png)
 1. 广西桂科院铝业有限公司  SaaS 环境  设备卡在开机动画页面 长按关机在开启还是卡在这页面 需要远程处理一下
 2. 现象，文件缺失，并且守护进程也是不存在的
 3. 解决方案: 下载2.6.2 saas最新固件，进行手动推送
 
 
-![alt text](3c649e8fa9e166681a2d811fc3844e5e.png)
+![alt text](assets/image-20250507_111355-c5ddc5f7.png)
 双鸭山市集贤县福胜农工贸有限公司（私有化）：YDA241001000096印章机有电的情况下，自动关机问题，并且在用印过程中自动断开连接4次；麻烦排查一下原因；
 1. YDA241001000096
 2. documentid: 20250507_02
@@ -429,7 +429,7 @@ adb push ./sys.cfg /oem
 
 
 - [x] 奥克斯集团瑞安明州康复医院   设备退测试环境了
-1. ![alt text](image-30.png)
+1. ![alt text](assets/image-20250507_162544-1a27fe48.png)
 2. 客户升级了固件后正常? 升级固件会恢复配置文件的环境的配置吗
 3. 配置文件与固件以及环境关系
 4. 查看sys.cfg new_sys.cfg 环境都是3
@@ -479,7 +479,7 @@ adb push ./sys.cfg /oem
 4. YDA231001000381 YDA231103000424
 5. documentid: 20250509_01 YDA231103000424
 6. documentid: 20250509_02 YDA231001000381
-7. ![alt text](image-33.png)
+7. ![alt text](assets/image-20250509_110102-d2515d8d.png)
 8. 分析：说明特权用印验证指纹后，判断到网络状态不行，但看mqtt日志，似乎是有网络的
    1. 并且进入 `[FINGER] Check Web is OK ? URL`
    2. httpsCheckUsedNetworkIsOK_1 监测失败

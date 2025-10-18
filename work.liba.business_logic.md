@@ -26,10 +26,10 @@ created: 1749181728308
    4. ftp，镜像存储路径: \\192.168.52.243\篱笆墙集团\研发中心\硬件研发部\嵌入式软件G\98_固件&Kernel\印得安 APLUS\生产文件\印得安A Plus生产镜像
       1. 说明: 目前主推的镜像非红外使用:2024.06.25（单频wifi+噪点问题），有红外使用：2024.09.13（sass基本线_双频+红外）
       2. 镜像目录下的说明文件中的固件即为镜像意思
-      3. ![alt text](image-75.png)
+      3. ![alt text](assets/image-20250606_172148-11f6bb36.png)
    5. 设备应用日志中的相关部分:
-      1. ![alt text](image-76.png)
-      2. ![alt text](image-77.png)
+      1. ![alt text](assets/image-20250606_173201-5fd66fb6.png)
+      2. ![alt text](assets/image-20250606_173243-8dc3d654.png)
 
 ### 指纹
 
@@ -39,7 +39,7 @@ created: 1749181728308
 
 ### 客户领用单
 
-1. ![alt text](59158a9ef1eb17e1faeb6a34f5659a63.png)
+1. ![alt text](assets/image-20250627_105714-a5a7c1e2.png)
 
 ### 私有化和saas 正式环境和测试环境
 
@@ -47,7 +47,7 @@ created: 1749181728308
 2. 需要与交付以及售后人员确认
 3. 正式环境和测试环境的切换，只要修改配置文件的env相关字段
 4. 私有化和saas的切换需要具体工具，涉及到修改的地方比较多
-![alt text](image-112.png)
+![alt text](assets/image-20250627_150343-cd8ac4b2.png)
 
 
 ### mqtt账号密码

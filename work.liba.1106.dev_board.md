@@ -10,13 +10,13 @@ created: 1749452399186
 
 1. 串口波特率: 11250
 2. wifi驱动加载
-   1. ![alt text](image-80.png)
+   1. ![alt text](assets/image-20250609_150209-5c6db79d.png)
 3. ssh登录
    1. 设备连接wifi
    2. 使用wpa_passphrase生成的config无法被正确读取
    3. 直接指定明文，能够成功连接wifi
-   4. ![alt text](c23ba6c4094618c18418101af5586006.png)
-   5. ![alt text](99989dde8f2d50270faefc90923c0e3a.png)
+   4. ![alt text](assets/image-20250610_154754-6a2dfb0f.png)
+   5. ![alt text](assets/image-20250610_154802-5b63b04f.png)
    6. 暂停
 4. buildroot
    1. 服务器地址
@@ -325,8 +325,8 @@ export ADB_SERVER_SOCKET=tcp:192.168.52.29:5037
 
 ### 镜像烧录
 
-1. ![alt text](image-85.png)
-2. ![alt text](image-86.png)
+1. ![alt text](assets/image-20250612_143405-c6e1fc86.png)
+2. ![alt text](assets/image-20250612_143640-2dc272d5.png)
 3. 调试软件连接设备后，在界面处选择1106
 4. 然后按住截图框选按钮1，同时点击截图中框选的按钮2，随后即可松开两个按钮
 5. 然后选择固件 `update.img` 进行升级
@@ -338,10 +338,10 @@ export ADB_SERVER_SOCKET=tcp:192.168.52.29:5037
 
 1. 私有化产品都是划分好卡组的，有对应的编号，如果私有化设备的sim编码没有和目标编号匹配，则可能拨号失败
 2. 在连接管理页面查看通信功能判断是否sim卡被禁用
-   1. ![alt text](image-92.png)
+   1. ![alt text](assets/image-20250612_161057-cc529eee.png)
 3. 在连接管理页面查看sim卡信息，查看是否有风险管控功能(例如电子围栏)，查看sim卡组编号判断是否是该企业卡组
-   1. ![alt text](image-90.png)
-   2. ![alt text](image-91.png)
+   1. ![alt text](assets/image-20250612_160935-ca8371d6.png)
+   2. ![alt text](assets/image-20250612_161008-6d9670af.png)
 4. 篱笆墙移动网络账号密码
    1. BE7919473327
    2. Libawall123.

@@ -176,6 +176,6 @@ rtk_hciattach -s 115200 /dev/ttyS0 rtk_h5 &
 
 4. 如何使用bluez的工具集，运行一个gatt服务，脱离应用程序的配置，让pc端进行读写连接
 
-![alt text](image-116.png)
+![alt text](assets/image-20250706_134302-7e710522.png)
 
 5. 1106同样使用该工具运行服务进行功能对照，没有问题则开始通过bluez接口编码

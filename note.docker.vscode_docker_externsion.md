@@ -38,7 +38,7 @@ created: 1745414548916
                3. 同一个目录不能open in multi container
                4. window 文件和 wsl2 文件均可以在容器中打开，以mount方式
                5. 每次vscode打开容器对应的底层行为是什么? 可以发现，他是在原镜像基础上，以构建方式来生成新image，内部默认挂载了host目录，即每次打开新的本地目录都会生成一个新的image，每次重复打开，实际上就是直接根据该镜像创建容器
-               ![alt text](image-25.png)
+               ![alt text](assets/image-20250425_094631-0e7b916f.png)
             5. 能否每次open folder on contianer可以选择一份提前配置的好的专门用于通用复用的devcontainer.json?
                1. 对于本地存储的项目，将dev container配置复制到项目文件中即可
                2. 对于git远程仓库项目，vscode判断到副本项目没有配置文件后，会提供交换选项

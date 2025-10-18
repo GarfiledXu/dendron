@@ -56,8 +56,8 @@ created: 1743912849910
    1. 括号能够生效，但引号 quote没有生效
 
 在markdown code auto complete插件的描述下看到
-![alt text](image-31.png)
-![alt text](image-32.png)
+![alt text](assets/image-20250508_095614-1e371d65.png)
+![alt text](assets/image-20250508_095806-d4b2fdc2.png)
 
 从历史的17年issue中可以看到，vscode的markdown扩展的确不能自动触发代码建议来选定自定义的snippet，必须ctrl space
 但目前的两个问题

@@ -20,9 +20,9 @@ created: 1749449006172
 
 3. 问题描述:
    1. 双鸭山市宝清县 YDA250301000100 客户反馈这台设备影像未上传，5月27日和今天盖印的都没有上传 麻烦查一下@赵万超
-   2. ![alt text](image-78.png)
+   2. ![alt text](assets/image-20250609_140408-83e59bde.png)
    3. ![alt text](image-79.png)
-   4. ![alt text](image-83.png)
+   4. ![alt text](assets/image-20250610_104738-cd2576fa.png)
 
 4. 问题状态:
 
@@ -52,9 +52,9 @@ created: 1749449006172
 2. 设备id: YDA231201001089
 
 3. 问题描述:
-   1. ![alt text](image-81.png)
+   1. ![alt text](assets/image-20250609_165352-c8aea1da.png)
    2. 中土物业客户反馈连续盖章中设备卡死 断开连接 印章无法回收，问题发生时间点图片记录时间， 麻烦排查一下问题
-   3. ![alt text](image-82.png)
+   3. ![alt text](assets/image-20250609_165409-8c3eada3.png)
 
 4. 问题状态:
 
@@ -169,7 +169,7 @@ created: 1749449006172
 
 3. 问题描述:
    1. 印章机屏幕显示2.5.0，运营后台显示2.4.8，客户APP设备管理中显示2.4.8
-   2. ![alt text](4909bc8c7859fdc1a563d3fcc1e5a930.png)
+   2. ![alt text](assets/image-20250611_135158-eb6e491f.png)
 
 4. 问题状态:
 
@@ -199,7 +199,7 @@ created: 1749449006172
    1. 河北诚帆人力资源服务有限公司  SaaS  
    问题一：YDA250301000449  设置了永不关机、10分钟休眠，客户反馈这个设备的电池有问题，麻烦查一下
    [图片]
-   ![alt text](ac00cd5f67fb0752da31972b0c348d97.png)
+   ![alt text](assets/image-20250611_142339-681c52a2.png)
    问题二：YDA250301000449、YDAT250506000023流程ID：1932621489978884096 文件名称:交投物流枢纽投标文件   6月11日  10点40-11点 有出现这个文件盖印的时候  用着用着就自动退出了  在连接就连不上了，然后印控仪在输入盖印码进去就显示设备正在被占用，6月10日也有这个问题出现。麻烦查一下@董梦彩
 
 4. 问题状态:
@@ -231,7 +231,7 @@ created: 1749449006172
 
 3. 问题描述:
    1. 丰茂集团SaaS 无WiFi YDA230301000029 客户反馈这台设备最近老出现没有信号无法连接的情况 麻烦看一下@董梦彩
-   2. ![alt text](image-84.png)
+   2. ![alt text](assets/image-20250611_160415-93feffff.png)
 
 4. 问题状态:
 
@@ -240,10 +240,10 @@ created: 1749449006172
    2. 2025/05/26 10:42:07 [Warning] [76] [NET] Get CREG Failure!!!
    3. AT+CREG
    4. Cannot Get 4G IP & Restart PPPD
-   5. ![alt text](image-87.png)
+   5. ![alt text](assets/image-20250612_152736-48ced2f5.png)
    6. 4g处理顺序，初始化ATS，然后是检查注册网络，然后是ppp拨号
-   7. ![alt text](image-88.png)
-   8. ![alt text](image-89.png) 第一个复数是关键，
+   7. ![alt text](assets/image-20250612_153551-252e5653.png)
+   8. ![alt text](assets/image-20250612_153620-0f34f04c.png) 第一个复数是关键，
    9. @王刘素信号太弱了，搜索不到网络，换个移动信号强点的地方，重启试试
 
 6. 问题归类:
@@ -268,8 +268,8 @@ created: 1749449006172
 
 3. 问题描述:
    1. ￼长兴县夹浦镇月明村（SaaS）印章机开机后，一直显示用户请登录，无信号格，开机一直停留在开机动画，麻烦排查一下异常原因；客户已配置WiFi后在使用；
-   2. ![alt text](f9749ec5c05a3c5b906042507e316cef.png)
-   3. ![alt text](b616d4367cfc3ae15c58e68c3bfcaade.png)
+   2. ![alt text](assets/image-20250611_172435-e4e4311a.png)
+   3. ![alt text](assets/image-20250611_172504-861f9abf.png)
 
 4. 问题状态:
 

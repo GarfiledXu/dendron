@@ -20,6 +20,6 @@ https://code.visualstudio.com/api/get-started/your-first-extension
    1. 尝试用第二个全局命令，同样现象，无效
    2. 尝试选择其他模板
    3. 继续从官方文档找答案
-      1. ![alt text](image-72.png)
-      2. ![alt text](image-73.png)
+      1. ![alt text](assets/image-20250605_175142-a2cbf875.png)
+      2. ![alt text](assets/image-20250605_175259-f866a009.png)
       3. 可以发现，在创建项目末尾，官方补充了package中版本号兼容问题，yo code创建项目，默认是中位版本号100大于当前vscode版本号
