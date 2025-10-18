@@ -46,5 +46,5 @@ created: 1743912849910
 1. 设置了markdown代码片段以后似乎再编辑，并不能触发suggest，使用`tab`可以进行补全
 2. 问题之前使用时，是提供了自动补全的部分功能的，为什么现在没有了?
 
-![alt text](image-22.png)
+![alt text](assets/image-20250412_170151-6e7bacd2.png)
 

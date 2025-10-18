@@ -133,7 +133,7 @@ adb forward --list
 **确保远程执行的目标程序，是debug版本，否则调试时会出现gdb跟踪崩溃，并且编译时的源码路径信息与当前debug工程一致**
 
 进入侧边栏debug面板，点击`run and debug`:
-![alt text](image-11.png)
+![alt text](assets/image-20250322_131130-35e06a9d.png)
 
 #### 补充: 纯命令行gdb
 

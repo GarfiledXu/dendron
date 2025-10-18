@@ -426,7 +426,7 @@ adb: error: cannot bind listener: cannot bind to 0.0.0.0:6000: 通常每个套�
 }
 ```
 
-![alt text](image-8.png)
+![alt text](assets/image-20250322_131130-179963a0.png)
 
 
 

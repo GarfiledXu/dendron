@@ -51,7 +51,7 @@ tail -f log_*
 
 docid:2025041701
 
-![alt text](0a94d66d952265b6a47beb2db46cda89.png)
+![alt text](assets/image-20250424_212245-6ddca952.png)
 
 1. VER: 2.6.2
 2. YDA231001000263

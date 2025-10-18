@@ -33,7 +33,7 @@ created: 1745414548916
             4. 需要验证: vscode相关插件文件是以什么形式集成到容器中的，容器中安装过插件后，后面再创建容器是否还需要安装
                1. 通过vscode命令面板普通的关闭连接和重新打开，插件是存在的
                通过docker desktop的管理面板可以发现，vscode的插件缓存本质上是存储在宿主机上的volume，容器创建后直接挂载的，可以得出结论 vscode的配置位于volume中缓存
-               ![alt text](image-24.png)
+               ![alt text](assets/image-20250424_212245-20a97ae6.png)
                2. 是否所有容器共享这个插件缓存呢
                3. 同一个目录不能open in multi container
                4. window 文件和 wsl2 文件均可以在容器中打开，以mount方式
@@ -49,7 +49,7 @@ created: 1745414548916
       4. attach an existed contianer
       5. devcontainer.json的创建: pre-built env and reuse dockerfile docker-compose
          1. vscode command palette add file to current prj
-         ![alt text](image-25.png)
+         ![alt text](assets/image-20250506_213047-6129623f.png)
          从vscode官方文档的截图可以了解到 命令面板的添加 devcontainer 配置，只能从官方的模板仓库中选择，如果要自定义，也只能安装官方格式进行封装，然后推送到官方仓库 即远程仓库注册的机制
          命令面板的 `Dev Containers: Add Dev Container Configuration Files` 和 手动编辑 devcontainer.json 配置文件的区别？ 前者的重点在于远端同步共享，在 devcontainer.json 的基础上会多一些配置描述，如 template 规则，同样是由 dev container 定义的
          2. by hand
@@ -152,6 +152,6 @@ created: 1745414548916
       2. 选择 new contaner
       3. 选择 对应与构建的 image
       4. 连接容器成功，进入容器
-      5. ![alt text](image-23.png)
+      5. ![alt text](assets/image-20250423_222932-3ee0b367.png)
    2. 远程开发容器: 将本地源码通过ssh 挂载到远程host的container中
       1. 优点: 本地不需要一个docker客户端

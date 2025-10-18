@@ -9,21 +9,21 @@ created: 1742177741586
 ### 扩展突然失效
 
 任何相关命令都会提示not found
-![alt text](image-9.png)
+![alt text](assets/image-20250322_131130-dcd57b23.png)
 
 重新安装cpp扩展得以解决
 
 **重装已久无法解决，并且重装时报错无法安装到wsl中**
-![alt text](image-12.png)
+![alt text](assets/image-20250403_211546-e652cb56.png)
 最终考重启电脑系统解决
 
 ### 新建空白页进行 shift + alt + f 无效
 
-![alt text](image-13.png)
+![alt text](assets/image-20250403_211546-aec6730b.png)
 
 ### 在已有源码文件 shift + alt + f 
 
-![alt text](image-14.png)
+![alt text](assets/image-20250403_211546-2673c950.png)
 
 user setting
 

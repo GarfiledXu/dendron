@@ -20,8 +20,8 @@ created: 1743561434081
 - [ ] devcontainer pre-build image
   1. install dev container cli
      1. 最快方式，通过vscode的dev container插件中的install dev container cli命令进行安装，添加到shell的环境路径中
-     2. ![alt text](image-26.png)
-     3. ![alt text](image-27.png)
+     2. ![alt text](assets/image-20250507_230457-8fb8dca9.png)
+     3. ![alt text](assets/image-20250507_230515-61161d48.png)
      4. 在关闭所有vscode窗口后再启动打开wsl 终端，可以找到
   2. prepare devcontainer data
   3. build image by dev container cli
@@ -47,23 +47,23 @@ created: 1743561434081
       3. 猜测：仅仅是存储元信息，启动devc容器还是得以指定.devcontainer相关文件来作为入口?即pre-build image还是运用在.devcontainer文件夹中
    9. 将带有两个vscode插件配置元数据的pre-build image作为devcontainer.json的image配置后，通过vscode的dev container open folder打开后，发现并没有自动安装元数据中的两个vscode插件??
       1. 猜测：vscode不会读取image中的devc元数据，只基于devc.json的内容进行容器创建?
-      2. ![alt text](image-28.png) 在vscode 文档中只提到了CLI命令行和github工具会进行元数据合并
+      2. ![alt text](assets/image-20250508_220513-a8f5091c.png) 在vscode 文档中只提到了CLI命令行和github工具会进行元数据合并
       3. 在容器中配置中加入extension，然后通过vscode dev container 的rebuild命令，也同样无效，没有自动安装
       4. 关闭当前容器，然后再通过`open folder in container`命令打开，还是没有自动安装
       5. 尝试删除容器，然后重新打开
       6. 观察容器的inspect，发现有两个customizations对象，一模一样的，说明的确配置文件中的信息和镜像元数据进行了合并
    10. 观察 vscode devcontainer template 模式创建容器
-       1. ![alt text](image-29.png) 可以发现已经安装了插件
-       2. ![alt text](image-30.png) 但是在文件夹配置文件中并没有，意味着template的设置并不会同步到配置文件中
+       1. ![alt text](assets/image-20250508_225756-68ed3017.png) 可以发现已经安装了插件
+       2. ![alt text](assets/image-20250508_225855-2d2ada8a.png) 但是在文件夹配置文件中并没有，意味着template的设置并不会同步到配置文件中
    11. 猜测: 得以template启动作为容器起点，然后才能通过更新devc.json来自动安装? 还是说有一些特性没有触发？
        1. 尝试通过添加feature来触发自动安装
        2. 问题又回归到了vscode dockerfile:1.4自动拉取失败问题
        3. 尝试直接手动 docker pull docker.io/docker/dockerfile:1.4，安装成功，解决vscode feature执行失败问题
        4. 依旧没有解决，自动安装插件问题
        5. 尝试容器创建后，手动命令行安装插件，但是容器rebuild会消失
-       ![alt text](image-31.png)
+       ![alt text](assets/image-20250509_221014-1780d63f.png)
        6. 实验在image1中命令行安装插件，生成image2，运行容器后是否能够使用? 
-       7. ![alt text](image-32.png) 从模板创建的container 日志总可以看到，extension自动安装流程中有profile以及extension host agent，难道和这个有关？试着对比手动devc.json的构建日志
+       7. ![alt text](assets/image-20250509_225552-f5d44f47.png) 从模板创建的container 日志总可以看到，extension自动安装流程中有profile以及extension host agent，难道和这个有关？试着对比手动devc.json的构建日志
        8. 最终发现异常，解决 插件自动安装问题，`remoteUser`为非远程用户时会自动安装，为`root`用户时不会
           1. 尝试不同用户名rebuild时的日志，可以发现很多行为是基于用户名相关的路径，那root就有可能具有特殊性
        9. remoteUser? https://code.visualstudio.com/remote/advancedcontainers/add-nonroot-user
@@ -80,10 +80,10 @@ created: 1743561434081
          ```
 
       11. 突然又不行了，使用非root的用户名，使用 root 编译成功，但是插件无法自动安装 
-   ![alt text](image-33.png)
-   ![alt text](image-34.png) 
-   ![alt text](image-35.png)
-   ![alt text](image-36.png)
+   ![alt text](assets/image-20250510_224849-ba4c237b.png)
+   ![alt text](assets/image-20250510_225102-ab3f0d48.png) 
+   ![alt text](assets/image-20250510_225306-bbfa0fa3.png)
+   ![alt text](assets/image-20250510_225320-f2aef66c.png)
    猜测: 第一次build container需要root，rebuild不需要? 当前的实验：第一次root时，无法安装插件，但是root后修改用户名为任意非root，触发插件安装
    1. -> 注释掉extension内容->rebulid成功，并且image 元数据的extension被安装，说明的确是生效的
    2. -> 注释掉整个extension的key和value，rebuild成功，与第一个场景一样
@@ -110,20 +110,20 @@ created: 1743561434081
        10. 开始插件host agent运行
        11. 插件安装成功
        12. 分析容器数据存储结构
-       13. ![alt text](image-37.png)
+       13. ![alt text](assets/image-20250511_000306-186d5b64.png)
        14. 可以看出，整个vscode的devcontainer自动化流程是需要 run in container + run in host 进行配合的，为什么在前面非root名已经成功rebuild过以后，再去除devc中feature的配置字段进行rebuild，还是会报错，找不到非root名，我的猜测：feature特性会影响是否使用一些镜像的中间layout层，这些层包含了vscode remoteuser中指定的用户名
        15. 目前的第一次构建时，需要以基础镜像定义的用户名进入容器，在devcontainer 容器构建过程中，会预构建一些镜像层来包含vscode设置的用户名，后续的再次rebuild会复用这些层，所以再进入以后用户名能够通过
        16. 待实验: 增加dockerfile，仅仅来指定构建包含启动用户名的镜像，以此镜像为基础，再在无customizations配置的情况启动rebuild，看看是否成功 https://code.visualstudio.com/remote/advancedcontainers/add-nonroot-user
    11. 分析：目前的问题现象主要集中在 对于原基础镜像，要求指定root用户，否则失败; 而对于触发vscode功能，root用户无法触发，而通过devc指定非root用户，如果原镜像没有该用户，那有必须配置了feature这个非root指定才能被创建覆盖生效，然后才会进行主动安装插件(所以目前的疑惑：feature到底是不是必需品？还是说feature只是正好触发了非root容器的创建，这才是vscode自动安装插件的直接条件?)
-   ![alt text](image-38.png)
+   ![alt text](assets/image-20250511_101438-4ba302f5.png)
    文档中的说明是，镜像中先包含了可选的非root用户
        1. 是否有方案，可以直接非root用户首次构建容器
        2. 不设置feature配置，能否自动化安装vscode插件
        - [x] 尝试: 1. 增加dockerfile来构建指定用户名的中间镜像，然后直接运行。成功！！！！成功自动安装image内部的meatdata！！！！，问题解决，归根接地就是image用户名问题
        3. 存在问题
-       4. ![alt text](image-53.png)
+       4. ![alt text](assets/image-20250511_151643-cfec5bcb.png)
        5. 无法构建成功，似乎devcontainer中build的顺序在vscode用户名验证之后，导致根本无法进行
-       6. ![alt text](image-54.png)
+       6. ![alt text](assets/image-20250511_162234-eb2d1ba1.png)
        7. 需要重新删除旧的container，里面保存了旧镜像的引用
 
 
@@ -186,38 +186,38 @@ created: 1743561434081
 - [x] 配置vscode插件自动安装工作流
 - [x] 容器build之后，如何关闭，和重新连接容器，工作流
    1. 关闭前
-   2. ![alt text](image-39.png)
+   2. ![alt text](assets/image-20250511_104308-a0788f57.png)
    3. 点击左下角连接图标，close connect
-   4. ![alt text](image-40.png)
-   5. ![alt text](image-41.png)
+   4. ![alt text](assets/image-20250511_104436-aebbd445.png)
+   5. ![alt text](assets/image-20250511_104514-12f7827b.png)
    6. 再次开启，通过open recent
-   7. ![alt text](image-42.png)
-   8. ![alt text](image-43.png)
-   9. ![alt text](image-44.png)
-   10. ![alt text](image-49.png) 存在多个中间镜像
+   7. ![alt text](assets/image-20250511_104552-0b597721.png)
+   8. ![alt text](assets/image-20250511_104617-417e97e9.png)
+   9. ![alt text](assets/image-20250511_104641-fec9345d.png)
+   10. ![alt text](assets/image-20250511_120624-c9101ec7.png) 存在多个中间镜像
    11. 的确都是同一个uid
    12. 是否还有其他方式，打开已经停止的，但创建好的此前的容器
    13. attach 容器的差异： 在侧边栏的docker一栏中，start container and attach container即可
       但是创建的容器似乎名字不对，并且容器内命令面板找不到rebuild命令
-      ![alt text](image-50.png)
-      ![alt text](image-51.png)
+      ![alt text](assets/image-20250511_124830-b6a5e112.png)
+      ![alt text](assets/image-20250511_130202-35a3141a.png)
       二者方式不同，前者是基于docker的attach，比较原始，后者是基于dev container的额外功能，所以，直接通过后者open folder的形式进入即可，如果 configure 没有被修改，是不会rebuild的
-   14. ![alt text](image-45.png)
+   14. ![alt text](assets/image-20250511_110529-ede70404.png)
 - [x] 容器中的 vscode user setting 继承机制
    1. 是否继承自host的user setting? 如何判断当前容器使用的vscode setting来源?
    2. 如何覆盖，指定容器使用的user setting?
    3. 或者换种说法将host中的user setting，迁移到容器中，使之在其他电脑上生效
    4. cat ~/.vscode-server/data/Machine/settings.json 查看后，并没有内容
-   5. ![alt text](image-46.png)
+   5. ![alt text](assets/image-20250511_113802-b3a888f5.png)
    6. 在官方文档中说明了 host 的local user setting 会被使用，当连接到一个容器中，来保持你的用户习惯一致
    7. 覆盖user setting的方法，一个在创建容器时，devcotainer.json中的json字段进行修改，里面的值会覆盖当前值，另一个方法就是 Preferences: Open Remote Settings 可以在ui或者json中进行修改，另一点，就是通过workspace下的setting配置进行覆盖
 
 - [x] 在容器中workspace的工作流验证
 
 - [x] 在容器中的插件面板 add to devcontainer的行为
-  ![alt text](image-47.png)
-  ![alt text](image-48.png)
-  ![alt text](image-52.png)
+  ![alt text](assets/image-20250511_115842-57faf9d7.png)
+  ![alt text](assets/image-20250511_115923-67fc821a.png)
+  ![alt text](assets/image-20250511_130351-a8e633c8.png)
   
   采用docker形式进入的容器，可以发现add之后是添加到一个容器归属的配置文件中，并不是源配置.devcontainer中的，从路径上可以猜测这是vscode处理的容器归属配置，应该是各种meta数据合并后的配置，包括vscode的操作添加的配置
   而使用dev container形式进入的容器，add to devc之后会自动添加到当前关联的devc.json中

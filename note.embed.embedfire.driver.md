@@ -17,10 +17,10 @@ created: 1749045518599
 ## 官方sdk结构解析以及相关概念整理
 
 1. 官网
-   1. ![alt text](image-69.png)
-   2. ![alt text](image-70.png)
-   3. ![alt text](image-71.png)
-   4. ![alt text](image-72.png)
+   1. ![alt text](assets/image-20250604_232619-db930968.png)
+   2. ![alt text](assets/image-20250604_232638-1ea86181.png)
+   3. ![alt text](assets/image-20250604_232656-eaca9e4d.png)
+   4. ![alt text](assets/image-20250604_234426-3608b8a5.png)
    5. 裸机SDK使用的编译器 `arm-none-eabi` 没有系统以及glibc的标识，因为这是为裸机开发所准备的，并且使用通用编译器
 2. concept
    1. 官方评估板: 由芯片原厂针对具体芯片进行设计或者授权设计的评估开发板，用于展现芯片功能和性能，提供电路设计参考，作为适配官方sdk demo程序的硬件. 价格对比三方开发板会略高.
@@ -109,10 +109,10 @@ created: 1749045518599
       4. 开发板设置启动方式为sd卡 [[note.embed.embedfire.driver]]
          1. 需注意!!! 蓝牙wifi模块与sd卡座共用硬件接口，所以无法同时使用，需切换跳帽
          2. 设置boot拨码开关 `2-5-8`
-         3. ![alt text](image-73.png)
-         4. ![alt text](image-74.png)
-         5. 拨码设置 ![alt text](IMG_3459.jpeg)
-         6. 跳帽设置 ![alt text](IMG_3460.jpeg)
+         3. ![alt text](assets/image-20250907_101526-65f8a48d.png)
+         4. ![alt text](assets/image-20250907_101547-93c1999e.png)
+         5. 拨码设置 ![alt text](assets/image-20250907_105619-5f87d0cf.jpeg)
+         6. 跳帽设置 ![alt text](assets/image-20250907_105646-0d4acc37.jpeg)
 4. 运行
    1. 电源开启后自动运行，输出hello world到串口
 5. 调试

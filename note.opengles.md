@@ -178,7 +178,7 @@ GL_UNSIGNED_BYTE 表示 每个像素pixel的一个通道值用 无类型的8bit�
 [zhihu:纹理映射](https://zhuanlan.zhihu.com/p/646544508?utm_id=0)
 [wili:纹理映射单元](https://zh.wikipedia.org/wiki/%E7%B4%8B%E7%90%86%E6%98%A0%E5%B0%84%E5%96%AE%E5%85%83)
 [Binding to texture units and texture targets](https://community.khronos.org/t/binding-to-texture-units-and-texture-targets/105810)
-![Alt text](image-3.png)
+![Alt text](assets/image-20240126_223841-0025844f.png)
 [openGL之API学习（一九九）纹理单元和纹理对象的关系](http://www.tudoupe.com/live/tdjc/202215377.html)
 [术语：纹理目标、纹理单元、纹理图像单元等……帮助！](https://community.khronos.org/t/terminology-texture-target-vs-texture-unit-vs-texture-image-unit-etc-help/105441/4)
 [Basic Texture Mapping](https://ogldev.org/www/tutorial16/tutorial16.html)

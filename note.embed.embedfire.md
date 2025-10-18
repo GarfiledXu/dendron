@@ -52,7 +52,7 @@ created: 1740754918566
 - [ ] 开发板使用
   - [x] 通电
   - [x] 启动和登录开发板
-      1. ![alt text](image-55.png)
+      1. ![alt text](assets/image-20250515_225755-7f513fc6.png)
       2. 当前开发板默认的拨码组合: 2-4-5-7 对应emmc启动
       3. 登录控制方式：串口，网络ssh
          1. 串口连接
@@ -61,15 +61,15 @@ created: 1740754918566
          4. mobaxterm 波特率 115200 登录
          5. 账户-密码: 1. debian temppwd 2. root root
          6. 网络ssh连接
-         7. ![alt text](image-56.png)
-         8. ![alt text](image-57.png)
+         7. ![alt text](assets/image-20250515_231239-e5b733fc.png)
+         8. ![alt text](assets/image-20250515_232917-e2929be4.png)
          9. 没有找到wlan模块，需要硬件切换
-         10. ![alt text](image-58.png)
+         10. ![alt text](assets/image-20250515_232957-036eb644.png)
          11. https://doc.embedfire.com/linux/imx6/quick_start/zh/latest/quick_start/bluetooth/bluetooth.html
-         12. ![alt text](image-59.png)
+         12. ![alt text](assets/image-20250515_233312-b7b46332.png)
          13. 按图中的跳帽配置，还缺一个跳帽，从其他部位借用
          14. https://doc.embedfire.com/linux/imx6/quick_start/zh/latest/quick_start/wifi/wifi.html 按该流程使能wifi模块，并且使用终端ui进行配置
-         15. ![alt text](image-60.png) 重启后进入，可以查询到wlan0网口
+         15. ![alt text](assets/image-20250515_235424-a99b29c0.png) 重启后进入，可以查询到wlan0网口
 
          ```bash
          root@npi:/home/xjf1127# wpa_passphrase 扶老奶奶过马路 Xjf.13587122513 > wpa_supplicant.conf
@@ -119,7 +119,7 @@ created: 1740754918566
 
          16. 登录ssh，username: debian passwd: temppwd
          https://doc.embedfire.com/linux/imx6/linux_base/zh/latest/linux_basis/ssh_login/ssh_login.html#
-         ![alt text](image-61.png)
+         ![alt text](assets/image-20250526_220557-44452cc7.png)
              1. 修改密码: passwd
              2. 添加用户: adduser xjf1127
              3. 添加到用户组: usermod -aG sudo xjf1127
@@ -143,7 +143,7 @@ created: 1740754918566
              ```
 
          17. TODO: 为什么用ssh的文件窗口无法传输文件?提示权限不够？
-            ![alt text](image-62.png)
+            ![alt text](assets/image-20250526_230352-ff46f655.png)
              1. 切换为root: 通过`su`修改了权限，但是仅修改当前shell的临时权限，并不能对打开时的mobaxterm生效
              2. root切换为普通用户: `exit`
              3. 查看文件夹所属用户和权限，`ls -ld`
@@ -162,7 +162,7 @@ created: 1740754918566
              ```
 
              root和sudo的区别，sudo是用户组，可以让普通用户短暂获取root权限执行单条命令，而root是账户，管理员账户，持续拥有root权限
-             ![alt text](image-63.png)
+             ![alt text](assets/image-20250527_225525-0871dcfa.png)
 
   - [ ] TODO: 寻找demo持续，并运行
   - [ ] TODO: 实验远程桌面显示
@@ -211,14 +211,14 @@ created: 1740754918566
   7. 编译器安装步骤
      1. 更新本地软件索引，以便apt install操作成功，故执行命令: `apt update`
      2. 安装编译器工具集: `arm-linux-gnueabihf`，具体包含了一些列以`arm-linux-gnueabihf-`为前缀的二进制工具集，以及对应的include和lib
-     3. 检查安装结果: ![alt text](image-64.png)
+     3. 检查安装结果: ![alt text](assets/image-20250528_222217-34435d67.png)
   8. 编译器测试
      1. 直接编译命令，动态编译
      2. 直接编译命令，静态编译
      3. 动态编译，指定好链接器
-     4. ![alt text](image-65.png)
-     5. ![alt text](image-66.png)
-     6. ![alt text](image-67.png)
+     4. ![alt text](assets/image-20250528_232236-dd82598b.png)
+     5. ![alt text](assets/image-20250528_232326-cee3e364.png)
+     6. ![alt text](assets/image-20250528_232421-c0ebce6a.png)
      7. 紧接步骤三，处理运行时glibc版本问题:
         1. 拷贝目标设备文件，制作sysroot，用于交叉编译的动态编译
         2. 跳过动态编译，使用静态编译
@@ -227,7 +227,7 @@ created: 1740754918566
   10. TODO: 查看编译依赖和环境的相关开发工具使用: 了解不同层次依赖在目标系统上的文件位置，并且如何查看目标环境各种依赖版本和具体名称
       1. ldd 和 ld.so 前者是一个查看工具，查看库运行时依赖，后者是链接器，程序运行时，进行动态链接就是通过ld.so进行操作，可以理解为运行动态编译的程序所使用的解释器(解释需要的动态库)
       2. file </bin>
-      3. ![alt text](image-68.png)
+      3. ![alt text](assets/image-20250528_232452-d5a45fa4.png)
       4. TODO: sysroot:模拟的是目标设备上的文件系统结构，包含了编译时所需的头文件（headers）和库文件（libraries）
       5. TODO: --staic -Wl,-Bstatic 静态编译具体的行为规则?
       6. TODO: cmake 交叉编译的行为对应哪些 基础命令的组合？
