@@ -2,7 +2,7 @@
 id: km23abkmtjg8kfxj55sso0f
 title: Vscode_docker_externsion
 desc: ''
-updated: 1745549063100
+updated: 1760762950369
 created: 1745414548916
 ---
 
@@ -10,6 +10,10 @@ created: 1745414548916
 
 - [visual studio offical: vscode dev container](https://learn.microsoft.com/zh-cn/training/modules/use-docker-container-dev-env-vs-code/3-use-as-development-environment)
 - [vscode offical: devcontainer](https://code.visualstudio.com/docs/devcontainers/containers) : 位于overview DEV CONTAINERS 一栏
+- [Dev Container Templates reference](https://containers.dev/implementors/templates/)
+- [Available Dev Container Templates](https://containers.dev/templates)
+- [Dev Container CLI](https://code.visualstudio.com/docs/devcontainers/devcontainer-cli)
+- [vscode Pre-building](https://code.visualstudio.com/docs/devcontainers/devcontainer-cli#_prebuilding)
 
 ## vscode 扩展工作原理
 
@@ -29,7 +33,7 @@ created: 1745414548916
             4. 需要验证: vscode相关插件文件是以什么形式集成到容器中的，容器中安装过插件后，后面再创建容器是否还需要安装
                1. 通过vscode命令面板普通的关闭连接和重新打开，插件是存在的
                通过docker desktop的管理面板可以发现，vscode的插件缓存本质上是存储在宿主机上的volume，容器创建后直接挂载的，可以得出结论 vscode的配置位于volume中缓存
-               ![alt text](image-24.png)
+               ![alt text](assets/image-20250424_212245-20a97ae6.png)
                2. 是否所有容器共享这个插件缓存呢
                3. 同一个目录不能open in multi container
                4. window 文件和 wsl2 文件均可以在容器中打开，以mount方式
@@ -47,6 +51,9 @@ created: 1745414548916
       4. attach an existed contianer
       5. devcontainer.json的创建: pre-built env and reuse dockerfile docker-compose
          1. vscode command palette add file to current prj
+         ![alt text](assets/image-20250506_213047-6129623f.png)
+         从vscode官方文档的截图可以了解到 命令面板的添加 devcontainer 配置，只能从官方的模板仓库中选择，如果要自定义，也只能安装官方格式进行封装，然后推送到官方仓库 即远程仓库注册的机制
+         命令面板的 `Dev Containers: Add Dev Container Configuration Files` 和 手动编辑 devcontainer.json 配置文件的区别？ 前者的重点在于远端同步共享，在 devcontainer.json 的基础上会多一些配置描述，如 template 规则，同样是由 dev container 定义的
          2. by hand
          3. container-feature 功能添加:
             1. 使用命令创建配置文件时，获得feature选择提示
@@ -61,7 +68,17 @@ created: 1745414548916
 
          5. 更加定制化的feature: 创建自己的feature，根据 `OCI artifact` 规范，创建之后进行发布
       6. 文档提及的 `pre-building dev container images`?
-         1. 这里的 pre-building 和 build images 指的是每次创建容器时需要的image的来源是即时通过dockerfile构建，或者提前准备好的image，可以来源自手动构建，或者CICD流程
+         1. 这里的 pre-building 和 build images 指的是每次创建容器时需要的image的来源是即时通过dockerfile构建，或者提前准备好的image，可以来源自手动构建，或者CICD流程，主要还是指通过 devcontainer 实现的
+         2. 手动构建镜像 与 自动化预构建镜像 的效果差异?
+            1. devcontainer build? build的成果物是什么
+            2. devcontainer cli?
+               1. 开发容器是一个规范，而 devcontainer cli 则是这一规范的实现参考，是一个具体的程序
+               2. vscode 扩展中的 devcontainer 同样实现了该规范功能，并且独立于 container cli，同样是解析 devcontainer.json 中的元数据
+            3. github actions 同样也是支持远程持续集成，devcontainer cli功能
+            4. 可以明确，文档中提及的pre-build是指devcontainer cli提供的build功能，那么vscode extension的devcontainer功能与devcontainer build以及run的调用关系，以及devcontainer build和run的关系
+            实验: 首先通过vscode的open folder by dev container调用，然后查看生成的image和container
+            涉及命令: docker images ls, docker history --no-trunc \<image>, docker images inspect \<image>
+            通过查看 生成的image和container的inspect，可以发现，pre-build阶段进行devcontainer的元数据镜像注入(vscode的部分extension，feature也在其中)，以及基础工具的集成(bin，lib等，但这不包括vscode server以及使用插件)，直到容器创建时，会进行vscode相关数据的准备和下载，以挂载方式提供给容器共享，即本质上image中的devcontainer vscode部分的元数据只是**插件安装提示**
       7. 预构建镜像元数据和dev container configurtion
          1. 通常在创建开发容器时的配置，从devcontianer.json文件获取
          2. 也可以通过预构建image时，将配置内容作为元数据在镜像构建阶段注入镜像
@@ -137,6 +154,6 @@ created: 1745414548916
       2. 选择 new contaner
       3. 选择 对应与构建的 image
       4. 连接容器成功，进入容器
-      5. ![alt text](image-23.png)
+      5. ![alt text](assets/image-20250423_222932-3ee0b367.png)
    2. 远程开发容器: 将本地源码通过ssh 挂载到远程host的container中
       1. 优点: 本地不需要一个docker客户端

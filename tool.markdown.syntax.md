@@ -36,7 +36,7 @@ __here is a double emphasis__
 _here is a single emphasis_
 
 - image (\!\[\<name>](\<url>))
-![Alt text](image/image.png)
+![Alt text](assets/image-20230912_103707-d902184d.png)
 
 
 !!! note This is the admonition title

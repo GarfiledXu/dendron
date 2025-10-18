@@ -17,9 +17,9 @@ ffmpeg 本身只是编解码算法和应用在代码层面的抽象和实现
 所以这里的 muxer 即是各种数据流封装复用在一个媒体文件中，demuxering则是逆转这一过程
 
 #### framediagram
-![Alt text](image_ffmpeg_decode.png)
-![Alt text](image-2.png)
-![Alt text](image.png)
+![Alt text](assets/image-20231214_152035-e4bbe010.png)
+![Alt text](assets/image-20231218_101921-c2c7d934.png)
+![Alt text](assets/image-20230912_103707-d902184d.png)
 
 
 #### book

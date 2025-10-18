@@ -1,0 +1,700 @@
+{
+  "root_dir": "D:\\win_workspace\\dendron\\dendron-win\\dependencies\\github.com\\GarfiledXu\\dendron",
+  "moved_files": [
+    {
+      "old": "0a94d66d952265b6a47beb2db46cda89.png",
+      "new": "assets\\image-20250424_212245-6ddca952.png"
+    },
+    {
+      "old": "image-1.png",
+      "new": "assets\\image-20231215_150156-5b6eec27.png"
+    },
+    {
+      "old": "image-10.png",
+      "new": "assets\\image-20250322_131130-5462c8f5.png"
+    },
+    {
+      "old": "image-11.png",
+      "new": "assets\\image-20250322_131130-35e06a9d.png"
+    },
+    {
+      "old": "image-12.png",
+      "new": "assets\\image-20250403_211546-e652cb56.png"
+    },
+    {
+      "old": "image-13.png",
+      "new": "assets\\image-20250403_211546-aec6730b.png"
+    },
+    {
+      "old": "image-14.png",
+      "new": "assets\\image-20250403_211546-2673c950.png"
+    },
+    {
+      "old": "image-15.png",
+      "new": "assets\\image-20250403_211546-b9b23727.png"
+    },
+    {
+      "old": "image-16.png",
+      "new": "assets\\image-20250403_211546-98008317.png"
+    },
+    {
+      "old": "image-17.png",
+      "new": "assets\\image-20250403_211546-7fff213d.png"
+    },
+    {
+      "old": "image-18.png",
+      "new": "assets\\image-20250403_211546-bc534e18.png"
+    },
+    {
+      "old": "image-19.png",
+      "new": "assets\\image-20250403_211546-27f65cd4.png"
+    },
+    {
+      "old": "image-2.png",
+      "new": "assets\\image-20231218_101921-c2c7d934.png"
+    },
+    {
+      "old": "image-20.png",
+      "new": "assets\\image-20250406_094419-83a83007.png"
+    },
+    {
+      "old": "image-21.png",
+      "new": "assets\\image-20250406_110335-ba6c204a.png"
+    },
+    {
+      "old": "image-22.png",
+      "new": "assets\\image-20250412_170151-6e7bacd2.png"
+    },
+    {
+      "old": "image-23.png",
+      "new": "assets\\image-20250423_222932-3ee0b367.png"
+    },
+    {
+      "old": "image-24.png",
+      "new": "assets\\image-20250424_212245-20a97ae6.png"
+    },
+    {
+      "old": "image-25.png",
+      "new": "assets\\image-20250506_213047-6129623f.png"
+    },
+    {
+      "old": "image-26.png",
+      "new": "assets\\image-20250507_230457-8fb8dca9.png"
+    },
+    {
+      "old": "image-27.png",
+      "new": "assets\\image-20250507_230515-61161d48.png"
+    },
+    {
+      "old": "image-28.png",
+      "new": "assets\\image-20250508_220513-a8f5091c.png"
+    },
+    {
+      "old": "image-29.png",
+      "new": "assets\\image-20250508_225756-68ed3017.png"
+    },
+    {
+      "old": "image-3.png",
+      "new": "assets\\image-20240126_223841-0025844f.png"
+    },
+    {
+      "old": "image-30.png",
+      "new": "assets\\image-20250508_225855-2d2ada8a.png"
+    },
+    {
+      "old": "image-31.png",
+      "new": "assets\\image-20250509_221014-1780d63f.png"
+    },
+    {
+      "old": "image-32.png",
+      "new": "assets\\image-20250509_225552-f5d44f47.png"
+    },
+    {
+      "old": "image-33.png",
+      "new": "assets\\image-20250510_224849-ba4c237b.png"
+    },
+    {
+      "old": "image-34.png",
+      "new": "assets\\image-20250510_225102-ab3f0d48.png"
+    },
+    {
+      "old": "image-35.png",
+      "new": "assets\\image-20250510_225306-bbfa0fa3.png"
+    },
+    {
+      "old": "image-36.png",
+      "new": "assets\\image-20250510_225320-f2aef66c.png"
+    },
+    {
+      "old": "image-37.png",
+      "new": "assets\\image-20250511_000306-186d5b64.png"
+    },
+    {
+      "old": "image-38.png",
+      "new": "assets\\image-20250511_101438-4ba302f5.png"
+    },
+    {
+      "old": "image-39.png",
+      "new": "assets\\image-20250511_104308-a0788f57.png"
+    },
+    {
+      "old": "image-4.png",
+      "new": "assets\\image-20240510_101229-5a3bd7e2.png"
+    },
+    {
+      "old": "image-40.png",
+      "new": "assets\\image-20250511_104436-aebbd445.png"
+    },
+    {
+      "old": "image-41.png",
+      "new": "assets\\image-20250511_104514-12f7827b.png"
+    },
+    {
+      "old": "image-42.png",
+      "new": "assets\\image-20250511_104552-0b597721.png"
+    },
+    {
+      "old": "image-43.png",
+      "new": "assets\\image-20250511_104617-417e97e9.png"
+    },
+    {
+      "old": "image-44.png",
+      "new": "assets\\image-20250511_104641-fec9345d.png"
+    },
+    {
+      "old": "image-45.png",
+      "new": "assets\\image-20250511_110529-ede70404.png"
+    },
+    {
+      "old": "image-46.png",
+      "new": "assets\\image-20250511_113802-b3a888f5.png"
+    },
+    {
+      "old": "image-47.png",
+      "new": "assets\\image-20250511_115842-57faf9d7.png"
+    },
+    {
+      "old": "image-48.png",
+      "new": "assets\\image-20250511_115923-67fc821a.png"
+    },
+    {
+      "old": "image-49.png",
+      "new": "assets\\image-20250511_120624-c9101ec7.png"
+    },
+    {
+      "old": "image-5.png",
+      "new": "assets\\image-20250110_103058-4e2b0ba1.png"
+    },
+    {
+      "old": "image-50.png",
+      "new": "assets\\image-20250511_124830-b6a5e112.png"
+    },
+    {
+      "old": "image-51.png",
+      "new": "assets\\image-20250511_130202-35a3141a.png"
+    },
+    {
+      "old": "image-52.png",
+      "new": "assets\\image-20250511_130351-a8e633c8.png"
+    },
+    {
+      "old": "image-53.png",
+      "new": "assets\\image-20250511_151643-cfec5bcb.png"
+    },
+    {
+      "old": "image-54.png",
+      "new": "assets\\image-20250511_162234-eb2d1ba1.png"
+    },
+    {
+      "old": "image-55.png",
+      "new": "assets\\image-20250515_225755-7f513fc6.png"
+    },
+    {
+      "old": "image-56.png",
+      "new": "assets\\image-20250515_231239-e5b733fc.png"
+    },
+    {
+      "old": "image-57.png",
+      "new": "assets\\image-20250515_232917-e2929be4.png"
+    },
+    {
+      "old": "image-58.png",
+      "new": "assets\\image-20250515_232957-036eb644.png"
+    },
+    {
+      "old": "image-59.png",
+      "new": "assets\\image-20250515_233312-b7b46332.png"
+    },
+    {
+      "old": "image-6.png",
+      "new": "assets\\image-20250124_112344-ae85256c.png"
+    },
+    {
+      "old": "image-60.png",
+      "new": "assets\\image-20250515_235424-a99b29c0.png"
+    },
+    {
+      "old": "image-61.png",
+      "new": "assets\\image-20250526_220557-44452cc7.png"
+    },
+    {
+      "old": "image-62.png",
+      "new": "assets\\image-20250526_230352-ff46f655.png"
+    },
+    {
+      "old": "image-63.png",
+      "new": "assets\\image-20250527_225525-0871dcfa.png"
+    },
+    {
+      "old": "image-64.png",
+      "new": "assets\\image-20250528_222217-34435d67.png"
+    },
+    {
+      "old": "image-65.png",
+      "new": "assets\\image-20250528_232236-dd82598b.png"
+    },
+    {
+      "old": "image-66.png",
+      "new": "assets\\image-20250528_232326-cee3e364.png"
+    },
+    {
+      "old": "image-67.png",
+      "new": "assets\\image-20250528_232421-c0ebce6a.png"
+    },
+    {
+      "old": "image-68.png",
+      "new": "assets\\image-20250528_232452-d5a45fa4.png"
+    },
+    {
+      "old": "image-69.png",
+      "new": "assets\\image-20250604_232619-db930968.png"
+    },
+    {
+      "old": "image-7.png",
+      "new": "assets\\image-20250228_230107-a851dc76.png"
+    },
+    {
+      "old": "image-70.png",
+      "new": "assets\\image-20250604_232638-1ea86181.png"
+    },
+    {
+      "old": "image-71.png",
+      "new": "assets\\image-20250604_232656-eaca9e4d.png"
+    },
+    {
+      "old": "image-72.png",
+      "new": "assets\\image-20250604_234426-3608b8a5.png"
+    },
+    {
+      "old": "image-73.png",
+      "new": "assets\\image-20250907_101526-65f8a48d.png"
+    },
+    {
+      "old": "image-74.png",
+      "new": "assets\\image-20250907_101547-93c1999e.png"
+    },
+    {
+      "old": "image-8.png",
+      "new": "assets\\image-20250322_131130-179963a0.png"
+    },
+    {
+      "old": "image-9.png",
+      "new": "assets\\image-20250322_131130-dcd57b23.png"
+    },
+    {
+      "old": "image_ffmpeg_decode.png",
+      "new": "assets\\image-20231214_152035-e4bbe010.png"
+    },
+    {
+      "old": "IMG_3459.jpeg",
+      "new": "assets\\image-20250907_105619-5f87d0cf.jpeg"
+    },
+    {
+      "old": "IMG_3460.jpeg",
+      "new": "assets\\image-20250907_105646-0d4acc37.jpeg"
+    },
+    {
+      "old": "tool.markdown.template.tool-readme.jpeg",
+      "new": "assets\\image-20230912_103707-1d0658ce.jpeg"
+    },
+    {
+      "old": "tool.markdown.template.tool-readme.png",
+      "new": "assets\\image-20230912_103707-d5bd2e7c.png"
+    },
+    {
+      "old": "image\\image.png",
+      "new": "assets\\image-20230912_103707-d902184d.png"
+    }
+  ],
+  "markdown_updates": {
+    "book.SIP understand.2 chatper.md": [
+      [
+        "image-6.png",
+        "assets/image-20250124_112344-ae85256c.png"
+      ]
+    ],
+    "note.c++.ffmpeg.md": [
+      [
+        "image-2.png",
+        "assets/image-20231218_101921-c2c7d934.png"
+      ],
+      [
+        "image_ffmpeg_decode.png",
+        "assets/image-20231214_152035-e4bbe010.png"
+      ],
+      [
+        "image.png",
+        "assets/image-20230912_103707-d902184d.png"
+      ]
+    ],
+    "note.c++.sqlite.md": [
+      [
+        "image-4.png",
+        "assets/image-20240510_101229-5a3bd7e2.png"
+      ]
+    ],
+    "note.c++.webAV.pjsip.md": [
+      [
+        "image-5.png",
+        "assets/image-20250110_103058-4e2b0ba1.png"
+      ]
+    ],
+    "note.docker.md": [
+      [
+        "image-20.png",
+        "assets/image-20250406_094419-83a83007.png"
+      ],
+      [
+        "image-21.png",
+        "assets/image-20250406_110335-ba6c204a.png"
+      ]
+    ],
+    "note.docker.rv1126_dev_env.md": [
+      [
+        "image-26.png",
+        "assets/image-20250507_230457-8fb8dca9.png"
+      ],
+      [
+        "image-27.png",
+        "assets/image-20250507_230515-61161d48.png"
+      ],
+      [
+        "image-28.png",
+        "assets/image-20250508_220513-a8f5091c.png"
+      ],
+      [
+        "image-29.png",
+        "assets/image-20250508_225756-68ed3017.png"
+      ],
+      [
+        "image-30.png",
+        "assets/image-20250508_225855-2d2ada8a.png"
+      ],
+      [
+        "image-31.png",
+        "assets/image-20250509_221014-1780d63f.png"
+      ],
+      [
+        "image-32.png",
+        "assets/image-20250509_225552-f5d44f47.png"
+      ],
+      [
+        "image-33.png",
+        "assets/image-20250510_224849-ba4c237b.png"
+      ],
+      [
+        "image-34.png",
+        "assets/image-20250510_225102-ab3f0d48.png"
+      ],
+      [
+        "image-35.png",
+        "assets/image-20250510_225306-bbfa0fa3.png"
+      ],
+      [
+        "image-36.png",
+        "assets/image-20250510_225320-f2aef66c.png"
+      ],
+      [
+        "image-37.png",
+        "assets/image-20250511_000306-186d5b64.png"
+      ],
+      [
+        "image-38.png",
+        "assets/image-20250511_101438-4ba302f5.png"
+      ],
+      [
+        "image-39.png",
+        "assets/image-20250511_104308-a0788f57.png"
+      ],
+      [
+        "image-40.png",
+        "assets/image-20250511_104436-aebbd445.png"
+      ],
+      [
+        "image-41.png",
+        "assets/image-20250511_104514-12f7827b.png"
+      ],
+      [
+        "image-42.png",
+        "assets/image-20250511_104552-0b597721.png"
+      ],
+      [
+        "image-43.png",
+        "assets/image-20250511_104617-417e97e9.png"
+      ],
+      [
+        "image-44.png",
+        "assets/image-20250511_104641-fec9345d.png"
+      ],
+      [
+        "image-45.png",
+        "assets/image-20250511_110529-ede70404.png"
+      ],
+      [
+        "image-46.png",
+        "assets/image-20250511_113802-b3a888f5.png"
+      ],
+      [
+        "image-47.png",
+        "assets/image-20250511_115842-57faf9d7.png"
+      ],
+      [
+        "image-48.png",
+        "assets/image-20250511_115923-67fc821a.png"
+      ],
+      [
+        "image-49.png",
+        "assets/image-20250511_120624-c9101ec7.png"
+      ],
+      [
+        "image-50.png",
+        "assets/image-20250511_124830-b6a5e112.png"
+      ],
+      [
+        "image-51.png",
+        "assets/image-20250511_130202-35a3141a.png"
+      ],
+      [
+        "image-52.png",
+        "assets/image-20250511_130351-a8e633c8.png"
+      ],
+      [
+        "image-53.png",
+        "assets/image-20250511_151643-cfec5bcb.png"
+      ],
+      [
+        "image-54.png",
+        "assets/image-20250511_162234-eb2d1ba1.png"
+      ]
+    ],
+    "note.docker.vscode_docker_externsion.md": [
+      [
+        "image-23.png",
+        "assets/image-20250423_222932-3ee0b367.png"
+      ],
+      [
+        "image-24.png",
+        "assets/image-20250424_212245-20a97ae6.png"
+      ],
+      [
+        "image-25.png",
+        "assets/image-20250506_213047-6129623f.png"
+      ]
+    ],
+    "note.embed.embedfire.driver.md": [
+      [
+        "image-69.png",
+        "assets/image-20250604_232619-db930968.png"
+      ],
+      [
+        "image-70.png",
+        "assets/image-20250604_232638-1ea86181.png"
+      ],
+      [
+        "image-71.png",
+        "assets/image-20250604_232656-eaca9e4d.png"
+      ],
+      [
+        "image-72.png",
+        "assets/image-20250604_234426-3608b8a5.png"
+      ],
+      [
+        "image-73.png",
+        "assets/image-20250907_101526-65f8a48d.png"
+      ],
+      [
+        "image-74.png",
+        "assets/image-20250907_101547-93c1999e.png"
+      ],
+      [
+        "IMG_3459.jpeg",
+        "assets/image-20250907_105619-5f87d0cf.jpeg"
+      ],
+      [
+        "IMG_3460.jpeg",
+        "assets/image-20250907_105646-0d4acc37.jpeg"
+      ]
+    ],
+    "note.embed.embedfire.md": [
+      [
+        "image-55.png",
+        "assets/image-20250515_225755-7f513fc6.png"
+      ],
+      [
+        "image-56.png",
+        "assets/image-20250515_231239-e5b733fc.png"
+      ],
+      [
+        "image-57.png",
+        "assets/image-20250515_232917-e2929be4.png"
+      ],
+      [
+        "image-58.png",
+        "assets/image-20250515_232957-036eb644.png"
+      ],
+      [
+        "image-59.png",
+        "assets/image-20250515_233312-b7b46332.png"
+      ],
+      [
+        "image-60.png",
+        "assets/image-20250515_235424-a99b29c0.png"
+      ],
+      [
+        "image-61.png",
+        "assets/image-20250526_220557-44452cc7.png"
+      ],
+      [
+        "image-62.png",
+        "assets/image-20250526_230352-ff46f655.png"
+      ],
+      [
+        "image-63.png",
+        "assets/image-20250527_225525-0871dcfa.png"
+      ],
+      [
+        "image-64.png",
+        "assets/image-20250528_222217-34435d67.png"
+      ],
+      [
+        "image-65.png",
+        "assets/image-20250528_232236-dd82598b.png"
+      ],
+      [
+        "image-66.png",
+        "assets/image-20250528_232326-cee3e364.png"
+      ],
+      [
+        "image-67.png",
+        "assets/image-20250528_232421-c0ebce6a.png"
+      ],
+      [
+        "image-68.png",
+        "assets/image-20250528_232452-d5a45fa4.png"
+      ]
+    ],
+    "note.gnu.rv1126_gdb_cross_compile.md": [
+      [
+        "image-8.png",
+        "assets/image-20250322_131130-179963a0.png"
+      ]
+    ],
+    "note.media.muxer.md": [
+      [
+        "image-15.png",
+        "assets/image-20250403_211546-b9b23727.png"
+      ],
+      [
+        "image-16.png",
+        "assets/image-20250403_211546-98008317.png"
+      ]
+    ],
+    "note.opengles.md": [
+      [
+        "image-3.png",
+        "assets/image-20240126_223841-0025844f.png"
+      ]
+    ],
+    "note.qmake.md": [
+      [
+        "image-17.png",
+        "assets/image-20250403_211546-7fff213d.png"
+      ],
+      [
+        "image-18.png",
+        "assets/image-20250403_211546-bc534e18.png"
+      ],
+      [
+        "image-19.png",
+        "assets/image-20250403_211546-27f65cd4.png"
+      ]
+    ],
+    "note.vscode.configure.gdb_server_view.md": [
+      [
+        "image-11.png",
+        "assets/image-20250322_131130-35e06a9d.png"
+      ]
+    ],
+    "tool.markdown.syntax.md": [
+      [
+        "image.png",
+        "assets/image-20230912_103707-d902184d.png"
+      ]
+    ],
+    "vscode.plugin.cpp.md": [
+      [
+        "image-12.png",
+        "assets/image-20250403_211546-e652cb56.png"
+      ],
+      [
+        "image-13.png",
+        "assets/image-20250403_211546-aec6730b.png"
+      ],
+      [
+        "image-14.png",
+        "assets/image-20250403_211546-2673c950.png"
+      ],
+      [
+        "image-9.png",
+        "assets/image-20250322_131130-dcd57b23.png"
+      ]
+    ],
+    "vscode.plugin.markdown_autocomplete.md": [
+      [
+        "image-22.png",
+        "assets/image-20250412_170151-6e7bacd2.png"
+      ]
+    ],
+    "vscode.plugin.plantUML.md": [
+      [
+        "image-10.png",
+        "assets/image-20250322_131130-5462c8f5.png"
+      ]
+    ],
+    "work.liba.after_sale.md": [
+      [
+        "0a94d66d952265b6a47beb2db46cda89.png",
+        "assets/image-20250424_212245-6ddca952.png"
+      ]
+    ],
+    "work.liba.中电信量子4G Cat.1模组-上位机调试记录.md": [
+      [
+        "image-1.png",
+        "assets/image-20231215_150156-5b6eec27.png"
+      ],
+      [
+        "image-2.png",
+        "assets/image-20231218_101921-c2c7d934.png"
+      ],
+      [
+        "image.png",
+        "assets/image-20230912_103707-d902184d.png"
+      ]
+    ]
+  },
+  "unused_images": [
+    "assets\\image-20250228_230107-a851dc76.png",
+    "assets\\image-20230912_103707-1d0658ce.jpeg",
+    "assets\\image-20230912_103707-d5bd2e7c.png"
+  ]
+}

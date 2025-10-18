@@ -82,7 +82,7 @@ end
 loop <1000次>
 end
 ```
-![alt text](image-10.png)
+![alt text](assets/image-20250322_131130-5462c8f5.png)
 
 8. 注释标签 跟随的对象是 消息, 关键字后面有冒号
 单注释

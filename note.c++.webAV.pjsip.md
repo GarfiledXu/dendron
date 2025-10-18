@@ -19,7 +19,7 @@ created: 1736473651499
 
 
 ### concept
-![alt text](image-5.png)
+![alt text](assets/image-20250110_103058-4e2b0ba1.png)
 
 ### what can this do
 multimedia communication

@@ -65,7 +65,7 @@ TR_EXCLUDE += /home/xjf1127/codespace/git_down/new_aplus/test/takephoto/src/modu
 
 
 
-![alt text](image-17.png)
+![alt text](assets/image-20250403_211546-7fff213d.png)
 
 无问题
 
@@ -86,7 +86,7 @@ SOURCES += /home/xjf1127/codespace/git_down/new_aplus/test/takephoto/src/target/
         += /home/xjf1127/codespace/git_down/new_aplus/test/takephoto/src/module/fmt/src/format.cc \
         += /home/xjf1127/codespace/git_down/new_aplus/test/takephoto/src/module/fmt/src/os.cc
 ```
-![alt text](image-18.png)
+![alt text](assets/image-20250403_211546-bc534e18.png)
 
 问题解决，一个变量不能使用 +=  连续相加，属于qmake语法错误
 ```bash
@@ -101,7 +101,7 @@ SOURCES += /home/xjf1127/codespace/git_down/new_aplus/test/takephoto/src/target/
 
 ### 已经在.pro中引入文件，但在链接时还是找不到
 
-![alt text](image-19.png)
+![alt text](assets/image-20250403_211546-27f65cd4.png)
 
 已确定，与自定义qobject相关的类的头文件，需要加入到qmake heads的变量中
 

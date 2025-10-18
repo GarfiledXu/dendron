@@ -2,7 +2,7 @@
 id: fm6y7tsrgc7t6pie372kpaf
 title: Docker
 desc: ''
-updated: 1745411524085
+updated: 1746064182828
 created: 1743561434086
 ---
 
@@ -17,12 +17,12 @@ created: 1743561434086
 ## windows docker desktop
 
 1. configure wsl resouce image save path
-![alt text](image-20.png)
+![alt text](assets/image-20250406_094419-83a83007.png)
 2. question
    1. docker的基础架构? windows docker desktop 扮演了什么角色?和wsl2的关系?
         首先docker是 `client-server` 架构，windows destop 就是client，负责docker的可视化配置管理。
         docker基于`linux-container`技术，也就意味着docker的服务目标是`linux`平台应用，假设docker需要支持windows平台应用，也就意味着需要windows提供`windows-container`相关的原生支持，这在目前的docker中是支持的，即`windows-container`，在docker desktop中可以进行切换。
-        ![alt text](image-21.png)
+        ![alt text](assets/image-20250406_110335-ba6c204a.png)
         docker的管理配置可以通过远程的api，即`docker-client`，而docker的运行则依赖于目标系统上的`docker-server`，即需要运行容器的系统上必须安装`docker-server`，在windows上安装`docker desktop`后，会自动为当前系统中的`wsl2`部署docker服务，并默认使用wsl2的docker后端。
 
 3. 相关概念

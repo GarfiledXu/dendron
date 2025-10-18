@@ -7,7 +7,7 @@ created: 1737688958616
 ---
 
 ### a simple SIP session establishment example
-![alt text](image-6.png)
+![alt text](assets/image-20250124_112344-ae85256c.png)
 
 ### INVITE request
 ```text

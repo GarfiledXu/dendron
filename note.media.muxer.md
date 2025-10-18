@@ -627,7 +627,7 @@ Track 1:
 ### h264bsanalyzer 编译
 
 1. 安装MFC库
-2. ![alt text](image-15.png)
-3. ![alt text](image-16.png)
+2. ![alt text](assets/image-20250403_211546-b9b23727.png)
+3. ![alt text](assets/image-20250403_211546-98008317.png)
 4. https://blog.csdn.net/lifei092/article/details/82982154 只能解决一部分
 5. 安装2015工具集
