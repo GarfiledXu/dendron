@@ -2,7 +2,7 @@
 id: 1hz1xwwhgbod5tjy6spypz3
 title: Fc
 desc: ''
-updated: 1766240606888
+updated: 1766240684139
 created: 1766238702272
 ---
 
@@ -20,3 +20,4 @@ created: 1766238702272
 
 ## plan
 
+[[plan.learn.roadmap.2025.12]]
