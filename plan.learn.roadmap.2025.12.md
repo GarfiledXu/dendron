@@ -2,7 +2,7 @@
 id: dxhl2ef7xk51jrfmradek22
 title: '12'
 desc: ''
-updated: 1765803692783
+updated: 1766242447080
 created: 1765530525254
 ---
 
@@ -22,4 +22,11 @@ created: 1765530525254
 
 ## activity log
 
+## FC TOY
+
+1. 6502 cpu 汇编指令理解
+2. 音频基础知识
+
 ## refe
+
+[[prj.emulation.fc]]
