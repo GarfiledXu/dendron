@@ -2,7 +2,7 @@
 id: gh6xbeau34ua6tyfiezkdx4
 title: 立案庭审
 desc: ''
-updated: 1767236323808
+updated: 1767253284436
 created: 1767096460002
 ---
 
@@ -59,4 +59,3 @@ created: 1767096460002
    3. 浙江索菱新能源汽车科技有限公司、乔兰劳动争议二审民事判决书，包含了违法解除劳动合同2n
    4. 杭州某有限公司；李某某申请撤销仲裁裁决特殊程序：申请撤销仲裁裁决民事裁定书 https://wenshu.court.gov.cn/website/wenshu/181107ANFZ0BXSK4/index.html?docId=rnZKb0y5gfxoqKj9KGNDfEy2rbkxxmYTpVbfO6pVpdfUVhQfRhN92Z/dgBYosE2gTS1wcysHuzt0jd9ti+1yEauQYYMDN8YZwNcckpSm887ZLs9bAH4A6e40rvjgt0ni
    5. 程会亮、杭州亚林玻璃有限公司劳动争议二审民事判决书 https://wenshu.court.gov.cn/website/wenshu/181107ANFZ0BXSK4/index.html?docId=VaSG3PCTC/amzKPqbxVr4bxNjFB6aZ4XKgATYdsxjGBsTnVa8bu9bp/dgBYosE2gTS1wcysHuzvy+hixgun6gauWqOBxQnYOvfN0P/sOuP1VlUfRHVBBXwD/tT43RRbJ
-   6. 
