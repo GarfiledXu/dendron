@@ -2,7 +2,7 @@
 id: 1hz1xwwhgbod5tjy6spypz3
 title: Fc
 desc: ''
-updated: 1767682638865
+updated: 1768221906091
 created: 1766238702272
 ---
 
@@ -64,3 +64,7 @@ created: 1766238702272
 
 1. 共同点：cpu核心部分，指令集相同
 2. 差异点：芯片主频差异（6502内部cpu和apu共享一套时钟），APU 内部定时常量 + 帧计数器 / DPCM 速率表
+
+## cpu assembly
+
+[[prj.emulation.fc.6502_assembly]]
