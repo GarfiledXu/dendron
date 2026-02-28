@@ -2,7 +2,7 @@
 id: 18h3a70hrri6ksvovpxqcs9
 title: 6502_assembly
 desc: ''
-updated: 1768529147116
+updated: 1769868414418
 created: 1766456915812
 ---
 
@@ -81,6 +81,8 @@ created: 1766456915812
    3. IR(instruction register)：用于锁存从内存中读取出来的实际指令编码（opecode/operand）
    4. 什么叫做锁存？在时钟信号边沿发生时，硬件部件将当前电平输入进行`快照`，存储进寄存器
    5. memory 存储器：
+      1. 物理层面就是IC芯片，分为ROM(只读存储器)，RAM(随机存取存储器)
+      2. 线路交互，会连接到：地址总线(address bus)，数据总线(data bus)，控制总线(contorl bus, CS(chip select)、R/W(read/write)、OE(output enable))，然后被动响应
    6. address bus 地址总线
    7. data bus 数据总线
    8. contorl bus 控制总线
