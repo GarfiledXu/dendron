@@ -2,29 +2,183 @@
 id: o6wft9g93m2852zm7kojdz9
 title: Draft
 desc: ''
-updated: 1769867139168
+updated: 1772529324508
 created: 1767882025440
 ---
 
 ## c
 
-1. 指针是什么？和指针相关的操作有哪些？
+1. 指针是什么？和指针相关的操作有哪些？指针的类型信息有哪些作用？这些类型信息主要是提供给编译器识别还是在程序运行时？void类型指针相比有类型指针，哪些操作不能执行?
+   1. 指针本质上是一个 保存内存地址，并且带有类型信息的特定类型变量，更完整的称呼应该是指针变量
+   2. 操作:
+      1. 取地址(&a)
+      2. 解引用(*p)
+      3. 指针算数(++, +1)
+   3. 指针的类型信息非常关键，并且这是属于语法层面的静态属性，仅在编译期指示编译器进行机器指令的生成，决定了运行时，cpu对具体内存的操作方式。即编译器在编译期就将指针的类型信息 转化固化为了运行时执行的机器指令
+      1. 决定了解引用时的步长(stride):即确定了地址以后读取多少长度的字节
+      2. 内存二进制数据的解释方式:同样长度的数据是按整数还是浮点数解释
+      3. 以及指针算术运算后的偏移量offset: 如int类型的指针*p++后，地址偏移应该是sizeof(int)=4，而不是1
+   4. void类型指针
+      1. 不能直接解引用，如：*p，必须经强转，如：*(int*)void，即先转化为有类型指针，再解引用
+      2. 不能执行算术运算，如自增或者+1
+   5. 对于所有指针：指针变量的相加以及乘法，除法都没有什么意义
+   6. 在同一个ABI架构中，所有类型的指针，其对象占用的空间大小都是固定的，经常提到的概念操作系统位数通常指的就是系统ABI地址宽度，而指针本身就是虚拟地址，所以与ABI宽度相等
 2. static 关键字的作用？
-3. sizeof是什么？
+3. sizeof是什么？是函数还是运算符?对输入对象的类型是否有要求?返回的数据类型和单位是什么?执行时机是在运行时处理还是编译期处理?有哪些经典问题?c++中的空类，和c语言中的空结构体，sizeof是否有区别，大小是多少?sizeof的计算方式以及对表达式的处理?为什么sizeof对输入表达式的处理叫做 解析而不是执行?
+   1. sizeof是编译期运算符，不是函数，目的就是计算输入符号的类型大小，不求值，返回size_t类型数据，单位是字节，即表示类型大小
+   2. 合法的输入形似
+      1. 直接具体的类型名 sizeof(int)
+      2. 变量名称 sizeof(aaa)
+      3. 输入表达式也可以 `sizeof(a + b) sizeof(28*35) sizeof(a*5*b+a)`
+   3. 经典案例1: `int* p; sizeof(*p)=4;` 最终编译期sizeof是如何得到int的?为何不叫表达式执行?
+      1. 通过语法分析，判断得到这个表达式的最终类型为解引用后对应的类型，即int
+      2. 进行语法分析不等同于执行，在虚拟计算机视角的执行对应到编译期和cpu运行时的行为，本质上应该是 编译期在编译期生成执行指令，然后运行时cpu执行，因此关键在于 表达式解析后 编译期有没有为其生成执行指令的行为，有则是执行，否则本质上sizeof这里仅仅是进行了语法解析，目的是提取出最终的类型
+   4. 经典案例2: `int a,b,c; double d; sizeof(a*b+c*d-d)` 这里会对表达式逐层解析，每一步都会合并得到一个类型，类型大的会吞并类型小的，即类型提升，最终确定为double类型，即8
+   5. 特殊规则:整形提升规则:所有比 int 小的整数类型，在参与表达式运算时，都会先提升为 int（或 unsigned int）
+      1. 即只要组成表达式了，那么这个表达式的类型值只会比int大，`char a; short b;sizeof(a+b)` 结果是int
+      2. `short a; short b; auto x = a + b;` 那么最终auto推导出来的类型应该为int
+   6. c99的特殊:可变数组，故c99的sizeof有可能是运行时计算的，如果是对可变数组进行判断类型大小
+   7. 空类在c和c++中的差异，在c语言中允许空类为大小空，那么地址也可以相同了，而c++空类必须要有大小，且地址唯一，也就意味着相同代码，sizeof结果是不同的
+   8. 数组类型和函数传参的特殊性，即数组退化
+      1. 函数参数为数组类型时，进入到函数内部，类型会退化为指针类型，即sizeof固定大小为8字节
+      2. 原因：主要是因为用转化为指针后传递效率高，否则直接通过数组值拷贝，会由于数组长度而爆栈
+
+      ```c++
+         #include <stdio.h>
+
+      // --- 实验开关：1 为 C++, 0 为 C ---
+      #define RUNNING_AS_CPP 1
+
+      #if RUNNING_AS_CPP
+         // C++ 环境下的空类
+         class Empty {};
+         class VirtualEmpty { virtual void func() {} };
+         class CharOnly { char a; };
+      #else
+         // C 环境下的空结构体 (GCC 扩展)
+         struct Empty {};
+      #endif
+
+      struct AlignMe {
+         char a;   // 1 byte
+         int b;    // 4 bytes
+         char c;   // 1 byte
+      };
+
+      void array_test(int arr[100]) {
+         // 考点：数组作为函数参数会退化为指针
+         printf("  In function: sizeof(arr_param) = %zu\n", sizeof(arr));
+      }
+      struct Data {
+         int x;
+         double y;
+      };
+
+      int main() {
+         printf("======== %s MEMORY EXPERIMENT ========\n", RUNNING_AS_CPP ? "C++" : "C");
+
+         // 1. 空对象测试
+         #if RUNNING_AS_CPP
+            Empty e1, e2;
+            printf("[Empty Class]\n");
+            printf("  sizeof(Empty)   = %zu\n", sizeof(Empty));
+            printf("  Address of e1   = %p\n", (void*)&e1);
+            printf("  Address of e2   = %p\n\n", (void*)&e2);
+
+            printf("[Virtual/Char Class]\n");
+            printf("  sizeof(Virtual) = %zu (vptr added)\n", sizeof(VirtualEmpty));
+            printf("  sizeof(CharOnly)= %zu (placeholder removed)\n\n", sizeof(CharOnly));
+         #else
+            struct Empty se1, se2;
+            printf("[Empty Struct]\n");
+            printf("  sizeof(struct)  = %zu\n", sizeof(struct Empty));
+            printf("  Address of se1  = %p\n", (void*)&se1);
+            printf("  Address of se2  = %p\n\n", (void*)&se2);
+         #endif
+
+         // 2. 指针 vs 数组
+         int numbers[10] = {0};
+         int *ptr1 = numbers;
+         printf("[Array vs Pointer]\n");
+         printf("  sizeof(int arr[10]) = %zu (total bytes)\n", sizeof(numbers));
+         printf("  sizeof(int *ptr)    = %zu (address width)\n", sizeof(ptr1));
+         array_test(numbers);
+         printf("\n");
+
+         // 3. 结构体对齐测试
+         printf("[Memory Alignment]\n");
+         printf("  sizeof(AlignMe)     = %zu (expected 12 due to padding)\n\n", sizeof(struct AlignMe));
+
+         // 4. 字符串常量
+         printf("[String Literals]\n");
+         printf("  sizeof(\"Hello\")     = %zu (includes \\0)\n", sizeof("Hello"));
+
+         printf("========================================\n");
+         
+         
+         int a = 10;
+         int aa = 50;
+         double b = 5.5;
+         int *ptr = &a;
+         int arr[10];
+         struct Data s;
+
+         printf("======== sizeof OPERAND VARIETY ========\n");
+
+         // 1. 类型名 (Must use parentheses)
+         printf("1. Type name: sizeof(int)          = %zu\n", sizeof(int));
+
+         // 2. 变量名 (Parentheses are optional for variables)
+         printf("2. Variable:  sizeof a             = %zu\n", sizeof a);
+
+         // 3. 表达式 (Not evaluated at runtime!)
+         // 即使 a++，a 的值在运行后也不会变
+         printf("3. Expression: sizeof(a + b)       = %zu (result is size of double)\n", sizeof(a + b));
+         printf("   Check 'a' value after a++: a    = %d (still 10)\n", a);
+
+         // 4. 指针相关
+         printf("4. Pointer itself: sizeof(ptr)     = %zu\n", sizeof(ptr));
+         printf("   Dereferenced:   sizeof(*ptr)    = %zu (size of int)\n", sizeof(*ptr));
+         
+         // 即使是 NULL 指针，sizeof(*null_ptr) 也是合法的，不会崩溃！
+         int *null_ptr = NULL;
+         printf("   NULL Deref:     sizeof(*null_ptr) = %zu\n", sizeof(*null_ptr));
+
+         // 5. 结构体成员 (Even without an instance in C++)
+         // C99/C++11 允许直接对成员求 sizeof 而不需要实例
+         printf("5. Struct member: sizeof(s.x)      = %zu\n", sizeof(s.x));
+
+         // 6. 数组
+         printf("6. Array name:    sizeof(arr)      = %zu (4 * 10)\n", sizeof(arr));
+
+         // 7. 复杂的字面量
+         printf("7. Literals:      sizeof(3.14f)    = %zu (float)\n", sizeof(3.14f));
+         printf("   Literals:      sizeof(3.14)     = %zu (double)\n", sizeof(3.14));
+
+         printf("8. sizeof(a*b+a+b) = %zu \n", sizeof(a*b+a+b));
+         printf("8.1 sizeof(a*b+aa+b) = %zu \n", sizeof(a*b+aa+b));
+         printf("9. sizeof(2*5) = %zu \n", sizeof(2*5));
+         printf("10. sizeof(2*5.5) = %zu \n", sizeof(2*5.5));
+         printf("========================================\n");
+         return 0;
+         }
+      ```
+
 4. extern关键字的作用？
 5. 大端字节序和小端字节序，以及网络字节序是什么？以及他们的应用场景？
-6. c语言结构体的内存模型？
-7. c语言通常情况下如何实现类似c++的多态机制？
-8. c语言在编程时如何实现引用计数？
-9. c语言中各种数据的存放位置，字符串常量如何存放？
-10. 指针数组和数组指针是什么？
-11. 由浅入深的类型声明/函数指针的解析理解？
+6. c语言结构体的内存模型？对象在内存中的结构布局?
+7. 程序的内存分区？
+8. c语言通常情况下如何实现类似c++的多态机制？
+9.  c语言在编程时如何实现引用计数？
+10. c语言中各种数据的存放位置，字符串常量如何存放？
+11. 指针数组和数组指针是什么？
+12. 由浅入深的类型声明/函数指针的解析理解？
     1. `int (*fp)(int)`
     2. `int *fp(int)`
     3. `int (*func(int))(int)`
     4. `int (*fp[3])(int)`
     5. `int (**fp)(int)`
-12. 由浅入深的指针类型？
+13. 由浅入深的指针类型？
     1. 指针解引用的定义和语义
        1. 可以看作是一个运算过程: 输入特定类型的表达式，进行`求值`（而不是取址，因为这是一个运算过程），获取地址值，然后进行对象`指代 denote`（而不是对象构造，创造），返回目标左值表达式，用于具体上下文使用
        2. 解引用的操作对象：输入 指针类型的表达式（既可以是指针变量，也可以是地址常量，关键是指针类型）
@@ -60,7 +214,7 @@ created: 1767882025440
        1. `int *get_buf(void);`
        2. 对比：`int (*get_cb(void))(int);`
        3. 返回函数指针（回调注册）
-13. 指针传参的思考，什么时候使用一级指针，什么时候使用二级指针？
+14. 指针传参的思考，什么时候使用一级指针，什么时候使用二级指针？
     1. 准确来说是一级指针参数和二级指针参数，因为我们讨论的上下文就是函数的参数传参
     2. 函数的指针传参，本质上就是定义一个临时指针变量进行值拷贝
     3. 一级指针参数解引用后，可以获取一级指针指代的对象，执行对象相关操作，但不能修改指针本身的指向，因为函数指针传参，是临时变量拷贝，而不是引用
@@ -77,35 +231,50 @@ created: 1767882025440
 
        ```
 
-14. 运算符分类
+15. 运算符分类，优先级
+16. 解释一下，什么是内存对齐?谁为谁，做了什么?内存对齐时字节填充的规则?
+    1. 在编译期，编译器为了cpu对内存读取的效率，会给一个对象填充字节，比如给结构体的成员间填充字节
+    2. 字节填充的规则:
+       1. 起始偏移对齐，对于结构体，编译期会依次处理每一个成员，每个成员相对于前一个成员的偏移量都要是自身大小的整数倍，故如果摆放顺序是(1,4,1) 在放置第二个成员数据时，偏移量一定要是4的倍数，那么第一成员和第二成员就有3字节的填充，数据迭代为(4,4,1)
+       2. 收尾对齐，整体大小规则(必须是最大成员的整数倍)，故整体数据大小要12，那么最后一个字节放置后还需要填充3字节。故定义时成员的排列顺序会影响内存对齐的占用大小，最优规则就是按成员大小从大到小排列，这样可以保证后续成员的因为偏移需要填充的字节最少.
+       3. 对齐参考的单位即结构体中最大成员的大小.
 
 ## c++
 
 1. c++中的指针操作和c中的指针是否存在差别？
-2. c++中的引用是什么？和指针的区别是什么？
-3. c++中的static和c中的static的相同点以及差异？
-4. 结构体和联合体有什么区别？c++的结构体和c语言的结构体有什么区别？union中可以存放class对象吗？
-5. 讲解一下c++的字节对齐，以及与c的字节对齐存在哪些差异点？malloc、free和new、delete的异同点？
-6. 详细讲解一下，c++中的左右值、移动语义、move关键字的发展历史和作用？
-7. c++中的构造方式以及赋值方式有哪些？初始化列表是什么？
-8. c++的RAII机制是什么？
-9. c++的模板是什么机制？
-10. c++的类型萃取是什么？
-11. 概括一下c++和c的区别？
-12. c++类的内存模型？
-13. c++多态机制原理？什么是虚函数？什么是纯虚函数？
-14. c++虚函数的底层实现，数据结构体？
-15. c++虚函数表和虚函数指针的创建、初始化、更新时机，过程细节？
-16. 对void使用sizeof，那么得出的数值是多少？为什么？
-17. 性能优化相关的问题，请问c++的迭代器，在使用过程，++i和i++有什么区别？哪些场景下使用对应方式？
-18. c++ lambda表达式的原理？
-19. c++ 智能指针
+2. c99的特例可变数组和c++中的动态数组有什么区别?
+   1. 内存位置不同，一个是栈的位置，一个是堆
+3. c++中的引用是什么？和指针的区别是什么？
+4. c++中的static和c中的static的相同点以及差异？
+5. c++的对象模型，c++对象在内存中的结构布局?
+6. c 和 c++的本质区别?
+7. volatile的作用？
+8. 结构体和联合体有什么区别？c++的结构体和c语言的结构体有什么区别？union中可以存放class对象吗？
+9. 解一下c++的字节对齐，以及与c的字节对齐存在哪些差异点？malloc、free和new、delete的异同点？
+10. 详细讲解一下，c++中的左右值、移动语义、move关键字的发展历史和作用？
+11. c++中的构造方式以及赋值方式有哪些？初始化列表是什么？
+12. c++的RAII机制是什么？
+13. c++的模板是什么机制？
+14. c++的类型萃取是什么？
+15. 概括一下c++和c的区别？
+16. c++类的内存模型？
+17. c++多态机制原理？什么是虚函数？什么是纯虚函数？
+18. c++虚函数的底层实现，数据结构体？
+19. c++虚函数表和虚函数指针的创建、初始化、更新时机，过程细节？
+20. 对void使用sizeof，那么得出的数值是多少？为什么？
+21. 性能优化相关的问题，请问c++的迭代器，在使用过程，++i和i++有什么区别？哪些场景下使用对应方式？
+22. c++ lambda表达式的原理？
+23. c++ 智能指针
     1. 智能指针的分类？
     2. 不同智能指针的应用场景，分别解决了什么问题？
     3. 智能指针的克制准则，什么情况下非必要不使用？
     4. share_ptr的创建和获取方式？
     5. share_ptr的循环引用问题是什么？如何解决？
-20. 宏的特别使用技巧有哪些？可以实现哪些功能？
+24. 宏的特别使用技巧有哪些？可以实现哪些功能？
+25. 多线程问题，线程安全和线程可重入是什么?有什么区别?
+26. 多线程问题，死锁的四个必要条件?如何避免死锁?
+27. 多线程问题，什么是double-checked locking?
+28. 多线程问题，结合实际情况，epoll是否是线程安全的，多个线程操作epoll事件如何处理？
 
 ## 逻辑概念
 
@@ -264,12 +433,22 @@ created: 1767882025440
 2. YUV颜色空间转化
 3. h264格式基础
 4. h264编解码
+5. 视频录制时帧处理
+6. 视频切片时帧处理
+7. 视频解析时帧处理
 
 ## Qt
 
 1. 信号-槽机制
 2. 常见的基础组件，定时器，进程类，http类，socket等
 3. 所有常见的ui组件，常见的布局组合设计
+
+## 常见嵌入式框架
+
+1. buildroot
+2. flytings
+3. lvgl
+4. Qt
 
 ## book
 
