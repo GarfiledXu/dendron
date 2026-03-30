@@ -2,7 +2,7 @@
 id: phpsoe858n023a9ogsz7o51
 title: Iv4功能分析和需求提取
 desc: ''
-updated: 1774833839363
+updated: 1774856403758
 created: 1774592277604
 ---
 
@@ -434,96 +434,94 @@ top to bottom direction
 
 ' 上位机导入
 
-' top to bottom direction
-
-' state pc_import_state {
-
-'     state "idle" as idle
-'     state "init" as init
-'     state "begin_import" as begin_import
-'     state "importing" as importing
-'     state "commit" as commit
-'     state "abort" as abort
-'     state "cleanup" as cleanup
-
-'     [*] --> idle
-
-'     ' ===== 启动 =====
-'     idle --> init: [CMD] select_file
-
-'     ' ===== 文件校验 =====
-'     init --> begin_import: [EVT] file_valid
-'     init -[#FF6347]--> cleanup: [ERR] file_invalid
-
-'     ' ===== 启动导入 =====
-'     begin_import --> importing: [EVT] IMPORT_BEGIN ok
-'     begin_import -[#FF6347]--> cleanup: [ERR] IMPORT_BEGIN fail
-
-'     ' ===== 数据写入（核心循环） =====
-'     importing --> importing: [CMD] IMPORT_APP
-'     importing --> importing: [CMD] IMPORT_IMAGE
-
-'     importing --> commit: [EVT] all_data_sent
-'     importing -[#FF6347]--> abort: [ERR] transfer_fail
-
-'     ' ===== 提交 =====
-'     commit --> idle: [EVT] IMPORT_COMMIT ok
-'     commit -[#FF6347]--> abort: [ERR] IMPORT_COMMIT fail
-
-'     ' ===== 中断/失败 =====
-'     abort -[#FF6347]--> cleanup: [CMD] IMPORT_ABORT
-
-'     ' ===== 清理 =====
-'     cleanup --> idle: [EVT] cleanup_done
-
-' }
-
-' 下位机导入
 top to bottom direction
 
-' state dev_import_state {
+state pc_import_state {
+
+    state "idle" as idle
+    state "init" as init
+    state "begin_import" as begin_import
+    state "importing" as importing
+    state "commit" as commit
+    state "abort" as abort
+    state "cleanup" as cleanup
+
+    [*] --> idle
+
+    ' ===== 启动 =====
+    idle --> init: [CMD] select_file
+
+    ' ===== 文件校验 =====
+    init --> begin_import: [EVT] file_valid
+    init -[#FF6347]--> cleanup: [ERR] file_invalid
+
+    ' ===== 启动导入 =====
+    begin_import --> importing: [EVT] IMPORT_BEGIN ok
+    begin_import -[#FF6347]--> cleanup: [ERR] IMPORT_BEGIN fail
+
+    ' ===== 数据写入（核心循环） =====
+    importing --> importing: [CMD] IMPORT_APP
+    importing --> importing: [CMD] IMPORT_IMAGE
+
+    importing --> commit: [EVT] all_data_sent
+    importing -[#FF6347]--> abort: [ERR] transfer_fail
+
+    ' ===== 提交 =====
+    commit --> idle: [EVT] IMPORT_COMMIT ok
+    commit -[#FF6347]--> abort: [ERR] IMPORT_COMMIT fail
+
+    ' ===== 中断/失败 =====
+    abort -[#FF6347]--> cleanup: [CMD] IMPORT_ABORT
+
+    ' ===== 清理 =====
+    cleanup --> idle: [EVT] cleanup_done
+
+}
+
+' 下位机导入
+' #FFD700
+' #00BFFF
+' #00FA9A
+' #FF69B4
+' #1E90FF
+' #FF6347
+top to bottom direction
+
+state dev_import_state {
 
    
-'     state "idle" as idle
-'     state "resetting" as resetting
-'     state "importing" as importing
-'     state "applying" as applying
+    state "idle" as idle
+    state "resetting" as resetting
+    state "importing" as importing
+    state "applying" as applying
 
-'    '  skinparam state {
-'    '    BackgroundColor<<CMD>> LightBlue
-'    '    BackgroundColor<<EVT>> LightGreen
-'    '    BackgroundColor<<ERR>> LightSalmon
-'    '    BorderColor Black
-'    ' }
+   '  skinparam state {
+   '    BackgroundColor<<CMD>> LightBlue
+   '    BackgroundColor<<EVT>> LightGreen
+   '    BackgroundColor<<ERR>> LightSalmon
+   '    BorderColor Black
+   ' }
 
+    [*] --> idle
+    ' ===== 启动导入 =====
+    idle -[#00BFFF]-> resetting : [CMD] IMPORT_BEGIN 
+    resetting -[#00BFFF]-> importing : [EVT] reset_done 
 
-' ' #FFD700
-' ' #00BFFF
-' ' #00FA9A
-' ' #FF69B4
-' ' #1E90FF
-' ' #FF6347
+    ' ===== 数据写入 =====
+    importing -[#00BFFF]-> importing : [CMD] IMPORT_APP 
+    importing -[#00BFFF]-> importing : [CMD] IMPORT_IMAGE
 
-'     [*] --> idle
-'     ' ===== 启动导入 =====
-'     idle -[#00BFFF]-> resetting : [CMD] IMPORT_BEGIN 
-'     resetting -[#00BFFF]-> importing : [EVT] reset_done 
+    ' ===== 正常提交 =====
+    importing -[#00BFFF]-> applying : [CMD] IMPORT_COMMIT 
+    applying -[#00BFFF]-> idle : [EVT] commit_done 
 
-'     ' ===== 数据写入 =====
-'     importing -[#00BFFF]-> importing : [CMD] IMPORT_APP 
-'     importing -[#00BFFF]-> importing : [CMD] IMPORT_IMAGE
+    ' ===== 主动取消 =====
+    importing -[#00BFFF,dashed]-> resetting : [CMD] IMPORT_ABORT
+    resetting -[#00BFFF,dashed]-> idle : [EVT] cleanup_done
 
-'     ' ===== 正常提交 =====
-'     importing -[#00BFFF]-> applying : [CMD] IMPORT_COMMIT 
-'     applying -[#00BFFF]-> idle : [EVT] commit_done 
-
-'     ' ===== 主动取消 =====
-'     importing -[#00BFFF,dashed]-> resetting : [CMD] IMPORT_ABORT
-'     resetting -[#00BFFF,dashed]-> idle : [EVT] cleanup_done
-
-'     ' ===== 异常/超时 =====
-'     importing -[#FF6347,dashed]-> resetting : [ERR] timeout / parse_fail 
-' }
+    ' ===== 异常/超时 =====
+    importing -[#FF6347,dashed]-> resetting : [ERR] timeout / parse_fail 
+}
 
 
 
@@ -563,5 +561,10 @@ top to bottom direction
 +-------------------+
 ```
 
+1. 二进制备份格式定义 
+2. 数据单元定义
+3. 下位机操作过程
 
-2. 上下位机交互时序图 流程图 包括 具体协议内容，指令
+
+gpt
+不是的，现在方案还是有问题，之前我想着，把步骤由上位机组合，复用现有的部分命令，然后一个一个unit传输，后面发现及时这样，还是会很乱的，并且没有形成标准，而且这边下位机的工作并没有简单，反而混乱。和同事沟通以后，还是得采用，包都在下位机整理，写入，读取，上下位机就直接传输包，当作二进制传输，然后包本身的思路还是我们开始的，自定义的二进制的思路，只是下位机写和整理。另外目前主要分为这几类数据，程序本身的数据，已经能够完全序列化为json了，里面涉及的图像会有一个图像id占位，程序就用pro_json表示，然后涉及的图像就有三类，主控图像，追加学习图像和缩略图，并且数量都不固定。然后就是学习图像历史，里面也是有一份完整json的，每张图像，并且也有缩略图，每个程序上线50张，所以学习图像历史，作为另一种类型数据，run_history_json + 图像。所以在之前的时序图和状态机的基础上改，核心还是交互，以及自定义文件格式更具体的分类
