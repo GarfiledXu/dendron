@@ -2,7 +2,7 @@
 id: 3dvx79sp70jo3rh18x0rkzi
 title: Code_space
 desc: ''
-updated: 1757748414907
+updated: 1775111695079
 created: 1751013357879
 ---
 
@@ -35,6 +35,12 @@ created: 1751013357879
         VencMuxerConf venc_muxer_conf_;
 
     };
+
+    RkVencMuxer& ins(){
+        static RkVencMuxer static_ins;
+        return static_ins;
+    }
+
 ```
 
 日志风格 字符串格式化格式是spdlog的, 如下

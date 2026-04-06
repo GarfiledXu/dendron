@@ -2,7 +2,7 @@
 id: y3ro81pgx4og72jbqktffk6
 title: 时序图状态图导出2
 desc: ''
-updated: 1774959720730
+updated: 1775022251131
 created: 1774852125219
 ---
 ## 备份数据定义和分类
@@ -1517,11 +1517,6 @@ FS_STAT-{"code":-2,"msg":"NOT_FOUND","path":"/b.json"} 返回失败
 FS_LIST-{"path":"/prog","recursive":1,"max_depth":2,"list_type":"all","max_count":1000,"cursor":0} 查询文件列表
 FS_LIST-{"file_count":120,"has_more":1,"next_cursor":100,"files":[{"path":"/prog/1/","is_dir":1},{"path":"/prog/1/config.json","size":1024,"type":"PRO_CONFIG_JSON","is_dir":0}]} 返回文件列表
 
-<!-- FS_STAT-{"path":"/prog/1/config.json"} 查询单个文件信息
-FS_STAT-{"size":1024,"md5":"xxx","type":"PRO_CONFIG_JSON","perm":1} 返回文件详细信息 -->
-<!-- FS_LIST-{"path":"/prog","recursive":1,"max_depth":2,"list_type":"all","max_count":1000,"cursor":0} 查询文件列表
-FS_LIST-{"file_count":120,"has_more":1,"next_cursor":100,"files":[{"path":"/prog/1/","is_dir":1},{"path":"/prog/1/config.json","size":1024,"type":"PRO_CONFIG_JSON","is_dir":0}]} 返回文件列表 -->
-
 FS_BATCH_STAT-{"paths":["/a.json","/b.json","/c.json"]} 批量查询文件
 FS_BATCH_STAT-{"code":0,"msg":"OK","results":[
     {"path":"/a.json","code":0,"size":100,"md5":"xxx"},
@@ -1530,27 +1525,23 @@ FS_BATCH_STAT-{"code":0,"msg":"OK","results":[
 ]} 返回结果
 
 读取类（大文件）
-FS_READ_BEGIN-{"path":"/prog/1/config.json"} 打开读取会话
-FS_READ_BEGIN-{"session_id":1,"file_size":10240} 返回读取会话信息
+FS_OPEN_READ-{"path":"/prog/1/config.json"} 打开读取会话
+FS_OPEN_READ-{"session_id":1,"file_size":10240} 返回读取会话信息
 
 FS_READ_DATA-{"session_id":1,"offset":0,"size":65536} 分片读取文件
 FS_READ_DATA-{"offset":0,"data_len":4096,"is_eof":0,"crc32":12345678}#payload(binary) 返回数据分片
 
-FS_READ_END-{"session_id":1} 关闭读取会话
-FS_READ_END-{"status":0} 返回关闭结果
+FS_CLOSE-{"session_id":1} 关闭读取会话
+FS_CLOSE-{"status":0} 返回关闭结果
 
 写入类 （大文件）
-FS_WRITE_BEGIN-{"path":"/prog/1/config.json","total_size":10240} 打开写入会话
-FS_WRITE_BEGIN-{"session_id":1} 返回写入会话信息
 
-FS_WRITE_BEGIN-{"path":"/prog/1/config.json","total_size":10240} 打开写入会话
-FS_WRITE_BEGIN-{"session_id":1} 返回写入会话信息
+FS_OPEN_WRITE-{"path":"/prog/1/config.json","total_size":10240} 打开写入会话
+FS_OPEN_WRITE-{"session_id":1} 返回写入会话信息
 
 FS_WRITE_DATA-{"session_id":1,"offset":0}#payload(binary) 写入数据分片
 FS_WRITE_DATA-{"written":4096} 返回写入结果
 
-FS_WRITE_COMMIT-{"session_id":1} 提交写入
-FS_WRITE_COMMIT-{"status":0} 返回提交结果
 
 文件操作类
 FS_DELETE-{"path":"/prog/1/config.json"} 删除文件
@@ -1575,6 +1566,387 @@ FS_QUERY_FREE_SPACE-{"total_size":40,"used_size":50,"free_size":1, "status":0}
 FS_QUERY_DIR_SIZE-{"path":"/target/dir_or_file","include_child":1,"unit":"MB"}
 FS_QUERY_DIR_SIZE-{"size":123.5,"file_count":20,"dir_count":5,"status":0,"error_msg":""}
 
+现在帮我按照公司规范格式生成修改所有指令和接口
+现在帮我把上面所有的指令转化为下面的格式
+
+
+查询程序数量和空间占用情况
+
+1. pc->dev:  `EXPORT_QUERY-#<json1>CR `
+
+2. dev->pc: ` EXPORT_QUERY-#<json2>CR `
+
+```json
+
+```
+
+```json
+
+```
+
+## FS 指令接口
+
+template
+
+1. pc->dev: ``
+2. dev->pc: ``
+
+```json
+
+```
+
+```json
+
+```
+
+查询设备文件服务能力 (FS_CAP_QUERY)
+
+1. pc->dev: `FS_CAP_QUERY-#<json>CR`
+2. dev->pc: `FS_CAP_QUERY-#<json>CR`
+
+```json
+{}
+```
+
+```json
+{
+    "max_chunk_size": 65536,
+    "support_compress": ["none", "gzip"],
+    "support_encrypt": ["none", "aes128"],
+    "root_paths": ["/config", "/prog", "/image"]
+}
+```
+
+查询单个文件状态 (FS_STAT)
+
+1. pc->dev: `FS_STAT-#<json>CR`
+2. dev->pc: `FS_STAT-#<json>CR`
+
+```json
+{
+    "path": "/a.json"
+}
+```
+
+```json
+{
+    "code": 0,
+    "msg": "OK",
+    "path": "/a.json",
+    "size": 100,
+    "md5": "xxx"
+}
+```
+
+获取文件列表 (FS_LIST)
+
+1. pc->dev: `FS_LIST-#<json>CR`
+2. dev->pc: `FS_LIST-#<json>CR`
+
+```json
+{
+    "path": "/prog",
+    "recursive": 1,
+    "max_depth": 2,
+    "list_type": "all",
+    "max_count": 1000,
+    "cursor": 0
+}
+```
+
+```json
+{
+    "file_count": 120,
+    "has_more": 1,
+    "next_cursor": 100,
+    "files": [
+        {"path": "/prog/1/", "is_dir": 1},
+        {"path": "/prog/1/config.json", "size": 1024, "type": "PRO_CONFIG_JSON", "is_dir": 0}
+    ]
+}
+```
+
+批量查询文件 (FS_BATCH_STAT)
+
+1. pc->dev: `FS_BATCH_STAT-#<json>CR`
+2. dev->pc: `FS_BATCH_STAT-#<json>CR`
+
+```json
+{
+    "paths": ["/a.json", "/b.json", "/c.json"]
+}
+```
+
+```json
+{
+    "code": 0,
+    "msg": "OK",
+    "results": [
+        {"path": "/a.json", "code": 0, "size": 100, "md5": "xxx"},
+        {"path": "/b.json", "code": -2, "msg": "NOT_FOUND"},
+        {"path": "/c.json", "code": 0, "size": 1024, "md5": "yyy"}
+    ]
+}
+```
+
+
+打开读取会话 (FS_OPEN_READ)
+
+1. pc->dev: `FS_OPEN_READ-#<json>CR`
+2. dev->pc: `FS_OPEN_READ-#<json>CR`
+
+```json
+{
+    "path": "/prog/1/config.json"
+}
+```
+
+```json
+{
+    "session_id": 1,
+    "file_size": 10240
+}
+```
+
+
+分片读取数据 (FS_READ_DATA)
+
+1. pc->dev: `FS_READ_DATA-#<json>CR`
+2. dev->pc: `FS_READ_DATA-#<json>#<binary_payload>CR`
+
+```json
+{
+    "session_id": 1,
+    "offset": 0,
+    "size": 65536
+}
+```
+
+```json
+{
+    "offset": 0,
+    "data_len": 4096,
+    "is_eof": 0,
+    "crc32": 12345678
+}
+```
+
+打开写入会话 (FS_OPEN_WRITE)
+
+1. pc->dev: `FS_OPEN_WRITE-#<json>CR`
+2. dev->pc: `FS_OPEN_WRITE-#<json>CR`
+
+```json
+{
+    "path": "/prog/1/config.json",
+    "total_size": 10240
+}
+```
+
+```json
+{
+    "session_id": 1
+}
+```
+
+写入数据分片 (FS_WRITE_DATA)
+
+1. pc->dev: `FS_WRITE_DATA-#<json>#<binary_payload>CR`
+2. dev->pc: `FS_WRITE_DATA-#<json>CR`
+
+```json
+{
+    "session_id": 1,
+    "offset": 0
+}
+```
+
+```json
+{
+    "written": 4096,
+    "status": 0
+}
+```
+
+关闭会话 (FS_CLOSE)
+
+1. pc->dev: `FS_CLOSE-#<json>CR`
+2. dev->pc: `FS_CLOSE-#<json>CR`
+
+```json
+{
+    "session_id": 1
+}
+```
+
+```json
+{
+    "status": 0
+}
+```
+
+查询程序数量和空间占用 (EXPORT_QUERY)
+
+1. pc->dev: `EXPORT_QUERY-#<json>CR`
+2. dev->pc: `EXPORT_QUERY-#<json>CR`
+
+```json
+{
+    "is_prog_all": 1,
+    "is_attach_run_history": 1,
+    "prog_idx": [1, 3, 4]
+}
+```
+
+```json
+{
+    "prog_count": 2,
+    "prog_list": [
+        {
+            "id": 1, 
+            "name": "prog_a", 
+            "size_mb": 10, 
+            "has_thumb": 1, 
+            "master_count": 2, 
+            "master_list": [{"id": 0}, {"id": 1}], 
+            "run_history_count": 10, 
+            "run_history_size_mb": 20
+        },
+        {
+            "id": 3, 
+            "name": "prog_b", 
+            "size_mb": 15, 
+            "has_thumb": 0, 
+            "master_count": 1, 
+            "master_list": [{"id": 0}], 
+            "run_history_count": 30, 
+            "run_history_size_mb": 60
+        }
+    ]
+}
+```
+
+
+查询目录详情 (FS_QUERY_DIR_SIZE)
+
+1. pc->dev: `FS_QUERY_DIR_SIZE-#<json>CR`
+2. dev->pc: `FS_QUERY_DIR_SIZE-#<json>CR`
+
+```json
+{
+    "path": "/target/dir_or_file",
+    "include_child": 1,
+    "unit": "MB"
+}
+```
+
+```json
+{
+    "size": 123.5,
+    "file_count": 20,
+    "dir_count": 5,
+    "status": 0,
+    "error_msg": ""
+}
+```
+
+删除文件 (FS_DELETE)
+
+1. pc->dev: `FS_DELETE-#<json>CR`
+2. dev->pc: `FS_DELETE-#<json>CR`
+
+```json
+{
+    "path": "/prog/1/config.json"
+}
+```
+
+```json
+{
+    "status": 0
+}
+```
+
+创建目录 (FS_MKDIR)
+
+1. pc->dev: `FS_MKDIR-#<json>CR`
+2. dev->pc: `FS_MKDIR-#<json>CR`
+
+```json
+{
+    "path": "/prog/2/"
+}
+```
+
+```json
+{
+    "status": 0
+}
+```
+
+计算校验值 (FS_CHECKSUM)
+
+1. pc->dev: `FS_CHECKSUM-#<json>CR`
+2. dev->pc: `FS_CHECKSUM-#<json>CR`
+
+```json
+{
+    "path": "/prog/1/config.json",
+    "type": "md5"
+}
+```
+
+```json
+{
+    "value": "xxxxxxxx",
+    "status": 0
+}
+```
+
+## 导入导出业务层接口
+
+1. 导出查询
+   1. EXPORT_QUERY
+
+    ```json
+    {
+        "is_prog_all": 1,
+        "is_attach_run_history": 1,
+        "prog_idx": [1, 3, 4]
+    }
+    ```
+
+    ```json
+    {
+        "roots": ["/mnt/sdcard", "/data"],
+        "files": [
+            { "file_idx": 0, "roots_idx": 0, "relative_path": "log/a.txt", "size": 1024, "md5": "abcd1234" },
+            { "file_idx": 1, "roots_idx": 1, "relative_path": "config/a.txt", "size": 2048, "md5": "efgh5678" }
+        ],
+        "prog_file_list": [
+            { "prog_id": "101", "file_idx_list": [1,2,3] }
+        ],
+        "config_file":{"file_idx":1}
+    }
+    ```
+
+2. 导出开始
+   1. EXPORT_START
+   2. OK
+   3. ERR
+3. 导出结束
+   1. EXPORT_END
+   2. OK
+   3. ERR
+4. 导入开始
+   1. IMPORT_START
+   2. OK
+   3. ERR
+5. 导入结束
+   1. IMPORT_END
+   2. OK
+   3. ERR
+
 
 现在基于这个FS的存在，修改一下导入导出的时序图
 主要流程就是用户发起导出时，pc查询设备端的备份文件列表，dev会返回一份备份列表，目前比较纠结的东西，设备端的文件列表以及文件按什么结构存储到上位机，比较麻烦的一点，首先我们导出后再导入，肯定是要把文件还原到固定文件夹的，最简单的方案就是 传输的列表就是所有文件的绝对路径，完全拷贝设备中的目录，在上位机这边的备份文件夹从根目录开始创建，完全还原相关文件需要的父文件夹，但是这样查看以及便利提取时就有些麻烦，万一大家的文件层数都比较深，所以是否有办法 根路径+相对路径的方式，假设100个文件，用这个表示，实际上就两个根目录，所有文件都是这个根目录的相对路径，在这个基础创建父目录就行，需要时拼接一下根目录，问题是用什么方式表示合适，可能大家共同的目录比较少
@@ -1588,6 +1960,8 @@ FS_QUERY_DIR_SIZE-{"size":123.5,"file_count":20,"dir_count":5,"status":0,"error_
 
 ```plantuml
 @startuml
+' !pragma teoz true
+
 skinparam sequence {
     ActorBorderColor #03A9F4
     ActorBackgroundColor #B3E5FC
@@ -1621,16 +1995,23 @@ skinparam dpi 150
 actor USER as u
 participant PC as p
 participant DEV as d
+participant nte
 
 ' ================================
 ' 导出流程
 ' ================================
+' legend right
 
+note over of p
+阶段1：查询备份列表
+end note
 ' 1. 发起导出，选择导出项
 u ->> p: 发起导出，选择导出项
 
 ' 2. 上位机下发查询指令，下位机返回备份文件映射 roots/files/prog_list
 p ->> d: [CMD] EXPORT_QUERY-#{"is_all_prog":1, "prog_id_list":[]}
+' 2.1 note
+
 activate d
 d ->> d: 根据prog_id_list, 遍历相关备份文件的路径信息
 d -->> p: [ACK] 返回导出/备份列表(roots + files + prog_list)
@@ -1650,7 +2031,7 @@ p ->> p: 清理旧数据，准备接受文件并整理
 ' 4.1 上位机发出导出命令，下位机检查是否存在异常条件
 p ->> d: [CMD]EXPORT_START 
 activate d
-d ->> d: 检查是否存在异常条件
+d ->> d: 检查是否存在异常条件\n准备缓存资源
 alt 条件异常
 d ->> p: ERR
 p ->> u: 上位机异常，导出终止
@@ -1658,9 +2039,12 @@ else
 end
 deactivate d
 
+note over of p
+阶段2：通用文件接口传输文件
+end note
 ' 5. 上位机根据备份文件清单，通过 [CMD][FS] 指令组合，从下位机拷贝目标文件到当前缓存文件夹，保持原有目录结构
 loop 遍历备份文件清单
-    p ->> d: [CMD] FS_READ_FILE_BEGIN
+    p ->> d: [CMD] FS_OPEN_READ
     activate d
     alt 设备空闲
         d -->> p: [ACK] OK
@@ -1669,14 +2053,21 @@ loop 遍历备份文件清单
     end
     deactivate d
 
-    loop 分片拉取文件
-        p ->> d: [CMD] FS_READ_FILE_DATA
+    loop 执行读取
+        p ->> d: [CMD] FS_READ_DATA
         activate d
         d -->> p: [DATA] 
         deactivate d
-        note over p: 为保持文件在设备 FS 上的原有路径，同时避免路径冲突或过深，备份清单采用 roots + files 形式：\n roots 为 JSON 数组，每个元素表示一个根目录，但在本地缓存中使用索引值作为文件夹名以保证唯一性；\n files 为数组，每个对象包含 roots_idx（指向根目录索引）和 relative_path（相对于该根目录的路径）；\n 上位机接收文件时，先在缓存目录下根据 roots 索引创建唯一目录，然后再按 relative_path 创建子目录，从而完整还原设备原有路径结构
+        ' note over p: 为保持文件在设备 FS 上的原有路径，同时避免路径冲突或过深，备份清单采用 roots + files 形式：\n roots 为 JSON 数组，每个元素表示一个根目录，但在本地缓存中使用索引值作为文件夹名以保证唯一性；\n files 为数组，每个对象包含 roots_idx（指向根目录索引）和 relative_path（相对于该根目录的路径）；\n 上位机接收文件时，先在缓存目录下根据 roots 索引创建唯一目录，然后再按 relative_path 创建子目录，从而完整还原设备原有路径结构
+        ' note over p
+        
         p ->> p: 校验分片 + 写入本地缓存文件 + 并保持文件在设备fs上的路径结构
         p ->> u: 更新进度 (%)
+    end
+    p ->> d: [CMD] FS_CLOSE
+    alt ok
+    d ->> p: [ACK] OK
+    else
     end
 end
 
@@ -1690,10 +2081,85 @@ p ->> d: [CMD]EXPORT_END
 activate d
 alt 没毛病
 d ->> p: OK
-d ->> d: check
+d ->> d: check and cleanup
 p ->> u: 导出完成
 end
 deactivate d
+' note right of nte
+note over d, nte
+【路径还原与清单说明】
+
+    一、设备端文件示例
+
+    假设设备上存在以下文件：
+
+    /mnt/sdcard/log/a.txt
+    /mnt/sdcard/log/b.txt
+    /data/config/a.txt
+
+    ----------------------------------------
+
+    二、导出阶段（设备 → 上位机）
+
+    下位机根据导出项生成一份备份清单 JSON：
+
+    roots:
+    [
+        "/mnt/sdcard",
+        "/data"
+    ]
+
+    files:
+    [
+        { "roots_idx": 0, "relative_path": "log/a.txt" },
+        { "roots_idx": 0, "relative_path": "log/b.txt" },
+        { "roots_idx": 1, "relative_path": "config/a.txt" }
+    ]
+
+    说明：
+    - roots 表示所有涉及的根目录
+    - files 通过 roots_idx + relative_path 描述完整路径
+
+    ----------------------------------------
+
+    三、上位机接收与本地缓存
+
+    上位机在导出过程中：
+
+    1. 解析该 JSON 清单
+    2. 在本地缓存目录（如 /backup/）下创建结构：
+
+       /backup/0/log/a.txt
+       /backup/0/log/b.txt
+       /backup/1/config/a.txt
+
+    说明：
+    - 使用 roots 索引（0、1）作为本地根目录名，保证唯一性
+    - relative_path 保持原有子目录结构
+
+    ----------------------------------------
+
+    四、清单文件落盘
+
+    上位机会将该 JSON 清单一并保存到备份目录根目录，例如：
+
+    /backup/manifest.json
+
+    说明：
+    - manifest.json 是导入时还原路径的唯一依据
+    - 不依赖本地目录名（0/1），避免歧义
+    - 支持跨设备、跨环境恢复
+
+    ----------------------------------------
+
+    五、路径还原方式（导入时）
+
+    实际路径 = roots[roots_idx] + relative_path
+
+    示例：
+    0 + log/a.txt → /mnt/sdcard/log/a.txt
+    1 + config/a.txt → /data/config/a.txt
+end note 
 
 @enduml
 ```
@@ -1726,6 +2192,9 @@ participant DEV as d
 ' 导入流程（引入 IMPORT_START 会话）
 ' ================================
 
+note over p
+阶段1：解析备份包获取导入清单
+end note
 ' 1. 发起导入，选择待导入的备份文件
 u ->> p: 发起导入，选择备份文件
 
@@ -1752,6 +2221,7 @@ end
 ' 5. 上位机触发导入会话
 p ->> d: [CMD] IMPORT_START
 activate d
+d ->> d: check & prepare resource
 alt 设备可导入
     d -->> p: [ACK] READY
 else 设备忙或状态不允许
@@ -1765,9 +2235,12 @@ alt IMPORT_START成功
     p ->> p: 创建临时上传队列
     p ->> p: 整理文件路径，保持 roots+relative_path 结构
 
+note over p
+阶段2：通用文件接口写入备份
+end note
     ' 7. 上位机逐个文件通过 [CMD][FS] 上传
     loop 遍历待导入文件清单
-        p ->> d: [CMD] FS_WRITE_FILE_BEGIN
+        p ->> d: [CMD] FS_OPEN_WRITE
         activate d
         alt 设备空闲
             d -->> p: [ACK] OK
@@ -1777,8 +2250,8 @@ alt IMPORT_START成功
         end
         deactivate d
 
-        loop 分片上传文件
-            p ->> d: [CMD] FS_WRITE_FILE_DATA
+        loop 执行写入
+            p ->> d: [CMD] FS_WRITE_DATA
             activate d
             d -->> p: [ACK] (offset, check_value)
             deactivate d
@@ -1791,11 +2264,17 @@ alt IMPORT_START成功
             p ->> p: 校验分片
             p ->> u: 更新上传进度 (%)
         end
+        p ->> d: [CMD] FS_CLOSE
+        alt ok
+        d ->> p: [ACK] OK
+        else
+        end
     end
 
     ' 8. 上位机调用业务层完成导入提交
     p ->> d: [CMD] IMPORT_END
     activate d
+    d ->> d: 清理资源和缓存
     alt 成功
     d -->> p: [ACK] 导入完成
     p ->> u: 导入完成
@@ -1809,3 +2288,7 @@ end
 ```
 
 导入过程产生的异常如何预防？和异常处理？
+
+![picture 3](../../../../../images/5d53229f0799b36a8f2abd85ebc3e39b30a2e957d02dd8966b98044a6f6c7a99.png)  
+
+![picture 4](../../../../../images/86f6e0ec37d102bccac1b7a8608ae01485313d67922bfba84f37d1305046e9f1.png)  
