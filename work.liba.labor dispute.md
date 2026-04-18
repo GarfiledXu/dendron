@@ -1,8 +1,8 @@
 ---
 id: j43kpbir4g4el270ng72140
-title: 劳动仲裁
+title: Labor Dispute
 desc: ''
-updated: 1764767975826
+updated: 1776048896854
 created: 1764487784483
 ---
 

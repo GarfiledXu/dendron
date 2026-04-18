@@ -2,7 +2,7 @@
 id: bemepc50ylnk3xbthqatdq7
 title: Compile_env
 desc: ''
-updated: 1775203792114
+updated: 1776419737355
 created: 1775186929146
 ---
 
@@ -35,6 +35,16 @@ Hisi    :    source /etc/profile
 2.exit 用于退出容器
 */
 ```
+
+实操记录
+
+```bash
+xs_docker_run.sh choose xs_sw_ubuntu-22.04_hisi
+xs_docker_run.sh run 
+source /etc/profile
+
+```
+
 
 ## docker 和 设备编译产物传输
 
@@ -177,3 +187,5 @@ TODO
 0. 自建工程，hello world 编译运行通过
 1. 利用现有docker image dev container环境创建
 2. 尝试将docker克隆到本地支持本地编译
+
+![alt text]({B3DA3C9B-3D56-418A-AB62-63F5860B248D}.png)

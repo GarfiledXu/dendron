@@ -2,7 +2,7 @@
 id: y3ro81pgx4og72jbqktffk6
 title: 时序图状态图导出2
 desc: ''
-updated: 1775022251131
+updated: 1775615678208
 created: 1774852125219
 ---
 ## 备份数据定义和分类
@@ -1343,7 +1343,6 @@ loop 拉取数据单元（Unit）
     activate d
 
     d ->> d: 
-        ' - 按当前游标取下一个数据单元：
           • PRO_JSON
           • PRO_MAIN_IMG
           • PRO_THUMB
@@ -2009,32 +2008,33 @@ end note
 u ->> p: 发起导出，选择导出项
 
 ' 2. 上位机下发查询指令，下位机返回备份文件映射 roots/files/prog_list
-p ->> d: [CMD] EXPORT_QUERY-#{"is_all_prog":1, "prog_id_list":[]}
+p ->> d: [CMD] Backup_Manifest_Query[CR]
 ' 2.1 note
 
 activate d
-d ->> d: 根据prog_id_list, 遍历相关备份文件的路径信息
-d -->> p: [ACK] 返回导出/备份列表(roots + files + prog_list)
+d ->> d: 遍历相关备份文件，整合成清单列表
+d -->> p: [ACK] Backup_Manifest_Query-#<json>[CR]
+
 deactivate d
 
 ' 3. 上位机确定当前选择的导出项组合，通过 [CMD][FS] 查询文件占用空间及缩略图
-p ->> d: [CMD][FS_*] 查询目标文件占用空间 + 缩略图
-activate d
-d ->> d: 响应[FS_*]指令集，执行对应文件操作
-d -->> p: [ACK] 列表文件大小信息 + 缩略图
-deactivate d
+' p ->> d: [CMD][FS_*] 查询目标文件占用空间 + 缩略图
+' activate d
+' d ->> d: 响应[FS_*]指令集，执行对应文件操作
+' d -->> p: [ACK] 列表文件大小信息 + 缩略图
+' deactivate d
 
 ' 4. 上位机创建缓存文件夹，清理数据，准备接受备份文件
-p ->> p: 创建本地缓存文件夹
+p ->> p: 创建本地缓存文件夹\n将接收到的manifest保存为json文件存入文件夹根目录，用于导入时反向解析
 p ->> p: 清理旧数据，准备接受文件并整理
 
 ' 4.1 上位机发出导出命令，下位机检查是否存在异常条件
-p ->> d: [CMD]EXPORT_START 
+p ->> d: [CMD]Backup_Export_Start[CR] 
 activate d
 d ->> d: 检查是否存在异常条件\n准备缓存资源
 alt 条件异常
-d ->> p: ERR
-p ->> u: 上位机异常，导出终止
+d ->> p: ER-#Backup_Export_Start-#33[CR]
+p ->> u: 下位机异常，导出终止
 else
 end
 deactivate d
@@ -2044,19 +2044,19 @@ note over of p
 end note
 ' 5. 上位机根据备份文件清单，通过 [CMD][FS] 指令组合，从下位机拷贝目标文件到当前缓存文件夹，保持原有目录结构
 loop 遍历备份文件清单
-    p ->> d: [CMD] FS_OPEN_READ
+    p ->> d: [CMD] File_SVC_Read_Open
     activate d
     alt 设备空闲
-        d -->> p: [ACK] OK
+        d -->> p: [ACK] File_SVC_Read_Open-#{"session_id":1,"file_size":10240}[CR]
     else 设备忙
-        d -->> p: [ERR] BUSY
+        d -->> p: [ERR] ER-#File_SVC_Read_Open-#33[CR]
     end
     deactivate d
 
     loop 执行读取
-        p ->> d: [CMD] FS_READ_DATA
+        p ->> d: [CMD] File_SVC_Read_Data-#{"session_id":1,"offset":0,"size":65536}[CR]
         activate d
-        d -->> p: [DATA] 
+        d -->> p: [DATA] File_SVC_Read_Data-#{"offset":0,"data_len":4096,"is_eof":0,"crc32":12345678}-#<bin>[CR]
         deactivate d
         ' note over p: 为保持文件在设备 FS 上的原有路径，同时避免路径冲突或过深，备份清单采用 roots + files 形式：\n roots 为 JSON 数组，每个元素表示一个根目录，但在本地缓存中使用索引值作为文件夹名以保证唯一性；\n files 为数组，每个对象包含 roots_idx（指向根目录索引）和 relative_path（相对于该根目录的路径）；\n 上位机接收文件时，先在缓存目录下根据 roots 索引创建唯一目录，然后再按 relative_path 创建子目录，从而完整还原设备原有路径结构
         ' note over p
@@ -2064,24 +2064,25 @@ loop 遍历备份文件清单
         p ->> p: 校验分片 + 写入本地缓存文件 + 并保持文件在设备fs上的路径结构
         p ->> u: 更新进度 (%)
     end
-    p ->> d: [CMD] FS_CLOSE
+    p ->> d: [CMD] File_SVC_Close-#{"session_id":1}[CR]
     alt ok
-    d ->> p: [ACK] OK
+    d ->> p: [ACK] File_SVC_Close-#OK[CR]
     else
     end
+
+    p ->> p: 校验文件 MD5
 end
 
 
 ' 6. 上位机所有备份文件传输完毕，打包，加密
-p ->> p: 校验所有文件 MD5
 p ->> p: 打包 + 压缩 + 加密
 
 ' 6.1 上位机发出结束指令，暂时没有作用
-p ->> d: [CMD]EXPORT_END
+p ->> d: [CMD] Backup_Export_End[CR]
 activate d
 alt 没毛病
-d ->> p: OK
 d ->> d: check and cleanup
+d ->> p: [ACK] Backup_Export_End-#OK[CR]
 p ->> u: 导出完成
 end
 deactivate d
@@ -2122,7 +2123,7 @@ note over d, nte
 
     ----------------------------------------
 
-    三、上位机接收与本地缓存
+    三、上位机接收与本地缓存(电脑存储方案取决于上位机，这里提供参考方案)
 
     上位机在导出过程中：
 
@@ -2164,7 +2165,6 @@ end note
 @enduml
 ```
 
-
 ```plantuml
 @startuml
 skinparam sequence {
@@ -2199,61 +2199,61 @@ end note
 u ->> p: 发起导入，选择备份文件
 
 ' 2. 上位机解压备份文件，获取 roots/files/prog_list
-p ->> p: 解压备份文件
-p ->> p: 解析 JSON 清单，获取 roots + files + prog_list
+p ->> p: 解压备份文件包
+p ->> p: 解析文件包根目录的 JSON 清单文件\n从而获知包内所有文件对应的下位机实际存储路径\n整理待导入文件队列
 
 ' 3. 用户确认导入项组合
-u ->> p: 确认导入的项目和文件
-p ->> p: 计算导入所需空间、显示缩略图
+' u ->> p: 确认导入的项目和文件
+' p ->> p: 计算导入所需空间
 
 ' 4. 查询设备目标目录空间是否足够
-p ->> d: [CMD][FS_QUERY_SPACE] 目标路径
-activate d
-d -->> p: [ACK] 可用空间大小
-deactivate d
+' p ->> d: [CMD][FS_QUERY_SPACE] 目标路径
+' activate d
+' d -->> p: [ACK] 可用空间大小
+' deactivate d
 
-alt 空间不足
-    p ->> u: 提示空间不足，取消导入或调整
-else 空间充足
-    ' 继续导入流程
-end
+' alt 空间不足
+'     p ->> u: 提示空间不足，取消导入或调整
+' else 空间充足
+'     ' 继续导入流程
+' end
 
 ' 5. 上位机触发导入会话
-p ->> d: [CMD] IMPORT_START
+p ->> d: [CMD] Backup_Import_Start[CR]
 activate d
 d ->> d: check & prepare resource
 alt 设备可导入
-    d -->> p: [ACK] READY
+    d -->> p: [ACK] Backup_Import_Start-#OK[CR]
 else 设备忙或状态不允许
-    d -->> p: [ERR] BUSY
+    d -->> p: [ERR] ER-#Backup_Import_Start-#33[CR]
     p ->> p: waiting 
 end
 deactivate d
 
 alt IMPORT_START成功
     ' 6. 上位机准备上传文件到下位机
-    p ->> p: 创建临时上传队列
-    p ->> p: 整理文件路径，保持 roots+relative_path 结构
+    ' p ->> p: 创建临时上传队列
+    ' p ->> p: 整理文件路径，保持 roots+relative_path 结构
 
 note over p
 阶段2：通用文件接口写入备份
 end note
     ' 7. 上位机逐个文件通过 [CMD][FS] 上传
-    loop 遍历待导入文件清单
-        p ->> d: [CMD] FS_OPEN_WRITE
+    loop 处理导入文件队列
+        p ->> d: [CMD] File_SVC_Write_Open-#{"path":"/prog/1/config.json","total_size":10240}[CR]
         activate d
         alt 设备空闲
-            d -->> p: [ACK] OK
+            d -->> p: [ACK] File_SVC_Write_Open-#{"session_id":1}[CR]
         else 设备忙
-            d -->> p: [ERR] BUSY
+            d -->> p: [ERR] ER-#File_SVC_Write_Open-#33[CR]
             p -->> p: wait
         end
         deactivate d
 
         loop 执行写入
-            p ->> d: [CMD] FS_WRITE_DATA
+            p ->> d: [CMD] File_SVC_Write_Data-#{"session_id":1,"offset":0}-#<bin>[CR]
             activate d
-            d -->> p: [ACK] (offset, check_value)
+            d -->> p: [ACK] File_SVC_Write_Data-#{"written":4096,"status":0}[CR]
             deactivate d
 
             note over p
@@ -2264,22 +2264,25 @@ end note
             p ->> p: 校验分片
             p ->> u: 更新上传进度 (%)
         end
-        p ->> d: [CMD] FS_CLOSE
+        p ->> d: [CMD] File_SVC_Close-#{"session_id":1}[CR]
+        activate d
+        d ->> d: check file md5
         alt ok
-        d ->> p: [ACK] OK
+        d ->> p: [ACK] File_SVC_Close-#OK[CR]
+        deactivate d
         else
         end
     end
 
     ' 8. 上位机调用业务层完成导入提交
-    p ->> d: [CMD] IMPORT_END
+    p ->> d: [CMD] Backup_Import_End[CR]
     activate d
     d ->> d: 清理资源和缓存
     alt 成功
-    d -->> p: [ACK] 导入完成
+    d -->> p: [ACK] Backup_Import_End-#OK[CR]
     p ->> u: 导入完成
     else 失败
-    d ->> p: 提示设备忙或状态不允许导入
+    d ->> p: ER-#Backup_Import_End-#33[CR]
     p ->> u: 导入失败
     deactivate d
 end
