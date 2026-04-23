@@ -2,7 +2,7 @@
 id: 0m8gdnid2c5w7615hv8ef9g
 title: Config_info
 desc: ''
-updated: 1776495060010
+updated: 1776681777551
 created: 1776481257964
 ---
 
@@ -43,3 +43,9 @@ jfxu 12345678
 
 ## tmp
 ![alt text]({D2A548DC-8A99-4053-B6B8-554FAD117DA5}.png)
+
+## 设备设置时间
+
+```bash
+/oem/app # date -s "2026-03-15 10:00:00"
+```
