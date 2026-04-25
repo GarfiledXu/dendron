@@ -2,7 +2,7 @@
 id: hztc7z0o9w08mu9gwnrcyup
 title: 架构与功能设计
 desc: ''
-updated: 1776438164655
+updated: 1777034939975
 created: 1776436364412
 ---
 
@@ -18,16 +18,15 @@ created: 1776436364412
 debug_client/
 ├── pyproject.toml          # 现代化工程与依赖配置
 ├── src/
-│   └── debug_client/
-│       ├── __init__.py
-│       ├── core/           # 核心业务与协议层
-│       │   ├── config.py
-│       │   ├── logger.py
-│       │   ├── network/
-│       │   └── protocol/
-│       ├── cli/            # 命令行交互层
-│       │   └── main.py
-│       └── gui/            # 图形交互层
+│    ├── __init__.py
+│    ├── core/           # 核心业务与协议层
+│    │   ├── config.py
+│    │   ├── logger.py
+│    │   ├── network/
+│    │   └── protocol/
+│    ├── cli/            # 命令行交互层
+│    │   └── main.py
+│    └── gui/            # 图形交互层
 │           └── main.py
 └── tests/                  # 测试层
     ├── conftest.py
