@@ -2,7 +2,7 @@
 id: bemepc50ylnk3xbthqatdq7
 title: Compile_env
 desc: ''
-updated: 1777104261018
+updated: 1777593348554
 created: 1775186929146
 ---
 
@@ -43,6 +43,8 @@ xs_docker_run.sh choose xs_sw_ubuntu-22.04_hisi
 xs_docker_run.sh run 
 source /etc/profile
 
+xs_docker_run.sh choose xs_sw_ubuntu-22.04_hisi && xs_docker_run.sh run 
+source /etc/profile && cd /home/jfxu/nv/app/nvs
 ```
 
 ## docker 和 设备编译产物传输
