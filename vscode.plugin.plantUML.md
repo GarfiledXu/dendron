@@ -2,7 +2,7 @@
 id: ko1odclmzykwj5t5cfyu8lq
 title: plantUML
 desc: ''
-updated: 1742237233674
+updated: 1774787309093
 created: 1740452716868
 ---
 
@@ -104,3 +104,7 @@ note right: <xxxx>
    2. deactivate <>
    3. destroy <> 
    4. 连续两个相同参与者的active就会嵌套，通常 A->A,后再来一个activate A 
+
+
+### sequence uml if-else
+
