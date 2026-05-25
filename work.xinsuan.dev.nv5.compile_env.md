@@ -2,7 +2,7 @@
 id: bemepc50ylnk3xbthqatdq7
 title: Compile_env
 desc: ''
-updated: 1777685785108
+updated: 1778465318744
 created: 1775186929146
 ---
 
@@ -35,6 +35,28 @@ Hisi    :    source /etc/profile
 2.exit 用于退出容器
 */
 ```
+
+设备修改ip
+
+```bash
+/etc/init.d # vi S80network
+/etc/init.d # vi S80network
+/oem/cfg/default_cfg.json 修改一下ip
+```
+
+烧写打包
+![alt text]({7EDDCE58-229A-4A33-AC83-85D20B0875BB}.png)
+
+1. 串口驱动安装
+2. 将设备串口以及网口与电脑连接
+3. 打开产线大包exe: C:\Users\default-user-xs\Desktop\NV5_1.2.4_260430_BETA2\产线大包, burntool 选择芯片型号：3519dv500
+4. 填写配置信息
+5. 点击烧写
+6. 烧写完成后断电再续电
+7. 等待完成烧写
+
+编译服务器登录设备免密指南
+[[note.ssh.免密排查指南]]
 
 实操记录
 
@@ -190,3 +212,76 @@ TODO
 2. 尝试将docker克隆到本地支持本地编译
 
 ![alt text]({B3DA3C9B-3D56-418A-AB62-63F5860B248D}.png)
+
+### win电脑ntp开启脚本
+
+```batch
+:: filename: SetupNTP.bat
+@echo off
+cd /d "%~dp0"
+
+:: Check for Administrator privileges
+net session >nul 2>&1
+if %errorlevel% neq 0 (
+    echo ========================================================
+    echo  ERROR: Please run as Administrator!
+    echo  Right-click the file and select 'Run as administrator'.
+    echo ========================================================
+    pause
+    exit /b
+)
+
+echo [1/6] Stopping Windows Time Service...
+net stop w32time
+
+echo [2/6] Unregistering service (cleaning up)...
+w32tm /unregister
+:: Wait for cleanup to finish
+timeout /t 3 /nobreak >nul
+
+echo [3/6] Registering service...
+w32tm /register
+if %errorlevel% neq 0 (
+    echo [ERROR] Failed to register service.
+    echo Please restart your computer and try again.
+    pause
+    exit /b
+)
+
+echo Waiting for service registration (3s)...
+timeout /t 3 /nobreak >nul
+
+echo [4/6] Configuring Registry (NTP Server Mode)...
+:: Enable NTP Server
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\NtpServer" /v "Enabled" /t REG_DWORD /d 1 /f >nul
+:: Force AnnounceFlags to 5 (Reliable Source)
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\W32Time\Config" /v "AnnounceFlags" /t REG_DWORD /d 5 /f >nul
+
+echo [5/6] Configuring Firewall (UDP 123)...
+netsh advfirewall firewall delete rule name="NTP Server Check" protocol=UDP localport=123 >nul 2>&1
+netsh advfirewall firewall add rule name="NTP Server Check" dir=in action=allow protocol=UDP localport=123 >nul
+
+echo [6/6] Starting Service and Updating Config...
+sc config w32time start=auto >nul
+net start w32time
+w32tm /config /update >nul
+
+echo.
+echo ========================================================
+echo                 STATUS CHECK
+echo ========================================================
+echo.
+
+echo 1. Port Listening (Should see UDP 0.0.0.0:123):
+netstat -ano | findstr "123"
+echo.
+
+echo 2. Clock Source (Stratum should NOT be 16):
+w32tm /query /status | findstr "Stratum Source"
+echo.
+
+echo ========================================================
+echo  Configuration Complete.
+echo ========================================================
+pause
+```

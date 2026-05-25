@@ -2,7 +2,7 @@
 id: 69px43knnkxztait9eygjwr
 title: Msg_record
 desc: ''
-updated: 1777373196815
+updated: 1778220634086
 created: 1777013186286
 ---
 
@@ -238,5 +238,35 @@ created: 1777013186286
 [2026-04-24T16:26:46.344] [INFO ] [SEND] Trigger_Read
 [2026-04-24T16:26:46.392] [INFO ] [RECV] Trigger_Read | Trigger_Read-#OK
 [2026-04-24T16:26:46.428] [INFO ] [RECV] Report_Result | {"res_id":4,"tot_res":{"status":-1,"vi_time":1,"vi_time_avg":1,"vi_time_max":1,"vi_time_min":0,"cycle_time":42,"cycle_time_avg":358,"cycle_time_max":961,"cycle_time_min":0},"atools":[{"node_id":"T00",
+
+```
+
+### debug
+
+```bash
+[2026-05-08T14:09:39.127] [INFO ] [SEND] ATool_SetParam
+[2026-05-08T14:09:39.134] [DEBUG] [TCP] TX: ATool_SetParam-#{"config":{"confidence":80,"date_format":{"date_type":0},"dictionary":0,"escape_character":1,"high_speed_mode":0,"judgment_criteria":{"calendar_synchronization":{"adjust_1_month_prior":0,"calc_order":0,"day_offset":0,"minute_offset":0,"month_comp_setting":0,"month_offset":0,"sync_enable":0,"tolerance_mins":0,"zero_padding_enable":0},"control_character":"2025年12月012025年12月01"},"ocr_tool_name":"","ocrmode":"date","pos_adjust_ref":"","regions":[{"op":"base","pts":[{"x":591.55,"y":564.195},{"x":945.346,"y":564.195},{"x":945.346,"y":684.431},{"x":591.55,"y":684.431}],"shape":"rect"}],"search_char_enable":0,"search_char_range":0,"search_char_range_enable":0},"id":"T00"}
+[2026-05-08T14:09:39.135] [DEBUG] [TCP] RX: ATool_SetParam-#OK
+[2026-05-08T14:09:39.136] [INFO ] [RECV] ATool_SetParam | ATool_SetParam-#OK
+[2026-05-08T14:09:39.143] [DEBUG] [NET] Queued command: ATool_SetDepend (priority=Normal, queue=1, depth=1)
+[2026-05-08T14:09:39.187] [INFO ] [SEND] ATool_SetDepend
+[2026-05-08T14:09:39.191] [DEBUG] [TCP] TX: ATool_SetDepend-#{"depend_nodes":[],"id":"T00"}
+[2026-05-08T14:09:39.191] [DEBUG] [TCP] RX: ATool_SetDepend-#OK
+[2026-05-08T14:09:39.192] [INFO ] [RECV] ATool_SetDepend | ATool_SetDepend-#OK
+[2026-05-08T14:09:39.195] [DEBUG] [ToolSettingsPanel] Trigger_Read after live SetParam
+[2026-05-08T14:09:39.195] [DEBUG] [NET] Queued command: Trigger_Read (priority=Normal, queue=1, depth=1)
+[2026-05-08T14:09:39.196] [INFO ] [SEND] Trigger_Read
+[2026-05-08T14:09:39.199] [DEBUG] [TCP] TX: Trigger_Read
+[2026-05-08T14:09:39.200] [DEBUG] [TCP] RX: Trigger_Read-#OK
+[2026-05-08T14:09:39.200] [INFO ] [RECV] Trigger_Read | Trigger_Read-#OK
+[2026-05-08T14:09:39.401] [DEBUG] [TCP][BINARY][parse] cmd=Report_ResultImg hasSepAfterJson=true binaryLen=100427 len=100427 size=-1 data_len=-1 attachments=0 json={"len":100427,"eof":1,"w":1280,"h":960,"color_space":1,"format":"jpeg"}
+[2026-05-08T14:09:39.410] [DEBUG] [TCP][BINARY][start] cmd=Report_ResultImg declared=100427 actual=100427 len=100427 size=-1 data_len=-1 bufferedAfterHeader=0
+[2026-05-08T14:09:39.410] [DEBUG] [TCP][BINARY][complete] cmd=Report_ResultImg total=100427
+[2026-05-08T14:09:39.411] [DEBUG] [NET][BINARY][recv] cmd=Report_ResultImg inFlight=none len=100427 (len=100427 size=-1) eof=1 recvBytes=100427
+[2026-05-08T14:09:39.412] [DEBUG] [NET] Async Report_ResultImg: size=100427, w=1280, h=960, color_space=1, format=2
+[2026-05-08T14:09:39.412] [DEBUG] [FRAME_CACHE] receiving: interval=5715ms receiving_fps=0.2
+[2026-05-08T14:09:39.415] [DEBUG] [TCP][JSON] cmd=Report_Result hasSepAfterJson=false jsonFound=true crPos=2937
+[2026-05-08T14:09:39.416] [DEBUG] [TCP] RX: Report_Result-#{"res_id":374,"tot_res":{"status":-1,"vi_time":1,"vi_time_avg":12,"vi_time_max":531,"vi_time_min":0,"cycle_time":197,"cycle_time_avg":56,"cycle_time_max":1701,"cycle_time_min":0},"atools":[{"node_id":"T00","node_type":"OCR_TOOL","status":-1,"score":0,"num_result":10,"shape":"rect","matched_region":[{"region_score":0,"region":{"op":"base","shape":"rect","pts":[{"x":591.54998779296875,"y":564.19500732421875},{"x":945.34600830078125,"y":564.19500732421875},{"x":945.34600830078125,"y":684.4310302734375},{"x":591.54998779296875,"y":684.4310302734375}]}}],"assistive_region":[],"num_result":11,"ocr_results":[{"result_string":"2025年12月01","pts":[{"x":0,"y":0},{"x":0,"y":0},{"x":0,"y":0},{"x":0,"y":0}]},{"result_string":"2","pts":[{"x":613.4390869140625,"y":615.6787109375},{"x":644.43035888671875,"y":615.6787109375},{"x":644.43035888671875,"y":662.08056640625},{"x":613.4390869140625,"y":662.08056640625}]},{"result_string":"0","pts":[{"x":643.80889892578125,"y":612.25164794921875},{"x":670.45928955078125,"y":612.25164794921875},{"x":670.45928955078125,"y":658.7825927734375},{"x":643.80889892578125,"y":658.7825927734375}]},{"result_string":"2","pts":[{"x":671.47393798828125,"y":608.50885009765625},{"x":698.594482421875,"y":608.50885009765625},{"x":698.594482421875,"y":655.94732666015625},{"x":671.47393798828125,"y":655.94732666015625}]},{"result_string":"5","pts":[{"x":698.50823974609375,"y":605.94049072265625},{"x":725.2435302734375,"y":605.94049072265625},{"x":725.2435302734375,"y":653.6988525390625},{"x":698.50823974609375,"y":653.6988525390625}]},{"result_string":"年","pts":[{"x":725.09466552734375,"y":600.43182373046875},{"x":756.526123046875,"y":600.43182373046875},{"x":756.526123046875,"y":649.5625},{"x":725.09466552734375,"y":649.5625}]},{"result_string":"1","pts":[{"x":759.28143310546875,"y":597.48822021484375},{"x":778.1885986328125,"y":597.48822021484375},{"x":778.1885986328125,"y":644.9266357421875},{"x":759.28143310546875,"y":644.9266357421875}]},{"result_string":"2","pts":[{"x":780.4217529296875,"y":594.18060302734375},{"x":807.56982421875,"y":594.18060302734375},{"x":807.56982421875,"y":640.58251953125},{"x":780.4217529296875,"y":640.58251953125}]},{"result_string":"月","pts":[{"x":807.80010986328125,"y":590.65850830078125},{"x":835.3638916015625,"y":590.65850830078125},{"x":835.3638916015625,"y":637.06036376953125},{"x":807.80010986328125,"y":637.06036376953125}]},{"result_string":"0","pts":[{"x":835.174560546875,"y":587.03289794921875},{"x":861.824951171875,"y":587.03289794921875},{"x":861.824951171875,"y":634.47137451171875},{"x":835.174560546875,"y":634.47137451171875}]},{"result_string":"1","pts":[{"x":865.53936767578125,"y":583.849853515625},{"x":884.91595458984375,"y":583.849853515625},{"x":884.91595458984375,"y":631.288330078125},{"x":865.53936767578125,"y":631.288330078125}]}],"cost_time":193,"cost_time_avg":34,"cost_time_max":193,"cost_time_min":0}]}
+[2026-05-08T14:09:39.418] [INFO ] [RECV] Report_Result | {"res_id":374,"tot_res":{"status":-1,"vi_time":1,"vi_time_avg":12,"vi_time_max":531,"vi_time_min":0,"cycle_time":197,"cycle_time_avg":56,"cycle_time_max":1701,"cycle_time_min":0},"atools":[{"node_id":
 
 ```
