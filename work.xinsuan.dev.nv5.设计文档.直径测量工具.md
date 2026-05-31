@@ -1,13 +1,9 @@
 ---
-id: 3bn1t45uv0y05w99rhxjjpy
+id: 3ir5zfyrhbd6lsuz0ni36d0
 title: 直径测量工具
 desc: ''
-<<<<<<< HEAD
-updated: 1777562501063
-=======
-updated: 1776961463372
->>>>>>> 9fbf21a58f1e20332a381adbd6dadd882992ed2a
-created: 1776935241150
+updated: 1779698066539
+created: 1779350417505
 ---
 
 ## 1. 基恩士「IV4」直径测量功能拆解
@@ -610,6 +606,5 @@ int32_t nvs_alg_diameter_run(nvs_alg_diameter_handle_t handle, const nvs_image_t
 
 5. **组装 JSON 返回:**
    将计算好的 `display_value`、最终 `status` 以及包含所有 `candidates` 数组的结构树打包，通过 `nvs_node_usr_res_set_ptr` 发给上位机。
-
 
 
