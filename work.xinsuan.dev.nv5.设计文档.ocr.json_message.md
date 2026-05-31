@@ -2,7 +2,7 @@
 id: sfvt0yczhwfrqlf3dh9qify
 title: Json_message
 desc: ''
-updated: 1779173099795
+updated: 1780038016351
 created: 1778466733929
 ---
 
@@ -601,4 +601,126 @@ Get_MasterImg-#{"index":0}
     }
   ]
 }
+```
+
+## 运行中追加
+
+>> origin
+
+```bash
+[2026-05-29T10:42:14.479] [DEBUG] [TCP] TX: Set_AutoSend-#{"enable":0}
+[2026-05-29T10:42:14.481] [DEBUG] [TCP] RX: Set_AutoSend-#OK
+[2026-05-29T10:42:29.498] [DEBUG] [TCP] TX: Heartbeat
+[2026-05-29T10:42:29.499] [DEBUG] [TCP] RX: Heartbeat-#OK
+[2026-05-29T10:42:44.509] [DEBUG] [TCP] TX: Heartbeat
+[2026-05-29T10:42:44.516] [DEBUG] [TCP] RX: Heartbeat-#OK
+[2026-05-29T10:42:59.534] [DEBUG] [TCP] TX: Heartbeat
+[2026-05-29T10:42:59.536] [DEBUG] [TCP] RX: Heartbeat-#OK
+
+[>>>1][2026-05-29T10:46:09.766] [DEBUG] [TCP] TX: ATool_StartLearn-#{"id":"T00"}
+[2026-05-29T10:46:09.767] [DEBUG] [TCP] RX: ATool_StartLearn-#OK
+[>>>2][2026-05-29T10:46:09.825] [DEBUG] [TCP] TX: ATool_AddSample-#{"id":"T00"}
+[2026-05-29T10:46:09.826] [DEBUG] [TCP] RX: ATool_AddSample-#OK
+[>>>3][2026-05-29T10:46:09.885] [DEBUG] [TCP] TX: Import_Img-#{"color_space":1,"height":960,"size":1228800,"width":1280}-#[binary: 1228801 bytes]
+[2026-05-29T10:46:09.993] [INFO ] [TCP-HEX] RX RAW length=86 bytes
+[2026-05-29T10:46:09.995] [DEBUG] [TCP][JSON] cmd=Import_Img hasSepAfterJson=false jsonFound=true crPos=85
+[2026-05-29T10:46:09.996] [DEBUG] [TCP] RX: Import_Img-#{"status":"OK","target_cmd":"ATool_AddSample","sample_id":"P001_T00_L_1"}
+[2026-05-29T10:46:09.996] [INFO ] [RECV] Import_Img | Import_Img-#{"status":"OK","target_cmd":"ATool_AddSample","sample_id":"P001_T00_L_1"}
+[2026-05-29T10:46:10.052] [DEBUG] [TCP] TX: ATool_AddCtrlMsg-#{"id":"T00","sample_id":"P001_T00_L_1","samples":"[{\"ch_r\":\"部\",\"sa_id\":0,\"sa_pts\":[{\"x\":761.95,\"y\":381.92},{\"x\":845.14,\"y\":381.92},{\"x\":845.14,\"y\":468.89},{\"x\":761.95,\"y\":468.89}]},{\"ch_r\":\"乐\",\"sa_id\":1,\"sa_pts\":[{\"x\":683.89,\"y\":381.06},{\"x\":765.73,\"y\":381.06},{\"x\":765.73,\"y\":461.33},{\"x\":683.89,\"y\":461.33}]}]"}
+[2026-05-29T10:46:10.053] [INFO ] [TCP-HEX] RX RAW length=21 bytes
+[>>>4][2026-05-29T10:46:10.054] [DEBUG] [TCP] RX: ATool_AddCtrlMsg-#OK
+[>>>5][2026-05-29T10:46:10.111] [DEBUG] [TCP] TX: ATool_DoLearning-#{"id":"T00"}
+[2026-05-29T10:46:10.112] [INFO ] [TCP-HEX] RX RAW length=21 bytes
+[2026-05-29T10:46:10.112] [DEBUG] [TCP] RX: ATool_DoLearning-#OK
+[>>>6][2026-05-29T10:46:13.183] [DEBUG] [TCP] TX: ATool_LearnFinish-#{"id":"T00"}
+[2026-05-29T10:46:13.184] [INFO ] [TCP-HEX] RX RAW length=22 bytes
+[2026-05-29T10:46:13.184] [DEBUG] [TCP] RX: ATool_LearnFinish-#OK
+[2026-05-29T10:46:13.245] [DEBUG] [TCP] TX: ATool_SetParam-#{"config":{"confidence":80,"date_format":{"date_type":0},"dictionary":0,"escape_character":1,"high_speed_mode":0,"ignore_separator":{"enable":0,"symbols":""},"judgment_criteria":{"calendar_synchronization":{"adjust_1_month_prior":0,"calc_order":0,"day_offset":0,"minute_offset":0,"month_comp_setting":0,"month_offset":0,"sync_enable":0,"tolerance_mins":0,"zero_padding_enable":0},"control_character":"2026/04/20"},"ocr_tool_name":"","ocrmode":"date","pos_adjust_ref":"","regions":[{"op":"base","pts":[{"x":249.335,"y":314.624},{"x":888.626,"y":314.624},{"x":888.626,"y":508.597},{"x":249.335,"y":508.597}],"shape":"rect"}],"search_char_enable":0,"search_char_range":0,"search_char_range_enable":0},"id":"T00"}
+[2026-05-29T10:46:13.247] [INFO ] [TCP-HEX] RX RAW length=19 bytes
+[2026-05-29T10:46:13.248] [DEBUG] [TCP] RX: ATool_SetParam-#OK
+[2026-05-29T10:46:13.341] [DEBUG] [TCP] TX: Get_ProgID
+[2026-05-29T10:46:13.342] [INFO ] [TCP-HEX] RX RAW length=21 bytes
+[2026-05-29T10:46:13.343] [DEBUG] [TCP][JSON] cmd=Get_ProgID hasSepAfterJson=false jsonFound=true crPos=20
+[2026-05-29T10:46:13.343] [DEBUG] [TCP] RX: Get_ProgID-#{"id":1}
+[2026-05-29T10:46:13.402] [DEBUG] [TCP] TX: Get_ProgInfo-#{"id":1}
+[2026-05-29T10:46:13.403] [INFO ] [TCP-HEX] RX RAW length=132 bytes
+[2026-05-29T10:46:13.403] [DEBUG] [TCP][JSON] cmd=Get_ProgInfo hasSepAfterJson=false jsonFound=true crPos=131
+[2026-05-29T10:46:13.404] [DEBUG] [TCP] RX: Get_ProgInfo-#{"tool_count":1,"has_thumb":1,"tool_list":[{"id":"T00","type":"OCR_TOOL"}],"master_count":1,"master_list":[{"id":0}]}
+[2026-05-29T10:46:13.462] [DEBUG] [TCP] TX: Get_ProgInfo-#{"id":1}
+[2026-05-29T10:46:13.463] [INFO ] [TCP-HEX] RX RAW length=132 bytes
+[2026-05-29T10:46:13.464] [DEBUG] [TCP][JSON] cmd=Get_ProgInfo hasSepAfterJson=false jsonFound=true crPos=131
+[2026-05-29T10:46:13.464] [DEBUG] [TCP] RX: Get_ProgInfo-#{"tool_count":1,"has_thumb":1,"tool_list":[{"id":"T00","type":"OCR_TOOL"}],"master_count":1,"master_list":[{"id":0}]}
+[2026-05-29T10:46:13.523] [DEBUG] [TCP] TX: Get_AtoolUserParam-#{"id":"T00"}
+[2026-05-29T10:46:13.523] [INFO ] [TCP-HEX] RX RAW length=807 bytes
+[2026-05-29T10:46:13.524] [DEBUG] [TCP][JSON] cmd=Get_AtoolUserParam hasSepAfterJson=false jsonFound=true crPos=806
+[2026-05-29T10:46:13.524] [DEBUG] [TCP] RX: Get_AtoolUserParam-#{"ocrmode":"date","ocr_tool_name":"","threshold":50,"pos_adjust_ref":"","regions":[{"op":"base","shape":"rect","pts":[{"x":249.33500671386719,"y":314.62399291992188},{"x":888.6259765625,"y":314.62399291992188},{"x":888.6259765625,"y":508.59698486328125},{"x":249.33500671386719,"y":508.59698486328125}]}],"date_format":{"date_type":0},"Judgment_criteria":{"Control_character":"2026/04/20","calendar_synchronization":{"sync_enable":0,"month_offset":0,"day_offset":0,"minute_offset":0,"tolerance_mins":0,"zero_padding_enable":0,"calc_order":0,"month_comp_setting":0,"adjust_1_month_prior":0}},"Search_char_enable":0,"Search_char_range_enable":0,"Search_char_range":0,"High_speed_mode":0,"Escape_character":1,"Dictionary":0,"num_ocr_schemes":0,"ignore_separator":{"enable":0,"symbols":""}}
+[2026-05-29T10:46:13.583] [DEBUG] [TCP] TX: Get_ProgInfo-#{"id":1}
+[2026-05-29T10:46:13.589] [INFO ] [TCP-HEX] RX RAW length=132 bytes
+[2026-05-29T10:46:13.589] [DEBUG] [TCP][JSON] cmd=Get_ProgInfo hasSepAfterJson=false jsonFound=true crPos=131
+[2026-05-29T10:46:13.590] [DEBUG] [TCP] RX: Get_ProgInfo-#{"tool_count":1,"has_thumb":1,"tool_list":[{"id":"T00","type":"OCR_TOOL"}],"master_count":1,"master_list":[{"id":0}]}
+[2026-05-29T10:46:13.650] [DEBUG] [TCP] TX: Get_AtoolUserParam-#{"id":"T00"}
+[2026-05-29T10:46:13.651] [INFO ] [TCP-HEX] RX RAW length=807 bytes
+[2026-05-29T10:46:13.652] [DEBUG] [TCP][JSON] cmd=Get_AtoolUserParam hasSepAfterJson=false jsonFound=true crPos=806
+[2026-05-29T10:46:13.652] [DEBUG] [TCP] RX: Get_AtoolUserParam-#{"ocrmode":"date","ocr_tool_name":"","threshold":50,"pos_adjust_ref":"","regions":[{"op":"base","shape":"rect","pts":[{"x":249.33500671386719,"y":314.62399291992188},{"x":888.6259765625,"y":314.62399291992188},{"x":888.6259765625,"y":508.59698486328125},{"x":249.33500671386719,"y":508.59698486328125}]}],"date_format":{"date_type":0},"Judgment_criteria":{"Control_character":"2026/04/20","calendar_synchronization":{"sync_enable":0,"month_offset":0,"day_offset":0,"minute_offset":0,"tolerance_mins":0,"zero_padding_enable":0,"calc_order":0,"month_comp_setting":0,"adjust_1_month_prior":0}},"Search_char_enable":0,"Search_char_range_enable":0,"Search_char_range":0,"High_speed_mode":0,"Escape_character":1,"Dictionary":0,"num_ocr_schemes":0,"ignore_separator":{"enable":0,"symbols":""}}
+[2026-05-29T10:46:13.711] [DEBUG] [TCP] TX: ATool_SetDepend-#{"depend_nodes":[],"id":"T00"}
+[2026-05-29T10:46:13.712] [INFO ] [TCP-HEX] RX RAW length=20 bytes
+[2026-05-29T10:46:13.712] [DEBUG] [TCP] RX: ATool_SetDepend-#OK
+```
+
+>> simplify
+
+```bash
+[>>>1] TX: ATool_StartLearn-#{"id":"T00"}
+[>>>2] TX: ATool_AddSample-#{"id":"T00"}
+[>>>3] TX: Import_Img-#{"color_space":1,"height":960,"size":1228800,"width":1280}-#[binary: 1228801 bytes]
+[>>>4] TX: ATool_AddCtrlMsg-#{"id":"T00","sample_id":"P001_T00_L_1","samples":"[{\"ch_r\":\"部\",\"sa_id\":0,\"sa_pts\":[{\"x\":761.95,\"y\":381.92},{\"x\":845.14,\"y\":381.92},{\"x\":845.14,\"y\":468.89},{\"x\":761.95,\"y\":468.89}]},{\"ch_r\":\"乐\",\"sa_id\":1,\"sa_pts\":[{\"x\":683.89,\"y\":381.06},{\"x\":765.73,\"y\":381.06},{\"x\":765.73,\"y\":461.33},{\"x\":683.89,\"y\":461.33}]}]"}
+[>>>5] TX: ATool_DoLearning-#{"id":"T00"}
+[>>>6] TX: ATool_LearnFinish-#{"id":"T00"}
+```
+
+## 设定时主控追加-20260529版本
+
+origin
+
+```bash
+[>>>1][2026-05-29T10:57:41.485] [DEBUG] [TCP] TX: Get_MasterImg-#{"index":0}
+[>>>1][2026-05-29T10:57:41.796] [DEBUG] [TCP] TX: Reg_MasterImg-#{"index":0}
+[2026-05-29T10:57:41.801] [DEBUG] [TCP] RX: Reg_MasterImg-#OK
+[>>>1][2026-05-29T10:57:41.854] [DEBUG] [TCP] TX: Import_Img-#{"color_space":1,"height":960,"size":1228800,"width":1280}-#[binary: 1228801 bytes]
+[2026-0xFB-29T10:57:41.976] [INFO ] [TCP-HEX] RX RAW length=57 bytes
+[2026-05-29T10:57:41.978] [DEBUG] [TCP] RX: Import_Img-#{"status":"OK","target_cmd":"Reg_MasterImg"}
+[>>>1][2026-05-29T10:57:42.040] [DEBUG] [TCP] TX: ATool_GetLearnInfo-#{"id":"T00"}
+[2026-05-29T10:57:42.041] [INFO ] [TCP-HEX] RX RAW length=614 bytes
+[2026-05-29T10:57:42.042] [DEBUG] [TCP] RX: ATool_GetLearnInfo-#{"master_ctl_ids":[],"rt_ext_ids":["P001_T00_L_1"],"is_learned":1,"schemes":[{"sc_id":"P001_T00_L_1","is_master":0,"num_ocr_samples":2,"samples":[{"sa_id":0,"sa_pts":[{"x":761.95001220703125,"y":381.92001342773438},{"x":845.1400146484375,"y":381.92001342773438},{"x":845.1400146484375,"y":468.8900146484375},{"x":761.95001220703125,"y":468.8900146484375}],"ch_r":"部"},{"sa_id":1,"sa_pts":[{"x":683.8900146484375,"y":381.05999755859375},{"x":765.72998046875,"y":381.05999755859375},{"x":765.72998046875,"y":461.32998657226562},{"x":683.8900146484375,"y":461.32998657226562}],"ch_r":"乐"}]}]}
+[2026-05-29T10:57:57.096] [DEBUG] [TCP] TX: Heartbeat
+[2026-05-29T10:57:57.097] [DEBUG] [TCP] RX: Heartbeat-#OK
+[>>>1][2026-05-29T10:58:10.301] [DEBUG] [TCP] TX: ATool_StartLearn-#{"id":"T00"}
+[2026-05-29T10:58:10.304] [DEBUG] [TCP] RX: ATool_StartLearn-#OK
+[>>>1][2026-05-29T10:58:10.362] [DEBUG] [TCP] TX: ATool_AddSampleFromMaster-#{"id":"T00","index":0}
+[2026-05-29T10:58:10.363] [DEBUG] [TCP] RX: ATool_AddSampleFromMaster-#OK
+[>>>1][2026-05-29T10:58:10.417] [DEBUG] [TCP] TX: ATool_AddCtrlMsg-#{"id":"T00","sample_id":"0","samples":"[{\"ch_r\":\"1\",\"sa_id\":0,\"sa_pts\":[{\"x\":785.99,\"y\":375.27},{\"x\":837.58,\"y\":375.27},{\"x\":837.58,\"y\":463.22},{\"x\":785.99,\"y\":463.22}]},{\"ch_r\":\"2\",\"sa_id\":1,\"sa_pts\":[{\"x\":725.49,\"y\":385.7},{\"x\":780.86,\"y\":385.7},{\"x\":780.86,\"y\":461.33},{\"x\":725.49,\"y\":461.33}]}]"}
+[2026-05-29T10:58:10.421] [DEBUG] [TCP] RX: ATool_AddCtrlMsg-#OK
+[>>>1][2026-05-29T10:58:10.482] [DEBUG] [TCP] TX: ATool_DoLearning-#{"id":"T00"}
+[2026-05-29T10:58:10.483] [DEBUG] [TCP] RX: ATool_DoLearning-#OK
+[>>>1][2026-05-29T10:58:13.519] [DEBUG] [TCP] TX: ATool_LearnFinish-#{"id":"T00"}
+[2026-05-29T10:58:13.520] [DEBUG] [TCP] RX: ATool_LearnFinish-#OK
+[>>>1][2026-05-29T10:58:13.574] [DEBUG] [TCP] TX: ATool_SetParam-#{"config":{"confidence":80,"date_format":{"date_type":0},"dictionary":0,"escape_character":1,"high_speed_mode":0,"ignore_separator":{"enable":0,"symbols":""},"judgment_criteria":{"calendar_synchronization":{"adjust_1_month_prior":0,"calc_order":0,"day_offset":0,"minute_offset":0,"month_comp_setting":0,"month_offset":0,"sync_enable":0,"tolerance_mins":0,"zero_padding_enable":0},"control_character":"2026/04/20"},"ocr_tool_name":"","ocrmode":"date","pos_adjust_ref":"","regions":[{"op":"base","pts":[{"x":249.335,"y":314.624},{"x":888.626,"y":314.624},{"x":888.626,"y":508.597},{"x":249.335,"y":508.597}],"shape":"rect"}],"search_char_enable":0,"search_char_range":0,"search_char_range_enable":0},"id":"T00"}
+[2026-05-29T10:58:13.584] [DEBUG] [TCP] RX: ATool_SetParam-#OK
+[>>>1][2026-05-29T10:58:13.644] [DEBUG] [TCP] TX: Trigger_Read
+[2026-05-29T10:58:13.645] [DEBUG] [TCP] RX: Trigger_Read-#OK
+[2026-05-29T1
+```
+
+simplify
+
+```bash
+[>>>1] TX: Get_MasterImg-#{"index":0}
+[>>>2] TX: Reg_MasterImg-#{"index":0}
+[>>>3] TX: Import_Img-#{"color_space":1,"height":960,"size":1228800,"width":1280}-#[binary: 1228801 bytes]
+[>>>4] TX: ATool_GetLearnInfo-#{"id":"T00"}
+[>>>5] TX: ATool_StartLearn-#{"id":"T00"}
+[>>>6] TX: ATool_AddSampleFromMaster-#{"id":"T00","index":0}
+[>>>7] TX: ATool_AddCtrlMsg-#{"id":"T00","sample_id":"0","samples":"[{\"ch_r\":\"1\",\"sa_id\":0,\"sa_pts\":[{\"x\":785.99,\"y\":375.27},{\"x\":837.58,\"y\":375.27},{\"x\":837.58,\"y\":463.22},{\"x\":785.99,\"y\":463.22}]},{\"ch_r\":\"2\",\"sa_id\":1,\"sa_pts\":[{\"x\":725.49,\"y\":385.7},{\"x\":780.86,\"y\":385.7},{\"x\":780.86,\"y\":461.33},{\"x\":725.49,\"y\":461.33}]}]"}
+[>>>8] TX: ATool_DoLearning-#{"id":"T00"}
+[>>>9] TX: ATool_LearnFinish-#{"id":"T00"}
 ```
