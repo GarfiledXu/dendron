@@ -2,7 +2,7 @@
 id: s6yoq8t9k53rrchga2q5lj9
 title: '1'
 desc: ''
-updated: 1779875622912
+updated: 1780277318957
 created: 1779698086866
 ---
 
@@ -28,8 +28,9 @@ tip: 鼠标左键按下后不释放，拖动roi，这个过程是会实时更新
 
 1. 上位机UI截图:![alt text]({B1F5960D-D64B-4B9A-B93A-5A1E57ECBF9C}.png)
    1. 上位机行为: 点击追加屏蔽 可以调节屏蔽区域的半径，但不可移动圆心roi以及屏蔽roi的中心点位置，屏蔽后效果，实际检测roi变为环形
-   2. 下位机行为:
-   3. 算法行为:
+   2. 上位机指令: 
+   3. 下位机行为:
+   4. 算法行为:
 2. 上位机UI截图:![alt text]({D8AB6C33-E794-489C-B15D-8F500BB86454}.png)
    1. 上位机行为: 清除屏蔽，上位机需要弹出确认框
    2. 下位机行为:
@@ -66,6 +67,118 @@ tip: 鼠标左键按下后不释放，拖动roi，这个过程是会实时更新
 ---
 
 ## 上下位机通信协议与报文定义
+
+```json
+// =================================================================================
+// 协议主题：直径测量工具 (DIAM_TOOL) 基于 exec_mode 的状态驱动执行协议
+// 核心逻辑：所有字段固定存在，保证 JSON 结构（Schema）的唯一性和反序列化安全。
+//           - exec_mode = 1 (提取): candidates 有数据, diam_result 为空
+//           - exec_mode = 0 (运行): candidates 为空 [], diam_result 有数据
+// =================================================================================
+
+// ---------------------------------------------------------------------------------
+// 【阶段一】设定态：提取候选圆 (Teach - Extract)
+// ---------------------------------------------------------------------------------
+
+// 1. 上位机下发参数，指令下位机进入“提取模式”
+// [TCP] TX: ATool_SetParam
+{
+  "id": "T01",
+  "config": {
+    "exec_mode": 1,            // 🌟 核心：1 表示进入提取模式
+    "edge_direction": 0,
+    "extract_sensitivity": 1,
+    "reference_circle": {      // 提取模式下，暂无基准，字段保留，valid 置为 0
+      "valid": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "radius": 0.0
+    },
+    "pos_adjust_ref": "",
+    "regions": [
+      {
+        "op": "base",
+        "shape": "annulus",
+        "pts": [
+          {"x": 640.0, "y": 480.0, "r1": 100.0, "r2": 200.0}
+        ]
+      }
+    ]
+  }
+}
+
+// 2. 触发后，下位机回传提取结果
+// [TCP] TX: Report_Result
+{
+  "res_id": 376,
+  "tot_res": { /* ... 系统全局状态保持原样 ... */ },
+  "atools": [
+    {
+      "node_id": "T01",
+      "node_type": "DIAM_TOOL",
+      "status": 0,
+      "exec_mode": 1,          // 当前为提取模式
+      "cost_time": 45,
+      "num_candidates": 3,
+      "matched_idx": 0,        
+      "candidates": [          // 🌟 提取模式下，候选数组有真实数据
+        {"idx": 0, "x": 640.5, "y": 480.2, "radius": 150.5},
+        {"idx": 1, "x": 638.0, "y": 479.0, "radius": 145.0},
+        {"idx": 2, "x": 645.2, "y": 485.5, "radius": 160.2}
+      ],
+      "diam_result": {}        // 🌟 保持结构完整：无实测结果，置为空对象 (或 {"x":0,"y":0,"radius":0})
+    }
+  ]
+}
+
+// ---------------------------------------------------------------------------------
+// 【阶段二】运行态：固化基准与连续运行 (Run)
+// ---------------------------------------------------------------------------------
+
+// 3. 上位机固化基准，指令下位机切回“正常运行模式”
+// [TCP] TX: ATool_SetParam
+{
+  "id": "T01",
+  "config": {
+    "exec_mode": 0,            // 🌟 核心：0 表示切回正常测算分支
+    "edge_direction": 0,
+    "extract_sensitivity": 1,
+    "reference_circle": {      // 🌟 运行模式下，下发真实有效的基准数据
+      "valid": 1,              
+      "x": 640.5,
+      "y": 480.2,
+      "radius": 150.5
+    },
+    "pos_adjust_ref": "",
+    "regions": [ /* ... 用户确认的 ROI 维持原样 ... */ ]
+  }
+}
+
+// 4. 产线产生触发时，下位机回传唯一结果
+// [TCP] TX: Report_Result
+{
+  "res_id": 377,
+  "tot_res": { /* ... 系统全局状态保持原样 ... */ },
+  "atools": [
+    {
+      "node_id": "T01",
+      "node_type": "DIAM_TOOL",
+      "status": 0,             
+      "exec_mode": 0,          // 当前为运行模式
+      "cost_time": 15,         
+      "num_candidates": 0,     // 数据清零，但字段必须存在
+      "matched_idx": -1,       // 数据复位，但字段必须存在
+      "candidates": [],        // 🌟 保持结构完整：运行模式下没有候选圆，置为空数组
+      "diam_result": {         // 🌟 运行模式下，填充唯一的真实测算结果
+        "x": 641.0,            
+        "y": 480.0,            
+        "radius": 150.2        
+      }
+    }
+  ]
+}
+```
+
 
 ---
 
@@ -114,7 +227,7 @@ typedef struct {
     int32_t extract_sensitivity; // 提取灵敏度，传入 nvs_alg_diam_extract_sens_e 枚举值
 } nvs_alg_diam_extract_param_t;
 
-// 设定态：候选圆数组
+// 设定时：候选圆数组
 typedef struct {
     uint8_t count;
     nvs_circle_t circles[NVS_ALG_DIAM_MAX_CANDIDATE_NUM]; 
