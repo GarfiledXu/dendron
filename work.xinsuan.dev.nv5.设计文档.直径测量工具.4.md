@@ -1,0 +1,56 @@
+---
+id: mzf5yc74wn0vpuj2i100gxi
+title: '4'
+desc: ''
+updated: 1781167512344
+created: 1781149200158
+---
+
+## 数据交互规则和渲染逻辑
+
+1. 下位机负责根据参数计算提取，并全量返回结果
+2. 上位机接收全量结果，根据不同的交互规则进行选择性渲染，比如用户选择最大/最小时，则只选择指定圆，不渲染候选圆，用户选择了指定圆时，渲染所有候选圆和指定圆
+
+
+### 2.1 行为定义
+
+#### 上位机指令行为 (A)
+- **[A1：上位机 更新内部工具参数缓存]** 说明：仅在本地内存暂存用户的 UI 操作数据（如缩放倍率显示、极值按钮置灰、用户鼠标点击切换的指定圆状态等）。
+- **[A2：上位机 下发设置参数 ATool_SetParam 指令（提取候选圆）]** 说明：设定态参数指令。下发时 `reference_circle` 字段为空，通知下位机拉高标志位准备执行候选圆提取。
+- **[A3：上位机 下发设置参数 ATool_SetParam 指令（锁定基准圆）]** 说明：设定态固化指令。下发时参数中包含 `reference_circle` 具体几何坐标，通知下位机锁定该特定目标。
+- **[A4：上位机 下发触发运行 Trigger_Read 指令（触发全量提取）]** 说明：设定态触发指令。用于驱动下位机执行当前图像的候选圆搜索与筛选。
+- **[A5：上位机 下发触发运行 Trigger_Read 指令（触发运行测算）]** 说明：运行态触发指令。用于驱动下位机执行单帧图像的局部极速测算与业务判定。
+- **[A6：上位机 下发系统运行控制 Set_AutoSend / Run / Stop 指令]** 说明：控制下位机进入工业流转生产阶段、开启/停止连续硬件/软触发。
+- **[A7：上位机 解析候选集并渲染交互图形]** 说明：设定态响应解析。解析底层提取返回的候选数组，在 UI 上渲染黄色虚线候选圆及高亮指定圆。
+- **[A8：上位机 解析测算结果并渲染实测图形与数值]** 说明：运行态推流解析。解析下位机推流报文，绘制实心结果圆并显示换算后的最终物理测量值。
+
+#### 下位机动作行为 (B)
+- **[B1：下位机 软件工具层更新业务参数缓存]** 说明：更新下位机软件内存中的缩放比率、上限阈值开关及上下限阈值等业务参数，不触发底层算法。
+- **[B2：下位机 软件工具层拉高设定标志位]** 说明：当下发 `ATool_SetParam` 时，内部激活 `need_to_extract` 标志，准备响应后续触发。
+- **[B3：下位机 软件工具层解析参数并调用算法区域设置]** 说明：解析上位机 JSON 报文，将屏蔽区、ROI 坐标输入到底层算法中。
+- **[B4：下位机 软件工具层调用算法提取候选圆并执行目标筛选]** 说明：在标志位拉高时收到触发，调用算法接口提取全量候选，并基于规则选择最大/最小/就近匹配的目标索引。
+- **[B5：下位机 软件工具层更新内存中的基准圆坐标并执行匹配锁定]** 说明：更新下位机软件内存中的参考锚点，在后续触发中驱动算法进行追踪。
+- **[B6：下位机 软件工具层执行运行态物理尺寸换算与上下限阈值判定]** 说明：运行态下拿到算法像素级几何圆半径后，利用缓存的 `scale_ratio` 计算物理尺寸，并结合上限开关及上下限阈值生成 OK/NG 状态。
+- **[B7：下位机 软件工具层组装数据报文并回传/推流]** 说明：将数据打包为标准 JSON 并通过 `Report_Result` 报文回传给上位机，完成后重置设定标志位。
+
+#### 算法层接口行为 (C)
+- **[C1：算法 设置区域接口 nvs_alg_diam_set_region]** 说明：划定底层的图像特征搜索范围与 ROI。
+- **[C2：算法 提取候选圆接口 nvs_alg_diam_extract_candidate]** 说明：执行底层的纯像素特征提取，输出全量符合条件的候选集。
+- **[C3：算法 目标筛选接口 nvs_alg_diam_select_target]** 说明：纯数学计算接口，依据指定模式在候选集中筛选出最大、最小或最接近基准的目标索引。
+- **[C4：算法 设置基准锚点接口 nvs_alg_diam_set_reference]** 说明：向算法内部注入并固化最终的基准圆坐标，作为运行态局部快速测算的起点。
+- **[C5：算法 单帧运行接口 nvs_alg_diam_run]** 说明：运行态核心算子，基于已固化的基准锚点执行极速局部测算，输出像素结果圆。
+
+---
+
+### 2.2 交互行为映射表
+
+| 编号 | UI 操作与界面 | 上位机行为 | 下位机行为 | 算法行为 |
+| :--- | :--- | :--- | :--- | :--- |
+| **1** | **追加屏蔽**,<br>![image.png](http://172.18.1.12/atlas/files/public/6a29153ce4965e8c3844a758/origin-url?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWRfZm9yX3B1YmljX2ltYWdlIjoiOWUxOGY5ZjNlYTE3NDk3Mzg2ZmQ1YTZlZDFmNjE4OGMiLCJ0ZWFtX2Zvcl9wdWJsaWNfaW1hZ2UiOiI2NGNiNmUwZTU1MTM5MmVmOGQ0ZjE2ODgiLCJwdWJsaWNfaW1hZ2VfaWRzIjpbIjZhMjkxNTNjZTQ5NjVlOGMzODQ0YTc1OCIsIjZhMjkxNTU1ZTQ5NjVlOGMzODQ0YTc1YSIsIjZhMjkxNTZiZTQ5NjVlOGMzODQ0YTc1YiIsIjZhMjkxNTc2ZTQ5NjVlOGMzODQ0YTc1YyIsIjZhMjkxNTdkZTQ5NjVlOGMzODQ0YTc1ZCIsIjZhMjkxNjQ2ZTQ5NjVlOGMzODQ0YTc2NCIsIjZhMjkxNjRjZTQ5NjVlOGMzODQ0YTc2NSIsIjZhMjkxNjUwZTQ5NjVlOGMzODQ0YTc2NiIsIjZhMjkxNjU0ZTQ5NjVlOGMzODQ0YTc2NyJdLCJpYXQiOjE3ODExNTcyMzgsImV4cCI6MTc4MTE2ODAzOH0.3hu0POe0XGBQXmAb2BjJNBNG0bqNOjlb0jaHZlpqyB4) | [A2：上位机 下发设置参数 ATool_SetParam 指令（提取候选圆）]<br>[A4：上位机 下发触发运行 Trigger_Read 指令（触发全量提取）]<br>[A7：上位机 解析候选集并渲染交互图形] | [B2：下位机 软件工具层拉高设定标志位]<br>[B3：下位机 软件工具层解析参数并调用算法区域设置]<br>[B4：下位机 软件工具层调用算法提取候选圆并执行目标筛选]<br>[B7：下位机 软件工具层组装数据报文并回传/推流] | [C1：算法 设置区域接口 nvs_alg_diam_set_region]<br>[C2：算法 提取候选圆接口 nvs_alg_diam_extract_candidate]<br>[C3：算法 目标筛选接口 nvs_alg_diam_select_target] |
+| **2** | **清除屏蔽**,<br>![image.png](http://172.18.1.12/atlas/files/public/6a291555e4965e8c3844a75a/origin-url?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWRfZm9yX3B1YmljX2ltYWdlIjoiOWUxOGY5ZjNlYTE3NDk3Mzg2ZmQ1YTZlZDFmNjE4OGMiLCJ0ZWFtX2Zvcl9wdWJsaWNfaW1hZ2UiOiI2NGNiNmUwZTU1MTM5MmVmOGQ0ZjE2ODgiLCJwdWJsaWNfaW1hZ2VfaWRzIjpbIjZhMjkxNTNjZTQ5NjVlOGMzODQ0YTc1OCIsIjZhMjkxNTU1ZTQ5NjVlOGMzODQ0YTc1YSIsIjZhMjkxNTZiZTQ5NjVlOGMzODQ0YTc1YiIsIjZhMjkxNTc2ZTQ5NjVlOGMzODQ0YTc1YyIsIjZhMjkxNTdkZTQ5NjVlOGMzODQ0YTc1ZCIsIjZhMjkxNjQ2ZTQ5NjVlOGMzODQ0YTc2NCIsIjZhMjkxNjRjZTQ5NjVlOGMzODQ0YTc2NSIsIjZhMjkxNjUwZTQ5NjVlOGMzODQ0YTc2NiIsIjZhMjkxNjU0ZTQ5NjVlOGMzODQ0YTc2NyJdLCJpYXQiOjE3ODExNTcyMzgsImV4cCI6MTc4MTE2ODAzOH0.3hu0POe0XGBQXmAb2BjJNBNG0bqNOjlb0jaHZlpqyB4) | [A2：上位机 下发设置参数 ATool_SetParam 指令（提取候选圆）]<br>[A4：上位机 下发触发运行 Trigger_Read 指令（触发全量提取）]<br>[A7：上位机 解析候选集并渲染交互图形] | [B2：下位机 软件工具层拉高设定标志位]<br>[B3：下位机 软件工具层解析参数并调用算法区域设置]<br>[B4：下位机 软件工具层调用算法提取候选圆并执行目标筛选]<br>[B7：下位机 软件工具层组装数据报文并回传/推流] | [C1：算法 设置区域接口 nvs_alg_diam_set_region]<br>[C2：算法 提取候选圆接口 nvs_alg_diam_extract_candidate]<br>[C3：算法 目标筛选接口 nvs_alg_diam_select_target] |
+| **3** | **拖动 ROI / 调节半径**,<br>![image.png](http://172.18.1.12/atlas/files/public/6a29156be4965e8c3844a75b/origin-url?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWRfZm9yX3B1YmljX2ltYWdlIjoiOWUxOGY5ZjNlYTE3NDk3Mzg2ZmQ1YTZlZDFmNjE4OGMiLCJ0ZWFtX2Zvcl9wdWJsaWNfaW1hZ2UiOiI2NGNiNmUwZTU1MTM5MmVmOGQ0ZjE2ODgiLCJwdWJsaWNfaW1hZ2VfaWRzIjpbIjZhMjkxNTNjZTQ5NjVlOGMzODQ0YTc1OCIsIjZhMjkxNTU1ZTQ5NjVlOGMzODQ0YTc1YSIsIjZhMjkxNTZiZTQ5NjVlOGMzODQ0YTc1YiIsIjZhMjkxNTc2ZTQ5NjVlOGMzODQ0YTc1YyIsIjZhMjkxNTdkZTQ5NjVlOGMzODQ0YTc1ZCIsIjZhMjkxNjQ2ZTQ5NjVlOGMzODQ0YTc2NCIsIjZhMjkxNjRjZTQ5NjVlOGMzODQ0YTc2NSIsIjZhMjkxNjUwZTQ5NjVlOGMzODQ0YTc2NiIsIjZhMjkxNjU0ZTQ5NjVlOGMzODQ0YTc2NyJdLCJpYXQiOjE3ODExNTcyMzgsImV4cCI6MTbaseMTE2ODAzOH0.3hu0POe0XGBQXmAb2BjJNBNG0bqNOjlb0jaHZlpqyB4) | **鼠标拖动实时高频触发**：<br>[A2：上位机 下发设置参数 ATool_SetParam 指令（提取候选圆）]<br>[A4：上位机 下发触发运行 Trigger_Read 指令（触发全量提取）]<br>[A7：上位机 解析候选集并渲染交互图形] | [B2：下位机 软件工具层拉高设定标志位]<br>[B3:: 下位机 软件工具层解析参数并调用算法区域设置]<br>[B4：下位机 软件工具层调用算法提取候选圆并执行目标筛选]<br>[B7：下位机 软件工具层组装数据报文并回传/推流] | [C1：算法 设置区域接口 nvs_alg_diam_set_region]<br>[C2：算法 提取候选圆接口 nvs_alg_diam_extract_candidate]<br>[C3：算法 目标筛选接口 nvs_alg_diam_select_target] |
+| **4** | **抽取直径/灵敏度/切换圆**,<br>![image.png](http://172.18.1.12/atlas/files/public/6a291576e4965e8c3844a75c/origin-url?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWRfZm9yX3B1YmljX2ltYWdlIjoiOWUxOGY5ZjNlYTE3NDk3Mzg2ZmQ1YTZlZDFmNjE4OGMiLCJ0ZWFtX2Zvcl9wdWJsaWNfaW1hZ2UiOiI2NGNiNmUwZTU1MTM5MmVmOGQ0ZjE2ODgiLCJwdWJsaWNfaW1hZ2VfaWRzIjpbIjZhMjkxNTNjZTQ5NjVlOGMzODQ0YTc1OCIsIjZhMjkxNTU1ZTQ5NjVlOGMzODQ0YTc1YSIsIjZhMjkxNTZiZTQ5NjVlOGMzODQ0YTc1YiIsIjZhMjkxNTc2ZTQ5NjVlOGMzODQ0YTc1YyIsIjZhMjkxNTdkZTQ5NjVlOGMzODQ0YTc1ZCIsIjZhMjkxNjQ2ZTQ5NjVlOGMzODQ0YTc2NCIsIjZhMjkxNjRjZTQ5NjVlOGMzODQ0YTc2NSIsIjZhMjkxNjUwZTQ5NjVlOGMzODQ0YTc2NiIsIjZhMjkxNjU0ZTQ5NjVlOGMzODQ0YTc2NyJdLCJpYXQiOjE3ODExNTcyMzgsImV4cCI6MTc4MTE2ODAzOH0.3hu0POe0XGBQXmAb2BjJNBNG0bqNOjlb0jaHZlpqyB4) | **点击确定或在画面圆切换后**：<br>[A1：上位机 更新内部工具参数缓存]<br>[A3：上位机 下发设置参数 ATool_SetParam 指令（锁定基准圆）]<br>[A4：上位机 下发触发运行 Trigger_Read 指令（触发全量提取）]<br>[A7：上位机 解析候选集并渲染交互图形] | [B2：下位机 软件工具层拉高设定标志位]<br>[B5：下位机 软件工具层更新内存中的基准圆坐标并执行匹配锁定]<br>[B4：下位机 软件工具层调用算法提取候选圆并执行目标筛选]<br>[B7：下位机 软件工具层组装数据报文并回传/推流] | [C2：算法 提取候选圆接口 nvs_alg_diam_extract_candidate]<br>[C3：算法 目标筛选接口 nvs_alg_diam_select_target] |
+| **5** | **直径模式 / 明暗方向**,<br>![image.png](http://172.18.1.12/atlas/files/public/6a29157de4965e8c3844a75d/origin-url?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWRfZm9yX3B1YmljX2ltYWdlIjoiOWUxOGY5ZjNlYTE3NDk3Mzg2ZmQ1YTZlZDFmNjE4OGMiLCJ0ZWFtX2Zvcl9wdWJsaWNfaW1hZ2UiOiI2NGNiNmUwZTU1MTM5MmVmOGQ0ZjE2ODgiLCJwdWJsaWNfaW1hZ2VfaWRzIjpbIjZhMjkxNTNjZTQ5NjVlOGMzODQ0YTc1OCIsIjZhMjkxNTU1ZTQ5NjVlOGMzODQ0YTc1YSIsIjZhMjkxNTZiZTQ5NjVlOGMzODQ0YTc1YiIsIjZhMjkxNTc2ZTQ5NjVlOGMzODQ0YTc1YyIsIjZhMjkxNTdkZTQ5NjVlOGMzODQ0YTc1ZCIsIjZhMjkxNjQ2ZTQ5NjVlOGMzODQ0YTc2NCIsIjZhMjkxNjRjZTQ5NjVlOGMzODQ0YTc2NSIsIjZhMjkxNjUwZTQ5NjVlOGMzODQ0YTc2NiIsIjZhMjkxNjU0ZTQ5NjVlOGMzODQ0YTc2NyJdLCJpYXQiOjE3ODExNTcyMzgsImV4cCI6MTc4MTE2ODAzOH0.3hu0POe0XGBQXmAb2BjJNBNG0bqNOjlb0jaHZlpqyB4),<br>![image.png](http://172.18.1.12/atlas/files/public/6a291646e4965e8c3844a764/origin-url?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWRfZm9yX3B1YmljX2ltYWdlIjoiOWUxOGY5ZjNlYTE3NDk3Mzg2ZmQ1YTZlZDFmNjE4OGMiLCJ0ZWFtX2Zvcl9wdWJsaWNfaW1hZ2UiOiI2NGNiNmUwZTU1MTM5MmVmOGQ0ZjE2ODgiLCJwdWJsaWNfaW1hZ2VfaWRzIjpbIjZhMjkxNTNjZTQ5NjVlOGMzODQ0YTc1OCIsIjZhMjkxNTU1ZTQ5NjVlOGMzODQ0YTc1YSIsIjZhMjkxNTZiZTQ5NjVlOGMzODQ0YTc1YiIsIjZhMjkxNTc2ZTQ5NjVlOGMzODQ0YTc1YyIsIjZhMjkxNTdkZTQ5NjVlOGMzODQ0YTc1ZCIsIjZhMjkxNjQ2ZTQ5NjVlOGMzODQ0YTc2NCIsIjZhMjkxNjRjZTQ5NjVlOGMzODQ0YTc2NSIsIjZhMjkxNjUwZTQ5NjVlOGMzODQ0YTc2NiIsIjZhMjkxNjU0ZTQ5NjVlOGMzODQ0YTc2NyJdLCJpYXQiOjE3ODExNTcyMzgsImV4cCI6MTc4MTE2ODAzOH0.3hu0POe0XGBQXmAb2BjJNBNG0bqNOjlb0jaHZlpqyB4) | **点击确定后**：<br>[A1：上位机 更新内部工具参数缓存]<br>[A2：上位机 下发设置参数 ATool_SetParam 指令（提取候选圆）]<br>[A4：上位机 下发触发运行 Trigger_Read 指令（触发全量提取）]<br>[A7：上位机 解析候选集并渲染交互图形] | [B2：下位机 软件工具层拉高设定标志位]<br>[B4：下位机 软件工具层调用算法提取候选圆并执行目标筛选]<br>[B7：下位机 软件工具层组装数据报文并回传/推流] | [C2：算法 提取候选圆接口 nvs_alg_diam_extract_candidate]<br>[C3：算法 目标筛选接口 nvs_alg_diam_select_target] |
+| **6** | **缩放设定**,<br>![image.png](http://172.18.1.12/atlas/files/public/6a29164ce4965e8c3844a765/origin-url?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWRfZm9yX3B1YmljX2ltYWdlIjoiOWUxOGY5ZjNlYTE3NDk3Mzg2ZmQ1YTZlZDFmNjE4OGMiLCJ0ZWFtX2Zvcl9wdWJsaWNfaW1hZ2UiOiI2NGNiNmUwZTU1MTM5MmVmOGQ0ZjE2ODgiLCJwdWJsaWNfaW1hZ2VfaWRzIjpbIjZhMjkxNTNjZTQ5NjVlOGMzODQ0YTc1OCIsIjZhMjkxNTU1ZTQ5NjVlOGMzODQ0YTc1YSIsIjZhMjkxNTZiZTQ5NjVlOGMzODQ0YTc1YiIsIjZhMjkxNTc2ZTQ5NjVlOGMzODQ0YTc2OCIsIjZhMjkxNTdkZTQ5NjVlOGMzODQ0YTc1ZCIsIjZhMjkxNjQ2ZTQ5NjVlOGMzODQ0YTc2NCIsIjZhMjkxNjRjZTQ5NjVlOGMzODQ0YTc2NSIsIjZhMjkxNjUwZTQ5NjVlOGMzODQ0YTc2NiIsIjZhMjkxNjU0ZTQ5NjVlOGMzODQ0YTc2NyJdLCJpYXQiOjE3ODExNTcyMzgsImV4cCI6MTc4MTE2ODAzOH0.3hu0POe0XGBQXmAb2BjJNBNG0bqNOjlb0jaHZlpqyB4) | [A1：上位机 更新内部工具参数缓存]<br>[A2：上位机 下发设置参数 ATool_SetParam 指令（提取候选圆）] | [B1：下位机 软件工具层更新业务参数缓存] | 无操作 |
+| **7** | **阈值调节**,<br>![image.png](http://172.18.1.12/atlas/files/public/6a291650e4965e8c3844a766/origin-url?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWRfZm9yX3B1YmljX2ltYWdlIjoiOWUxOGY5ZjNlYTE3NDk3Mzg2ZmQ1YTZlZDFmNjE4OGMiLCJ0ZWFtX2Zvcl9wdWJsaWNfaW1hZ2UiOiI2NGNiNmUwZTU1MTM5MmVmOGQ0ZjE2ODgiLCJwdWJsaWNfaW1hZ2VfaWRzIjpbIjZhMjkxNTNjZTQ5NjVlOGMzODQ0YTc1OCIsIjZhMjkxNTU1ZTQ5NjVlOGMzODQ0YTc1YSIsIjZhMjkxNTZiZTQ5NjVlOGMzODQ0YTc1YiIsIjZhMjkxNTc2ZTQ5NjVlOGMzODQ0YTc2OCIsIjZhMjkxNTdkZTQ5NjVlOGMzODQ0YTc1ZCIsIjZhMjkxNjQ2ZTQ5NjVlOGMzODQ0YTc2NCIsIjZhMjkxNjRjZTQ5NjVlOGMzODQ0YTc2NSIsIjZhMjkxNjUwZTQ5NjVlOGMzODQ0YTc2NiIsIjZhMjkxNjU0ZTQ5NjVlOGMzODQ0YTc2NyJdLCJpYXQiOjE3ODExNTcyMzgsImV4cCI6MTc4MTE2ODAzOH0.3hu0POe0XGBQXmAb2BjJNBNG0bqNOjlb0jaHZlpqyB4) | [A1：上位机 更新内部工具参数缓存]<br>[A2：上位机 下发设置参数 ATool_SetParam 指令（提取候选圆）] | [B1：下位机 软件工具层更新业务参数缓存] | 无操作 |
+| **8** | **开始运行 / 暂停 / 调阈值**,<br>![image.png](http://172.18.1.12/atlas/files/public/6a291654e4965e8c3844a767/origin-url?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWRfZm9yX3B1YmljX2ltYWdlIjoiOWUxOGY5ZjNlYTE3NDk3Mzg2ZmQ1YTZlZDFmNjE4OGMiLCJ0ZWFtX2Zvcl9wdWJsaWNfaW1hZ2UiOiI2NGNiNmUwZTU1MTM5MmVmOGQ0ZjE2ODgiLCJwdWJsaWNfaW1hZ2VfaWRzIjpbIjZhMjkxNTNjZTQ5NjVlOGMzODQ0YTc1OCIsIjZhMjkxNTU1ZTQ5NjVlOGMzODQ0YTc1YSIsIjZhMjkxNTZiZTQ5NjVlOGMzODQ0YTc1YiIsIjZhMjkxNTc2ZTQ5NjVlOGMzODQ0YTc2OCIsIjZhMjkxNTdkZTQ5NjVlOGMzODQ0YTc1ZCIsIjZhMjkxNjQ2ZTQ5NjVlOGMzODQ0YTc2NCIsIjZhMjkxNjRjZTQ5NjVlOGMzODQ0YTc2NSIsIjZhMjkxNjUwZTQ5NjVlOGMzODQ0YTc2NiIsIjZhMjkxNjU0ZTQ5NjVlOGMzODQ0YTc2NyJdLCJpYXQiOjE3ODExNTcyMzgsImV4cCI6MTc4MTE2ODAzOH0.3hu0POe0XGBQXmAb2BjJNBNG0bqNOjlb0jaHZlpqyB4) | **开始**：<br>[A6：上位机 下发系统运行控制 Set_AutoSend / Run / Stop 指令]<br>-> 持续接收并 [A8：上位机 解析测算结果并渲染实测图形与数值]<br>**暂停**：<br>[A6：上位机 下发系统运行控制 Set_AutoSend / Run / Stop 指令]<br>**调阈值**：<br>[A2：上位机 下发设置参数 ATool_SetParam 指令（提取候选圆）] | **收到 Run 指令准备后**：<br>[B5：下位机 软件工具层更新内存中的基准圆坐标并执行匹配锁定]<br>**硬触发到来时**：<br>[B6：下位机 软件工具层执行运行态物理尺寸换算与上下限阈值判定]<br>[B7：下位机 软件工具层组装数据报文并回传/推流] | **收到设定注入后**：<br>[C4：算法 设置基准锚点接口 nvs_alg_diam_set_reference]<br>**每次硬触发到来时**：<br>[C5：算法 单帧运行接口 nvs_alg_diam_run] |
