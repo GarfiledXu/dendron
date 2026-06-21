@@ -2,7 +2,7 @@
 id: hdpc3afj8dei2ci0r2obk33
 title: Cm
 desc: ''
-updated: 1781948388979
+updated: 1782009819054
 created: 1775528616300
 ---
 
@@ -44,6 +44,52 @@ created: 1775528616300
 绝对禁止：在代码内嵌的注释中加入任何我们的对话上下文、口语化表达、情绪修饰词（如'完美'、'干净'）或显而易见的废话。
 如果你需要向我解释代码结构或回答我的提问，必须写在代码块外部的 Markdown 正文中，禁止塞进代码内部。"
 ```
+
+## 注释提示3
+
+```bash
+请只输出生产级别的纯净注释，所有关于修改动机和上下文的讨论，请全部放在代码块之外
+```
+
+
+## 注释提示2
+
+```bash
+请按照以下“硬核落地版”注释规范为我的代码添加头部注释：
+位置约束：仅在函数/方法头部生成一整段宏观注释，绝对不要在函数内部代码行间添加任何细节注释。
+行文风格：极简、直白、务实。禁止使用任何主观修饰词、比喻词或造词（如“弹药、防线、熔断、流转”等废话），只描述客观事实。
+内容结构：
+使用 @brief 一句话说明函数职责。
+建立“处理逻辑与变量状态说明”模块，按执行顺序用 1. 2. 3. 标号。
+每个标号下必须严格包含两要素：【逻辑】（做了什么动作/判断了什么条件）和**【变量】**（明确指出该动作对应的核心变量名、结构体字段或状态码）。
+示例
+/**
+ * @brief 构建当前帧的 ROI 数据
+ * * 处理逻辑与变量状态说明：
+ * 1. 检查配置有效性：判断 priv_.param.regions 是否为空，拦截无效执行。
+ * 2. 获取位置修正状态与矩阵：寻找 NVS_TOOL_TYPE_POS_ADJUST 节点，提取仿射变换矩阵存入 ctx.cur_pos_adj。
+ * 3. 结构翻译与数组分流：将 DTO 转换为底层 nvs_region_t 结构。未修正的原始坐标存入 ctx.train_rois；根据修正状态决定是否对 ctx.run_rois 应用仿射变换。
+ * 4. 约束处理与越界防线：强制设定数组首项为 OP_OBJECT，并基于当前图像尺寸检查 run_rois 是否越界。
+ */
+int32_t OcrEngine::proc_roi_build_(ProcessContext& ctx) {
+    // 1. 检查配置有效性
+    if (priv_.param.regions.empty()) {
+        NVS_LOG_ERROR(ocr_mod, "[%s] Configured ROI vector is empty.\n", ctx.node->node_id_str);
+        return -1;
+    }
+
+    // 2. 获取位置修正状态与矩阵
+    std::string pos_ref_id = "";
+#ifdef USE_DYNAMIC_POS_ADJUST_SEARCH
+    for (int i = 0; i < ctx.node->input_info.num_inputs; ++i) {
+        if (std::string_view(ctx.node->input_info.input[i].type_str) == NVS_TOOL_TYPE_POS_ADJUST) {
+            pos_ref_id = ctx.node->input_info.input[i].id_str;
+            break;
+        }
+    }
+#else
+```
+
 
 ## 设计文档-提示词-务实派
 
