@@ -2,7 +2,7 @@
 id: zpgmgtzb3luvr7rxa00wfiq
 title: Scheme
 desc: ''
-updated: 1782008840178
+updated: 1782219114095
 created: 1781938835906
 ---
 
@@ -17,6 +17,10 @@ created: 1781938835906
 * **Antigravity Manager**
   * 作用: Antigravity 的可视化管理界面与模型节点配置工具。
   * 链接: <https://github.com/Draculabo/AntigravityManager>
+* Antigravity tool
+  * 评价：一坨大辩
+* claude code router
+  * `npm install -g @musistudio/claude-code-router`
 * **One-API**
   * 作用: API 聚合与路由网关。将异构大模型（如 Gemini、DeepSeek）的 API 统一转换为标准的 OpenAI/Anthropic 接口格式，用于突破特定 Agent 的模型端点限制。
 * **Continue (.dev)**
@@ -37,7 +41,19 @@ created: 1781938835906
   * [ ] Chrome (Windows)Current San Jose, California, US	Jun 21, 2026, 10:13 AM	Jun 21, 2026, 10:13 AM
   * [ ] JuYeNiaoXing
   * [ ] 7d33b3d2-a89e-41db-8931-0b61f40ced34
+  * [博客园](https://www.cnblogs.com/youring2/p/19976124)
+    * 修改配置文件，跳过登录
+    * 配置三方模型
 * [ ] Claude Code (Windows/CLI) + One-API + Gemini Pro
 * [ ] Codex (通过 Continue 插件) + One-API + Gemini Pro
 * [ ] Claude Code (Windows/CLI) + One-API + DeepSeek V4 Pro
-* [ ] Codex (通过 Continue 插件) + One-API + DeepSeek V4 Pro``
+* [ ] Codex (通过 Continue 插件) + One-API + DeepSeek V4 Pro
+
+## gemini api Key
+
+Gemini API Key
+projects/980771772400
+980771772400
+
+查看api版本
+curl https://generativelanguage.googleapis.com/v1beta/models?key=你的KEY
