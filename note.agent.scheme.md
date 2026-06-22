@@ -2,7 +2,7 @@
 id: zpgmgtzb3luvr7rxa00wfiq
 title: Scheme
 desc: ''
-updated: 1782219123296
+updated: 1782219138005
 created: 1781938835906
 ---
 
@@ -49,9 +49,7 @@ created: 1781938835906
 * [ ] Claude Code (Windows/CLI) + One-API + DeepSeek V4 Pro
 * [ ] Codex (通过 Continue 插件) + One-API + DeepSeek V4 Pro
 
-## gemini api Key
-
-Gemini API Key
+## gemini
 projects/980771772400
 980771772400
 
