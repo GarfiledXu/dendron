@@ -2,7 +2,7 @@
 id: zpgmgtzb3luvr7rxa00wfiq
 title: Scheme
 desc: ''
-updated: 1782219138005
+updated: 1782618823764
 created: 1781938835906
 ---
 
@@ -17,7 +17,7 @@ created: 1781938835906
 * **Antigravity Manager**
   * 作用: Antigravity 的可视化管理界面与模型节点配置工具。
   * 链接: <https://github.com/Draculabo/AntigravityManager>
-* Antigravity tool
+* Antigravity tool LS
   * 评价：一坨大辩
 * claude code router
   * `npm install -g @musistudio/claude-code-router`
@@ -36,22 +36,14 @@ created: 1781938835906
 
 ## 4. Scheme
 
+* [x] claude code 账号申请(没什么鸟用)
+  * Chrome (Windows)Current San Jose, California, US	Jun 21, 2026, 10:13 AM	Jun 21, 2026, 10:13 AM
+  * JuYeNiaoXing
+  * 7d33b3d2-a89e-41db-8931-0b61f40ced34
 * [x] Antigravity (Windows) + Antigravity Manager + Gemini Pro
-* [ ] claude code 账号申请
-  * [ ] Chrome (Windows)Current San Jose, California, US	Jun 21, 2026, 10:13 AM	Jun 21, 2026, 10:13 AM
-  * [ ] JuYeNiaoXing
-  * [ ] 7d33b3d2-a89e-41db-8931-0b61f40ced34
-  * [博客园](https://www.cnblogs.com/youring2/p/19976124)
-    * 修改配置文件，跳过登录
-    * 配置三方模型
-* [ ] Claude Code (Windows/CLI) + One-API + Gemini Pro
-* [ ] Codex (通过 Continue 插件) + One-API + Gemini Pro
-* [ ] Claude Code (Windows/CLI) + One-API + DeepSeek V4 Pro
-* [ ] Codex (通过 Continue 插件) + One-API + DeepSeek V4 Pro
-
-## gemini
-projects/980771772400
-980771772400
-
-查看api版本
-curl https://generativelanguage.googleapis.com/v1beta/models?key=你的KEY
+* [x] claude cli + Antigravity 反代工具（不是反代官方API，而是直接反代antigravity的模型，因为通过antigravity普通的pro账户可以直接访问gemini pro）
+    [[note.agent.gemini]]
+* [ ] claude cli + deepseek API
+* [x] codex cli + 反代理工具 + antigravity API
+* [x] codex 客户端 + 反代理工具 + antigravity API
+* [ ] codex cli 配置deepseek API
