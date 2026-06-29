@@ -2,9 +2,73 @@
 id: hdpc3afj8dei2ci0r2obk33
 title: Cm
 desc: ''
-updated: 1781342946190
+updated: 1782356885456
 created: 1775528616300
 ---
+
+## 注释
+
+```bash
+请严格遵循以下代码注释规范：
+语言风格：极简、直白、务实，严禁废话。
+函数头注释：
+Process类的 函数：使用 @brief + “逻辑与变量状态说明”模块。按执行顺序（1. 2. 3...）详细描述【逻辑】与核心【变量】的状态变更。
+其他函数：使用 @brief 一句话说明函数职责，紧接着写明参数说明（@param）。
+函数内部注释：
+严禁：不要在代码行间写琐碎的流水账注释。
+仅限：针对关键逻辑段落，在代码上方添加序号化的简短小标题（例如 // 1. 检查配置有效性），严禁在这些小标题下添加冗余解释。
+代码示例：
+/**
+ * @brief 执行测算流程
+ * * 处理逻辑与变量状态说明：
+ * 1. 区域参数同步：【逻辑】校验区域范围是否有效，将自定义区域与灵敏度下发至算法驱动；【变量】涉及 ctx->param.regions, ctx->proxy。
+ * 2. 算法全量提取：【逻辑】触发底层算子进行特征匹配，获取候选项集合；【变量】调用 diam_algo_proxy_run 产出 algo_cands。
+ * 3. 业务筛选与判定：【逻辑】依据工作模式进行最近点或极值过滤，并实施阈值判定；【变量】读写 ctx->param, result。
+ * 4. 状态闭环：【逻辑】完成流水线同步，重置瞬时动作指令；【变量】操作 ctx->current_action。
+ */
+static int32_t nvs_diam_process(struct nvs_node_t *n, struct nvs_prog_t* _p, struct nvs_prog_pipefrm_t *prog_res_frame) {
+    if (!n || !n->priv || !prog_res_frame) return -1;
+    nvs_diam_ctx_t *ctx = (nvs_diam_ctx_t *)n->priv;
+    
+    // 1. 区域与参数同步
+    diam_param_dto_t *param = &ctx->param;
+    if (param->regions.count > 0) {
+        diam_algo_proxy_set_region(ctx->proxy, param->regions.items, param->regions.count);
+    }
+    nvs_alg_diam_extract_param_t ext_param = { 
+        .edge_direction = param->edge_direction, 
+        .extract_sensitivity = param->extract_sensitivity 
+    };
+    diam_algo_proxy_set_param(ctx->proxy, &ext_param);
+
+    // 2. 算法全量提取
+    nvs_alg_diam_candidate_circle_array_t algo_cands = {0};
+    int32_t run_ret = diam_algo_proxy_run(ctx->proxy, NULL, &algo_cands);
+    if (run_ret != NVS_ALGO_OK) return run_ret;
+
+    // 3. 结果筛选判定
+    diam_result_dto_t result = {0};
+    if (algo_cands.count > 0) {
+        // ... [业务筛选代码]
+    }
+
+    // 4. 状态闭环
+    ctx->current_action = 0; 
+    return result.status == NVS_OUTPUT_OK ? 0 : 1; 
+}
+
+/**
+ * @brief 计算圆心平方距离
+ * @param c1 源圆参数指针
+ * @param c2 目标圆参数指针
+ */
+static inline float nvs_diam_calc_sq_dist(const nvs_circle_t* c1, const nvs_circle_t* c2) {
+    float dx = c1->x - c2->x;
+    float dy = c1->y - c2->y;
+    return dx * dx + dy * dy;
+}
+```
+
 
 ## 代码风格
 
